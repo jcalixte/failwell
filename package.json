@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "pinia": "^2.0.32",
+    "suretype": "^3.2.1",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
