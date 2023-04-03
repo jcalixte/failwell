@@ -1,27 +1,19 @@
 import { describe, expect, it } from 'vitest'
 import { Step } from '@/use-cases/task/models/step'
-import { faker } from '@faker-js/faker'
-import type { Stepable } from '@/use-cases/task/interfaces/stepable'
-
-const createStep = (partialStep?: Partial<Stepable>) =>
-  new Step(
-    partialStep?.id ?? faker.datatype.uuid(),
-    partialStep?.title ?? faker.animal.bird(),
-    partialStep?.estimation
-  )
+import { createStepFixture } from '@/use-cases/task/models/step.fixture'
 
 describe('Step', () => {
   it('adds substeps', () => {
-    const step = createStep()
+    const step = createStepFixture()
 
-    step.addSteps(createStep())
+    step.addSteps(createStepFixture())
 
     expect(step.steps.length).toEqual(1)
   })
 
   it('removes substeps', () => {
-    const step = createStep()
-    step.addSteps(createStep())
+    const step = createStepFixture()
+    step.addSteps(createStepFixture())
 
     step.removeStep(0)
 
@@ -29,19 +21,19 @@ describe('Step', () => {
   })
 
   it('tells the estimation based on the sum of its substeps', () => {
-    const step = createStep()
+    const step = createStepFixture()
       .addSteps(
-        createStep({
+        createStepFixture({
           estimation: 1
         })
       )
       .addSteps(
-        createStep({
+        createStepFixture({
           estimation: 2
         })
       )
       .addSteps(
-        createStep({
+        createStepFixture({
           estimation: 3
         })
       )
@@ -50,16 +42,16 @@ describe('Step', () => {
   })
 
   it('tells the total estimation if the step estimation is set even with substeps', () => {
-    const step = createStep({
+    const step = createStepFixture({
       estimation: 8
     })
       .addSteps(
-        createStep({
+        createStepFixture({
           estimation: 1
         })
       )
       .addSteps(
-        createStep({
+        createStepFixture({
           estimation: 2
         })
       )
@@ -69,20 +61,20 @@ describe('Step', () => {
 
   it('flattens the substeps', () => {
     const leafs = [
-      createStep({
+      createStepFixture({
         id: 'leaf-1'
       }),
-      createStep({
+      createStepFixture({
         id: 'leaf-2'
       }),
-      createStep({
+      createStepFixture({
         id: 'leaf-3'
       })
     ]
 
-    const step = createStep().addSteps(
-      createStep().addSteps(leafs[0], leafs[1]),
-      createStep().addSteps(createStep().addSteps(leafs[2]))
+    const step = createStepFixture().addSteps(
+      createStepFixture().addSteps(leafs[0], leafs[1]),
+      createStepFixture().addSteps(createStepFixture().addSteps(leafs[2]))
     )
     const steps = Step.getStepLeafs([step])
 

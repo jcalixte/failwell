@@ -19,16 +19,12 @@ export class Task implements Taskable {
       return this
     }
 
-    if (index < this.steps.length) {
+    if (index >= this.steps.length) {
       return this
     }
 
-    this.steps.splice(index)
+    this.steps.splice(index, 1)
     return this
-  }
-
-  public get flattenSteps() {
-    return this.steps
   }
 
   public static fromTaskable(taskable: Taskable) {
