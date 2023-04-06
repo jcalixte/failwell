@@ -1,9 +1,7 @@
-import type { Stepable } from '@/use-cases/task/interfaces/stepable'
 import type { Taskable } from '@/use-cases/task/interfaces/taskable'
-import { createStepFixture } from '@/use-cases/task/models/step.fixture'
 import { Task } from '@/use-cases/task/models/task'
+import { createStepFixture } from '@/use-cases/task/models/step.fixture'
 import { faker } from '@faker-js/faker'
-import exp from 'constants'
 import { describe, expect, it } from 'vitest'
 
 describe('Task', () => {
