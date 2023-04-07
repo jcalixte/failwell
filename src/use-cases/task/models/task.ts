@@ -27,6 +27,10 @@ export class Task implements Taskable {
     return this
   }
 
+  public get totalEstimation() {
+    return this.steps.map((step) => step.estimation).reduce((a, b) => a + b, 0)
+  }
+
   public static fromTaskable(taskable: Taskable) {
     const task = new Task(taskable.id)
     task.title = taskable.title

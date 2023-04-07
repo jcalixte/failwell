@@ -1,6 +1,6 @@
 import type { Taskable } from '@/use-cases/task/interfaces/taskable'
-import { Task } from '@/use-cases/task/models/task'
 import { createStepFixture } from '@/use-cases/task/models/step.fixture'
+import { Task } from '@/use-cases/task/models/task'
 import { faker } from '@faker-js/faker'
 import { describe, expect, it } from 'vitest'
 
@@ -50,5 +50,17 @@ describe('Task', () => {
 
     task.addSteps(createStepFixture())
     expect(Task.validate(task)).toEqual(true)
+  })
+
+  it('calculates the total estimation of steps', () => {
+    const task = new Task(faker.datatype.uuid())
+
+    task.addSteps(
+      createStepFixture({ estimation: 1 }),
+      createStepFixture({ estimation: 2 }),
+      createStepFixture({ estimation: 3 })
+    )
+
+    expect(task.totalEstimation).toEqual(6)
   })
 })
