@@ -6,5 +6,9 @@ export const createStepFixture = (partialStep?: Partial<Stepable>) =>
   new Step(
     partialStep?.id ?? faker.datatype.uuid(),
     partialStep?.title ?? faker.animal.bird(),
-    partialStep?.estimation ?? 0
+    partialStep?.estimation ??
+      faker.datatype.number({
+        min: 0,
+        max: 40
+      })
   )
