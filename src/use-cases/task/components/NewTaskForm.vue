@@ -1,13 +1,34 @@
+<script setup lang="ts">
+import { createUuid } from '@/shared/create-uuid'
+import { reactive, ref } from 'vue'
+import type { Step } from '../models/step'
+import { Task } from '../models/task'
+
+const id = createUuid()
+
+const title = ref('')
+const steps: Step[] = reactive([])
+
+const saveTask = () => {
+  const task = new Task(id, title.value)
+  task.addSteps(...steps)
+
+  if (Task.validate(task)) {
+    return true
+  }
+
+  return false
+}
+</script>
+
 <template>
   <div>
     <h1>New Task Form</h1>
-    <form @submit.prevent>
+    <form @submit.prevent="saveTask">
       <label for="title">Title</label>
-      <input type="text" id="title" />
+      <input type="text" id="title" v-model="title" />
     </form>
   </div>
 </template>
-
-<script setup lang="ts"></script>
 
 <style scoped></style>
