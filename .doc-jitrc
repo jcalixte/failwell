@@ -1,0 +1,5 @@
+{
+  "patterns": {
+    "**/*.vue": "https://vuejs.org/guide/introduction.html"
+  }
+}
