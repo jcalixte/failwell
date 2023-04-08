@@ -3,6 +3,7 @@ import { createUuid } from '@/shared/create-uuid'
 import { reactive, ref } from 'vue'
 import type { Step } from '../models/step'
 import { Task } from '../models/task'
+import StepInput from './StepInput.vue'
 
 const id = createUuid()
 
@@ -25,8 +26,11 @@ const saveTask = () => {
   <div>
     <h1>New Task Form</h1>
     <form @submit.prevent="saveTask">
-      <label for="title">Title</label>
-      <input type="text" id="title" v-model="title" />
+      <div>
+        <label for="title">Title</label>
+        <input type="text" id="title" v-model="title" />
+      </div>
+      <StepInput v-model="steps" />
     </form>
   </div>
 </template>
