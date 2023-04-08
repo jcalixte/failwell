@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { createUuid } from '@/shared/create-uuid'
-import { reactive, ref } from 'vue'
-import type { Step } from '../models/step'
+import { ref } from 'vue'
+import { createStepFixture } from '../models/step.fixture'
 import { Task } from '../models/task'
 import StepInput from './StepInput.vue'
 
 const id = createUuid()
 
 const title = ref('')
-const steps: Step[] = reactive([])
+const steps = ref([createStepFixture(), createStepFixture()])
 
 const saveTask = () => {
   const task = new Task(id, title.value)
-  task.addSteps(...steps)
+  task.addSteps(...steps.value)
 
   if (Task.validate(task)) {
     return true
@@ -31,6 +31,7 @@ const saveTask = () => {
         <input type="text" id="title" v-model="title" />
       </div>
       <StepInput v-model="steps" />
+      {{ steps }}
     </form>
   </div>
 </template>

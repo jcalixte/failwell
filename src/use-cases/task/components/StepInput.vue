@@ -30,7 +30,7 @@ const stepsTextarea = computed({
 
 <template>
   <div class="step-input">
-    <textarea v-model="stepsTextarea"></textarea>
+    <textarea v-model="stepsTextarea" cols="40" rows="20"></textarea>
     <div>beautiful data</div>
   </div>
 </template>

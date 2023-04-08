@@ -1,8 +1,9 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import { createStepFixture } from '../models/step.fixture'
 import StepInput from './StepInput.vue'
 
-describe('Step input', () => {
+describe('Step input textarea', () => {
   it('displays a text area with steps inside', () => {
     const wrapper = mount(StepInput, {
       props: {
@@ -10,6 +11,28 @@ describe('Step input', () => {
       }
     })
 
-    expect(wrapper.text()).toContain('textarea')
+    expect(wrapper.get('textarea')).toBeDefined()
+  })
+
+  it('displays the steps in the textarea', () => {
+    const steps = [
+      createStepFixture(),
+      createStepFixture(),
+      createStepFixture()
+    ]
+
+    const stepsInTextarea = steps
+      .map((s) => `- ${s.title} | ${s.estimation}`)
+      .join('\n')
+
+    const wrapper = mount(StepInput, {
+      props: {
+        modelValue: steps
+      }
+    })
+
+    const textarea = wrapper.get('textarea')
+
+    expect(textarea.element.value).toEqual(stepsInTextarea)
   })
 })
