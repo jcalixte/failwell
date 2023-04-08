@@ -1,18 +1,36 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
+import {
+  adaptStepsToTextarea,
+  adaptTextareaToSteps
+} from '../infra/adaptStepsToTextarea'
 import type { Step } from '../models/step'
 
-defineProps<{
+const props = defineProps<{
   modelValue: Step[]
 }>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: Step[]): void
 }>()
+
+const rawSteps = ref(adaptStepsToTextarea(props.modelValue))
+
+const stepsTextarea = computed({
+  get() {
+    return rawSteps.value
+  },
+  set(value) {
+    rawSteps.value = value
+
+    emit('update:modelValue', adaptTextareaToSteps(value))
+  }
+})
 </script>
 
 <template>
   <div class="step-input">
-    <div>textarea</div>
+    <textarea v-model="stepsTextarea"></textarea>
     <div>beautiful data</div>
   </div>
 </template>
