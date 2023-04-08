@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <main>Bonjour</main>
+  <main>
+    <RouterLink :to="{ name: 'new-task' }">New task</RouterLink>
+  </main>
 </template>
