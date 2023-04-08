@@ -8,7 +8,7 @@ describe('Task', () => {
   it('has a simple id', () => {
     const uuid = faker.datatype.uuid()
 
-    const task = new Task(uuid)
+    const task = new Task(uuid, faker.animal.bear())
 
     expect(task.id).equals(uuid)
   })
@@ -26,7 +26,7 @@ describe('Task', () => {
   })
 
   it('adds steps and removes them', () => {
-    const task = new Task(faker.datatype.uuid())
+    const task = new Task(faker.datatype.uuid(), faker.color.human())
 
     const [firstStep, secondStep] = [createStepFixture(), createStepFixture()]
 
@@ -42,10 +42,7 @@ describe('Task', () => {
   })
 
   it('must have an id, a title and steps to be valid', () => {
-    const task = new Task(faker.datatype.uuid())
-    expect(Task.validate(task)).toEqual(false)
-
-    task.title = faker.animal.bird()
+    const task = new Task(faker.datatype.uuid(), faker.color.human())
     expect(Task.validate(task)).toEqual(false)
 
     task.addSteps(createStepFixture())
@@ -53,7 +50,7 @@ describe('Task', () => {
   })
 
   it('calculates the total estimation of steps', () => {
-    const task = new Task(faker.datatype.uuid())
+    const task = new Task(faker.datatype.uuid(), faker.color.human())
 
     task.addSteps(
       createStepFixture({ estimation: 1 }),

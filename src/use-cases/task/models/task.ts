@@ -4,10 +4,9 @@ import { Step } from '@/use-cases/task/models/step'
 
 export class Task implements Taskable {
   public steps: Step[] = []
-  public title = ''
   public link: string | null = null
 
-  constructor(public readonly id: string) {}
+  constructor(public readonly id: string, public readonly title: string) {}
 
   public addSteps(...steps: Stepable[]) {
     this.steps.push(...Step.fromStepable(...steps))
@@ -32,8 +31,7 @@ export class Task implements Taskable {
   }
 
   public static fromTaskable(taskable: Taskable) {
-    const task = new Task(taskable.id)
-    task.title = taskable.title
+    const task = new Task(taskable.id, taskable.title)
     task.link = taskable.link
     task.addSteps(...taskable.steps)
 
