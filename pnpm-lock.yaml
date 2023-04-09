@@ -21,6 +21,9 @@ devDependencies:
   '@faker-js/faker':
     specifier: ^7.6.0
     version: 7.6.0
+  '@pinia/testing':
+    specifier: ^0.0.16
+    version: 0.0.16(pinia@2.0.34)(vue@3.2.47)
   '@rushstack/eslint-patch':
     specifier: ^1.2.0
     version: 1.2.0
@@ -379,6 +382,18 @@ packages:
       fastq: 1.15.0
     dev: true
 
+  /@pinia/testing@0.0.16(pinia@2.0.34)(vue@3.2.47):
+    resolution: {integrity: sha512-oa5kO82hzWekqMq1HTnS/b+ZM+ZKEcEApuuCTelvKK79jTxg7P026Qw8/2RbVn5eUGAvRWQu4ubObrshVqCRjQ==}
+    peerDependencies:
+      pinia: '>=2.0.34'
+    dependencies:
+      pinia: 2.0.34(typescript@4.8.4)(vue@3.2.47)
+      vue-demi: 0.13.11(vue@3.2.47)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: true
+
   /@rushstack/eslint-patch@1.2.0:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
     dev: true
@@ -669,7 +684,6 @@ packages:
 
   /@vue/devtools-api@6.5.0:
     resolution: {integrity: sha512-o9KfBeaBmCKl10usN4crU53fYtC1r7jJwdGKjPT24t348rHxgfpZ0xL3Xm/gLUYnc0oTp8LAmrxOeLyu6tbk2Q==}
-    dev: false
 
   /@vue/eslint-config-prettier@7.1.0(eslint@8.38.0)(prettier@2.8.7):
     resolution: {integrity: sha512-Pv/lVr0bAzSIHLd9iz0KnvAr4GKyCEl+h52bc4e5yWuDVtLgFwycF7nrbWTAQAS+FU6q1geVd07lc6EWfJiWKQ==}
@@ -2442,7 +2456,6 @@ packages:
       typescript: 4.8.4
       vue: 3.2.47
       vue-demi: 0.13.11(vue@3.2.47)
-    dev: false
 
   /pkg-types@1.0.2:
     resolution: {integrity: sha512-hM58GKXOcj8WTqUXnsQyJYXdeAPbythQgEF3nTcEo+nkD49chjQ9IKm/QJy9xf6JakXptz86h7ecP2024rrLaQ==}
@@ -3121,7 +3134,6 @@ packages:
         optional: true
     dependencies:
       vue: 3.2.47
-    dev: false
 
   /vue-eslint-parser@9.1.0(eslint@8.38.0):
     resolution: {integrity: sha512-NGn/iQy8/Wb7RrRa4aRkokyCZfOUWk19OP5HP6JEozQFX5AoS/t+Z0ZN7FY4LlmWc4FNI922V7cvX28zctN8dQ==}

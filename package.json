@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
+    "@pinia/testing": "^0.0.16",
     "@rushstack/eslint-patch": "^1.2.0",
     "@types/jsdom": "^21.1.1",
     "@types/node": "^18.14.2",
