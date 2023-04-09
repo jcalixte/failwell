@@ -39,12 +39,12 @@ const saveTask = () => {
     <h1>New Task Form</h1>
     <h2>Estimation: {{ totalEstimation }} minutes</h2>
     <form @submit.prevent="saveTask">
+      <button type="submit">save task</button>
       <div>
         <label for="title">Title</label>
         <input type="text" id="title" v-model="title" />
       </div>
       <StepInput v-model="steps" />
-      <button type="submit">save task</button>
     </form>
   </div>
 </template>
