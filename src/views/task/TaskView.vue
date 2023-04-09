@@ -13,7 +13,13 @@ const task = computed(() => taskStore.getTask(props.id))
 
 <template>
   <div class="task-view" v-if="task">
-    {{ task.title }}
+    <h1>{{ task.title }}</h1>
+    <h2>{{ task.totalEstimation }} minutes</h2>
+    <ul>
+      <li v-for="step in task.steps" :key="step.id">
+        {{ step.title }} | {{ step.estimation }}
+      </li>
+    </ul>
   </div>
   <div v-else>Task not found</div>
 </template>
