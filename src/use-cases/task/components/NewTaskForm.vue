@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { createUuid } from '@/shared/create-uuid'
+import { faker } from '@faker-js/faker'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { createStepFixture } from '../models/step.fixture'
@@ -12,7 +13,7 @@ const router = useRouter()
 
 const id = createUuid()
 
-const title = ref('')
+const title = ref(faker.animal.bird())
 const steps = ref([createStepFixture(), createStepFixture()])
 const totalEstimation = computed(() =>
   steps.value.map((step) => step.estimation).reduce((a, b) => a + b, 0)
