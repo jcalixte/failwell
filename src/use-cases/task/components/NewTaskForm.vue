@@ -36,7 +36,7 @@ const saveTask = () => {
 
 <template>
   <div>
-    <h1>New Task Form</h1>
+    <h1>Create a task</h1>
     <h2>Estimation: {{ totalEstimation }} minutes</h2>
     <form @submit.prevent="saveTask">
       <button type="submit">save task</button>
@@ -49,4 +49,8 @@ const saveTask = () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+form {
+  padding: 1rem 0;
+}
+</style>
