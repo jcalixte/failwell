@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 import type { Taskable } from '../interfaces/taskable'
 
-interface State {
+export interface TaskStoreState {
   tasks: Taskable[]
 }
 
 export const useTaskStore = defineStore('task-store', {
-  state: (): State => ({
+  state: (): TaskStoreState => ({
     tasks: []
   }),
   actions: {
