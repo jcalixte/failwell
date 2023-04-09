@@ -6,5 +6,4 @@ export interface Taskable {
   date: Date
   link: string | null
   steps: Stepable[]
-  totalEstimation: number
 }
