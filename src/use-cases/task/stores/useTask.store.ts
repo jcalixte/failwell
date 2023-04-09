@@ -33,6 +33,9 @@ export const useTaskStore = defineStore('task-store', {
           Task.fromTaskable({ ...task, date: new Date(task.date) })
         )
         .sort((a, b) => (a.date > b.date ? -1 : 1))
+    },
+    getTask(state) {
+      return (taskId: string) => state.tasks.find((task) => task.id === taskId)
     }
   }
 })
