@@ -1,5 +1,5 @@
-import type { Stepable } from '@/use-cases/task/interfaces/stepable'
-import { Step } from '@/use-cases/task/models/step'
+import type { Stepable } from '@/modules/task/interfaces/stepable'
+import { Step } from '@/modules/task/models/step'
 import { faker } from '@faker-js/faker'
 
 export const createStepFixture = (partialStep?: Partial<Stepable>) =>

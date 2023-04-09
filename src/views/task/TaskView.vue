@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTaskStore } from '@/use-cases/task/stores/useTask.store'
+import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { computed } from 'vue'
 
 const props = defineProps<{

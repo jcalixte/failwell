@@ -1,6 +1,6 @@
-import type { Taskable } from '@/use-cases/task/interfaces/taskable'
-import { createStepFixture } from '@/use-cases/task/models/step.fixture'
-import { Task } from '@/use-cases/task/models/task'
+import type { Taskable } from '@/modules/task/interfaces/taskable'
+import { createStepFixture } from '@/modules/task/models/step.fixture'
+import { Task } from '@/modules/task/models/task'
 import { faker } from '@faker-js/faker'
 import { describe, expect, it } from 'vitest'
 

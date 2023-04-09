@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { formatDate } from '@/shared/format-date'
-import { useTaskStore } from '@/use-cases/task/stores/useTask.store'
 
 const taskStore = useTaskStore()
 </script>

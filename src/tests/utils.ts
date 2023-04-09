@@ -1,6 +1,6 @@
+import { createTaskFixture } from '@/modules/task/models/task.fixture'
+import type { TaskStoreState } from '@/modules/task/stores/useTask.store'
 import { router } from '@/router'
-import { createTaskFixture } from '@/use-cases/task/models/task.fixture'
-import type { TaskStoreState } from '@/use-cases/task/stores/useTask.store'
 import { createTestingPinia } from '@pinia/testing'
 import { vi } from 'vitest'
 

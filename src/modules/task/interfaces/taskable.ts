@@ -1,4 +1,4 @@
-import type { Stepable } from '@/use-cases/task/interfaces/stepable'
+import type { Stepable } from '@/modules/task/interfaces/stepable'
 
 export interface Taskable {
   id: string

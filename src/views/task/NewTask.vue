@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import NewTaskForm from '@/use-cases/task/components/NewTaskForm.vue'
+import NewTaskForm from '@/modules/task/components/NewTaskForm.vue'
 </script>
 
 <template>

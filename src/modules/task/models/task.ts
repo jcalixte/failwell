@@ -1,6 +1,6 @@
-import type { Stepable } from '@/use-cases/task/interfaces/stepable'
-import type { Taskable } from '@/use-cases/task/interfaces/taskable'
-import { Step } from '@/use-cases/task/models/step'
+import type { Stepable } from '@/modules/task/interfaces/stepable'
+import type { Taskable } from '@/modules/task/interfaces/taskable'
+import { Step } from '@/modules/task/models/step'
 
 export class Task implements Taskable {
   public date = new Date()
