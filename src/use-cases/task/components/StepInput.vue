@@ -30,14 +30,18 @@ const stepsTextarea = computed({
 
 <template>
   <div class="step-input">
-    <textarea v-model="stepsTextarea" cols="40" rows="20"></textarea>
-    <div>beautiful data</div>
+    <label for="steps">steps</label>
+    <textarea
+      id="steps"
+      name="steps"
+      v-model="stepsTextarea"
+      cols="40"
+      rows="20"
+    ></textarea>
   </div>
 </template>
 
 <style scoped>
 .step-input {
-  display: flex;
-  justify-content: space-between;
 }
 </style>

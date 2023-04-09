@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { createUuid } from '@/shared/create-uuid'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { createStepFixture } from '../models/step.fixture'
 import { Task } from '../models/task'
 import StepInput from './StepInput.vue'
@@ -9,6 +9,9 @@ const id = createUuid()
 
 const title = ref('')
 const steps = ref([createStepFixture(), createStepFixture()])
+const totalEstimation = computed(() =>
+  steps.value.map((step) => step.estimation).reduce((a, b) => a + b, 0)
+)
 
 const saveTask = () => {
   const task = new Task(id, title.value)
@@ -25,6 +28,7 @@ const saveTask = () => {
 <template>
   <div>
     <h1>New Task Form</h1>
+    <h2>Estimation: {{ totalEstimation }} minutes</h2>
     <form @submit.prevent="saveTask">
       <div>
         <label for="title">Title</label>
