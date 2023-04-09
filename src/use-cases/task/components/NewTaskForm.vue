@@ -35,7 +35,7 @@ const saveTask = () => {
         <input type="text" id="title" v-model="title" />
       </div>
       <StepInput v-model="steps" />
-      {{ steps }}
+      <pre>{{ steps }}</pre>
     </form>
   </div>
 </template>
