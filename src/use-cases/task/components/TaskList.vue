@@ -7,7 +7,7 @@ const taskStore = useTaskStore()
 
 <template>
   <ul class="task-list">
-    <li v-for="task in taskStore.tasks" :key="task.id">
+    <li v-for="task in taskStore.recentTasks" :key="task.id">
       {{ task.title }} | {{ task.totalEstimation }} minutes |
       {{ formatDate(task.date) }}
     </li>
