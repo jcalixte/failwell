@@ -1,5 +1,7 @@
 {
   "patterns": {
-    "**/*.vue": "https://vuejs.org/guide/introduction.html"
+    "**/*.vue": "https://vuejs.org/guide/introduction.html",
+    "**/*.store.ts": "https://pinia.vuejs.org/introduction.html",
+    "**/router/*.ts": "https://router.vuejs.org/"
   }
 }
