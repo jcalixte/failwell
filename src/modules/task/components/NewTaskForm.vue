@@ -14,19 +14,30 @@ const router = useRouter()
 const id = createUuid()
 
 const title = ref(faker.animal.bird())
-const steps = ref([createStepFixture(), createStepFixture()])
+const link = ref(faker.internet.url())
+const steps = ref(
+  Array.from({ length: Math.floor(Math.random() * 10) }, () =>
+    createStepFixture()
+  )
+)
 const totalEstimation = computed(() =>
   steps.value.map((step) => step.estimation).reduce((a, b) => a + b, 0)
 )
 
 const saveTask = () => {
   const task = new Task(id, title.value)
+  if (link.value) {
+    task.link = link.value
+  }
   task.addSteps(...steps.value)
 
   if (Task.validate(task)) {
     store.saveTask(task)
     router.push({
-      name: 'home'
+      name: 'task-view',
+      params: {
+        id
+      }
     })
   }
 
@@ -43,6 +54,10 @@ const saveTask = () => {
       <div>
         <label for="title">Title</label>
         <input type="text" id="title" v-model="title" />
+      </div>
+      <div>
+        <label for="link">User story link</label>
+        <input type="text" id="link" v-model="link" />
       </div>
       <StepInput v-model="steps" />
     </form>
