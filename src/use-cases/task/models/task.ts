@@ -34,6 +34,7 @@ export class Task implements Taskable {
   public static fromTaskable(taskable: Taskable) {
     const task = new Task(taskable.id, taskable.title)
     task.link = taskable.link
+    task.date = taskable.date
     task.addSteps(...taskable.steps)
 
     return task

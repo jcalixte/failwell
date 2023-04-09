@@ -16,6 +16,7 @@ describe('Task', () => {
   it('allows a new task from a taskable object', () => {
     const taskable: Taskable = {
       id: faker.datatype.uuid(),
+      date: faker.date.recent(),
       title: faker.animal.lion(),
       link: faker.internet.url(),
       steps: [createStepFixture()]
