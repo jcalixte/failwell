@@ -3,6 +3,7 @@ import type { Taskable } from '@/use-cases/task/interfaces/taskable'
 import { Step } from '@/use-cases/task/models/step'
 
 export class Task implements Taskable {
+  public date = new Date()
   public steps: Step[] = []
   public link: string | null = null
 
