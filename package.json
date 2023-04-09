@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "nanoid": "^4.0.2",
-    "pinia": "^2.0.32",
+    "pinia": "^2.0.34",
     "suretype": "^3.2.1",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
@@ -23,9 +23,9 @@
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
     "@rushstack/eslint-patch": "^1.2.0",
-    "@types/jsdom": "^21.1.0",
+    "@types/jsdom": "^21.1.1",
     "@types/node": "^18.14.2",
-    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitejs/plugin-vue": "^4.1.0",
     "@vue/eslint-config-prettier": "^7.1.0",
     "@vue/eslint-config-typescript": "^11.0.2",
     "@vue/test-utils": "^2.3.2",
