@@ -1,3 +1,4 @@
+import { router } from '@/router'
 import { createTaskFixture } from '@/use-cases/task/models/task.fixture'
 import type { TaskStoreState } from '@/use-cases/task/stores/useTask.store'
 import { createTestingPinia } from '@pinia/testing'
@@ -11,7 +12,7 @@ const initialState = {
   'task-store': { tasks: [createTaskFixture(), createTaskFixture()] }
 }
 
-export const withStore = (partialState?: TaskStoreState) => ({
+export const withPlugins = (partialState?: TaskStoreState) => ({
   global: {
     plugins: [
       createTestingPinia({
@@ -20,7 +21,8 @@ export const withStore = (partialState?: TaskStoreState) => ({
           ...partialState,
           ...initialState
         }
-      })
+      }),
+      router
     ]
   }
 })
