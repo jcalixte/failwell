@@ -8,7 +8,10 @@ const taskStore = useTaskStore()
 <template>
   <ul class="task-list">
     <li v-for="task in taskStore.recentTasks" :key="task.id">
-      {{ task.title }} | {{ task.totalEstimation }} minutes |
+      <RouterLink :to="{ name: 'task-view', params: { id: task.id } }">{{
+        task.title
+      }}</RouterLink>
+      | {{ task.totalEstimation }} minutes |
       {{ formatDate(task.date) }}
     </li>
   </ul>
