@@ -88,7 +88,12 @@ const isSuperiorToEstimation = computed(() => {
 
 <template>
   <main class="task-record" v-if="task">
-    <h1>Task: {{ task.title }}</h1>
+    <h1>
+      Task:
+      <router-link :to="{ name: 'task-view', params: { id: task.id } }">
+        {{ task.title }}
+      </router-link>
+    </h1>
     <h2>start time: {{ formatDate(record.start) }}</h2>
     <template v-if="!record.end">
       <button

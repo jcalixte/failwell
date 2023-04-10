@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import TaskRecord from '@/modules/record/components/TaskRecord.vue'
 
-const props = defineProps<{
+defineProps<{
   taskId: string
   recordId: string
 }>()
