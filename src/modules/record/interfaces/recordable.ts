@@ -9,10 +9,6 @@ export interface Recordable {
    * TODO: Compute this data from step records
    */
   start: ISODate
-  /**
-   * @deprecated
-   * TODO: Compute this data from step records
-   */
   end?: ISODate
   stepRecords: Record<string, StepRecordable>
 }

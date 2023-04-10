@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
-import { formatDate } from '@/shared/format-date'
+import { formatDate, formatDiffInMinutes } from '@/shared/format-date'
 import { toISODate } from '@/shared/types/date'
 import { computed } from 'vue'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
@@ -68,25 +68,44 @@ const nextStep = () => {
     tick: toISODate(new Date())
   })
 }
+
+const duration = computed(() => {
+  if (!record.value?.end) {
+    return null
+  }
+
+  return formatDiffInMinutes(record.value.start, record.value?.end)
+})
+
+const isSuperiorToEstimation = computed(() => {
+  if (!task.value || !record.value || !duration.value) {
+    return false
+  }
+
+  return duration.value > task.value.totalEstimation
+})
 </script>
 
 <template>
-  <div class="task-record" v-if="task">
+  <main class="task-record" v-if="task">
     <h1>Task: {{ task.title }}</h1>
     <h2>start time: {{ formatDate(record.start) }}</h2>
-    <button
-      v-if="!recordStore.currentStepId && !record.hasStepRecords"
-      @click="startRecording"
-    >
-      start
-    </button>
-    <button v-else @click="nextStep">next</button>
+    <template v-if="!record.end">
+      <button
+        v-if="!recordStore.currentStepId && !record.hasStepRecords"
+        @click="startRecording"
+      >
+        start
+      </button>
+      <button v-else @click="nextStep">next</button>
+    </template>
+
     <button @click="recordStore.$reset">reset</button>
     <table>
       <thead>
         <tr>
           <th>#</th>
-          <th>Task</th>
+          <th>task</th>
           <th>estimation</th>
           <th>actual</th>
         </tr>
@@ -102,17 +121,22 @@ const nextStep = () => {
         />
       </tbody>
     </table>
-  </div>
+    <div v-if="record.end">
+      <hr />
+      The task took {{ duration }} minutes instead of
+      {{ task.totalEstimation }} minutes.
+      <span>
+        <span v-if="isSuperiorToEstimation">More</span><span v-else>Less</span>
+        than expected.
+      </span>
+    </div>
+  </main>
 </template>
 
 <style scoped lang="scss">
 .task-record {
-  .current {
-    background-color: red;
-  }
-
-  .estimation {
-    font-style: italic;
+  table {
+    width: 100%;
   }
 }
 </style>

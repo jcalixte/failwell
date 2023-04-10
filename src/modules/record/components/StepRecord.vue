@@ -34,7 +34,6 @@ const duration = computed(() => {
     return null
   }
 
-  // TODO: diff in minutes not in seconds
   return formatDiffInMinutes(
     stepRecord.value.start,
     stepRecord.value?.end ?? now.value
@@ -59,11 +58,14 @@ const isSuperiorToEstimation = computed(() => {
       <span v-if="isSuperiorToEstimation">⚠️</span>
       {{ duration }} minutes
     </td>
-    <td v-else>NA</td>
+    <td v-else></td>
   </tr>
 </template>
 
 <style scoped lang="scss">
 .step-record {
+  &.current {
+    background-color: rgb(4, 62, 62);
+  }
 }
 </style>

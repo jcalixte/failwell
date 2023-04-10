@@ -28,6 +28,7 @@ const task = computed(() => taskStore.getTask(props.id))
         <div>{{ step.title }} | {{ step.estimation }}</div>
       </li>
     </ul>
+    <hr />
     <task-record-list :task-id="id" />
   </div>
   <div v-else>Task not found</div>
