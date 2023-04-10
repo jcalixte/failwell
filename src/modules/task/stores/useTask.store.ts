@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import type { Taskable } from '../interfaces/taskable'
+import type { Step } from '../models/step'
 import { Task } from '../models/task'
 
 export interface TaskStoreState {
@@ -26,8 +27,12 @@ export const useTaskStore = defineStore('task-store', {
         .sort((a, b) => (a.date > b.date ? -1 : 1))
     },
     getTask() {
-      return (taskId: string): Task | undefined =>
-        this.recentTasks.find((task) => task.id === taskId)
+      return (taskId: string): Task | null =>
+        this.recentTasks.find((task) => task.id === taskId) ?? null
+    },
+    getStep() {
+      return (taskId: string, stepId: string): Step | null =>
+        this.getTask(taskId)?.steps.find((step) => step.id === stepId) ?? null
     }
   }
 })

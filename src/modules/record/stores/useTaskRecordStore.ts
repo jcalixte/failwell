@@ -41,7 +41,6 @@ export const useTaskRecordStore = defineStore('task-record-store', {
             stepRecords: {
               ...record.stepRecords,
               [params.stepId]: {
-                problems: [],
                 start: params.start
               }
             }
@@ -86,15 +85,6 @@ export const useTaskRecordStore = defineStore('task-record-store', {
     endRecord(recordId: string) {
       this.records[recordId].end = toISODate(new Date())
       this.currentStepId = null
-    },
-    addProblemToStepRecord(recordId: string, stepId: string, problem: string) {
-      const stepRecord = this.getStepRecord(recordId, stepId)
-
-      if (!stepRecord) {
-        return
-      }
-
-      stepRecord.problems.push(problem)
     }
   },
   getters: {
@@ -117,6 +107,9 @@ export const useTaskRecordStore = defineStore('task-record-store', {
 
         return newTaskRecord
       }
+    },
+    getRecord() {
+      return (recordId: string) => this.records?.[recordId] ?? null
     },
     getStepRecord() {
       return (recordId: string, stepId: string): StepRecordable | null =>

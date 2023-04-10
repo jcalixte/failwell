@@ -4,6 +4,7 @@ import { formatDate } from '@/shared/format-date'
 import { toISODate } from '@/shared/types/date'
 import { computed } from 'vue'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
+import StepRecord from './StepRecord.vue'
 
 const props = defineProps<{
   taskId: string
@@ -85,19 +86,14 @@ const nextStep = () => {
         </tr>
       </thead>
       <tbody>
-        <tr
+        <StepRecord
           v-for="(step, key) in task.steps"
+          :task-id="taskId"
+          :record-id="recordId"
           :key="step.id"
-          :class="{ current: recordStore.currentStepId === step.id }"
-        >
-          <td>{{ key + 1 }}</td>
-          <td>{{ step.title }}</td>
-          <td class="estimation">{{ step.estimation }} minutes</td>
-          <td v-if="record.stepRecords[step.id]">
-            {{ record.stepRecords[step.id] }} minutes
-          </td>
-          <td v-else>NA</td>
-        </tr>
+          :step-id="step.id"
+          :step-number="key"
+        />
       </tbody>
     </table>
   </div>
