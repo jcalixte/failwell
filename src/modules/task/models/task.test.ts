@@ -1,6 +1,7 @@
 import type { Taskable } from '@/modules/task/interfaces/taskable'
 import { createStepFixture } from '@/modules/task/models/step.fixture'
 import { Task } from '@/modules/task/models/task'
+import { toISODate } from '@/shared/types/date'
 import { faker } from '@faker-js/faker'
 import { describe, expect, it } from 'vitest'
 
@@ -16,7 +17,7 @@ describe('Task', () => {
   it('allows a new task from a taskable object', () => {
     const taskable: Taskable = {
       id: faker.datatype.uuid(),
-      date: faker.date.recent(),
+      date: toISODate(faker.date.recent()),
       title: faker.animal.lion(),
       link: faker.internet.url(),
       steps: [createStepFixture()]
