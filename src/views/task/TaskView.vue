@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TaskRecordList from '@/modules/record/components/TaskRecordList.vue'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { computed } from 'vue'
 
@@ -27,6 +28,7 @@ const task = computed(() => taskStore.getTask(props.id))
         <div>{{ step.title }} | {{ step.estimation }}</div>
       </li>
     </ul>
+    <task-record-list :task-id="id" />
   </div>
   <div v-else>Task not found</div>
 </template>

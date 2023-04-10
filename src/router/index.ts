@@ -24,6 +24,12 @@ export const router = createRouter({
       name: 'task-view',
       props: true,
       component: () => import('../views/task/TaskView.vue')
+    },
+    {
+      path: '/task/:taskId/records/:recordId',
+      name: 'record-view',
+      props: true,
+      component: () => import('../views/record/RecordView.vue')
     }
   ]
 })

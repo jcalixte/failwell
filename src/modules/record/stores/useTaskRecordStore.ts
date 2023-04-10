@@ -7,6 +7,7 @@ import { TaskRecord } from '../models/task-record'
 type RecordId = string
 
 export interface TaskRecordStoreState {
+  currentStepId: string | null
   records: { [recordId: string]: Recordable }
   taskRecordMaps: { [taskId: string]: RecordId[] }
 }
@@ -14,6 +15,7 @@ export interface TaskRecordStoreState {
 export const useTaskRecordStore = defineStore('task-record-store', {
   persist: true,
   state: (): TaskRecordStoreState => ({
+    currentStepId: null,
     records: {},
     taskRecordMaps: {}
   }),
@@ -41,10 +43,17 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       stepId: string
       start: ISODate
     }) {
+      const record = this.records[params.recordId]
+
+      if (Object.values(record.stepRecords).length === 0) {
+        record.start = params.start
+      }
+
       this.records[params.recordId].stepRecords[params.stepId] = {
         problems: [],
         start: params.start
       }
+      this.currentStepId = params.stepId
     },
     endStepRecord(params: { recordId: string; stepId: string; end: ISODate }) {
       const stepRecord =
@@ -72,6 +81,9 @@ export const useTaskRecordStore = defineStore('task-record-store', {
         stepId: params.nextStepId,
         start: params.tick
       })
+    },
+    endRecord() {
+      this.currentStepId = null
     },
     addProblemToStepRecord(recordId: string, stepId: string, problem: string) {
       const stepRecord = this.getStepRecord(recordId, stepId)
