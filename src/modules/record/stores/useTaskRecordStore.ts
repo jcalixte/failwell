@@ -2,7 +2,7 @@ import type { ISODate } from '@/shared/types/date'
 import { defineStore } from 'pinia'
 import type { Recordable } from '../interfaces/recordable'
 import type { StepRecordable } from '../interfaces/step-recordable'
-import type { TaskRecord } from '../models/task-record'
+import { TaskRecord } from '../models/task-record'
 
 type RecordId = string
 
@@ -42,6 +42,7 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       start: ISODate
     }) {
       this.records[params.recordId].stepRecords[params.stepId] = {
+        problems: [],
         start: params.start
       }
     },
@@ -54,13 +55,22 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       }
 
       stepRecord.end = params.end
+    },
+    addProblemToStepRecord(recordId: string, stepId: string, problem: string) {
+      const stepRecord = this.getStepRecord(recordId, stepId)
+
+      if (!stepRecord) {
+        return
+      }
+
+      stepRecord.problems.push(problem)
     }
   },
   getters: {
     getTaskRecords() {
-      return (taskId: string): Recordable[] =>
-        this.taskRecordMaps?.[taskId]?.map(
-          (recordId) => this.records[recordId]
+      return (taskId: string): TaskRecord[] =>
+        this.taskRecordMaps?.[taskId]?.map((recordId) =>
+          TaskRecord.fromRecordable(this.records[recordId])
         ) ?? []
     },
     getStepRecord() {
