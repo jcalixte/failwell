@@ -60,8 +60,8 @@ const isSuperiorToEstimation = computed(() => {
       <span v-else>⌛</span>
     </td>
     <td class="title">
-      {{ step.title }}
       <div v-if="isCurrentStep" class="blob green"></div>
+      {{ step.title }}
     </td>
     <td class="estimation">{{ step.estimation }} minutes</td>
     <td v-if="stepRecord">{{ duration }} minutes</td>
@@ -73,6 +73,10 @@ const isSuperiorToEstimation = computed(() => {
 .step-record {
   .status {
     text-align: center;
+
+    div {
+      margin: auto;
+    }
   }
 
   .rank {
@@ -80,15 +84,9 @@ const isSuperiorToEstimation = computed(() => {
   }
 
   .blob {
-    background: black;
     border-radius: 50%;
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
     height: 10px;
     width: 10px;
-    animation: pulse-black 2s infinite;
-  }
-
-  .blob {
     background: rgba(51, 217, 178, 1);
     box-shadow: 0 0 0 0 rgba(51, 217, 178, 1);
     animation: pulse 2s infinite;
@@ -97,8 +95,8 @@ const isSuperiorToEstimation = computed(() => {
   .title {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding-right: 1rem;
+    gap: 1rem;
   }
 }
 
