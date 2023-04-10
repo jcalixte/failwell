@@ -110,6 +110,7 @@ const isSuperiorToEstimation = computed(() => {
       <thead>
         <tr>
           <th>#</th>
+          <th>status</th>
           <th>task</th>
           <th>estimation</th>
           <th>actual</th>

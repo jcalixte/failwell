@@ -50,22 +50,72 @@ const isSuperiorToEstimation = computed(() => {
 </script>
 
 <template>
-  <tr v-if="step" class="step-record" :class="{ current: isCurrentStep }">
-    <td>{{ stepNumber }}</td>
-    <td>{{ step.title }}</td>
-    <td class="estimation">{{ step.estimation }} minutes</td>
-    <td v-if="stepRecord">
-      <span v-if="isSuperiorToEstimation">⚠️</span>
-      {{ duration }} minutes
+  <tr v-if="step" class="step-record">
+    <td class="rank">
+      {{ stepNumber }}
     </td>
+    <td class="status">
+      <span v-if="stepRecord?.end && !isSuperiorToEstimation">✅</span>
+      <span v-else-if="isSuperiorToEstimation"> ⚠️ </span>
+      <span v-else>⌛</span>
+    </td>
+    <td class="title">
+      {{ step.title }}
+      <div v-if="isCurrentStep" class="blob green"></div>
+    </td>
+    <td class="estimation">{{ step.estimation }} minutes</td>
+    <td v-if="stepRecord">{{ duration }} minutes</td>
     <td v-else></td>
   </tr>
 </template>
 
 <style scoped lang="scss">
 .step-record {
-  &.current {
-    background-color: rgb(4, 62, 62);
+  .status {
+    text-align: center;
+  }
+
+  .rank {
+    text-align: right;
+  }
+
+  .blob {
+    background: black;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+    height: 10px;
+    width: 10px;
+    animation: pulse-black 2s infinite;
+  }
+
+  .blob {
+    background: rgba(51, 217, 178, 1);
+    box-shadow: 0 0 0 0 rgba(51, 217, 178, 1);
+    animation: pulse 2s infinite;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 1rem;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(51, 217, 178, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(51, 217, 178, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(51, 217, 178, 0);
   }
 }
 </style>
