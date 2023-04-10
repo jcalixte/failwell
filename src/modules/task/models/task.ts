@@ -1,9 +1,10 @@
 import type { Stepable } from '@/modules/task/interfaces/stepable'
 import type { Taskable } from '@/modules/task/interfaces/taskable'
 import { Step } from '@/modules/task/models/step'
+import { toISODate } from '@/shared/types/date'
 
 export class Task implements Taskable {
-  public date = new Date()
+  public date = toISODate(new Date())
   public steps: Step[] = []
   public link: string | null = null
 

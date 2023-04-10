@@ -2,12 +2,8 @@ import { defineStore } from 'pinia'
 import type { Taskable } from '../interfaces/taskable'
 import { Task } from '../models/task'
 
-interface StoredTaskable extends Omit<Taskable, 'date'> {
-  date: string
-}
-
 export interface TaskStoreState {
-  tasks: StoredTaskable[]
+  tasks: Taskable[]
 }
 
 export const useTaskStore = defineStore('task-store', {
@@ -17,10 +13,7 @@ export const useTaskStore = defineStore('task-store', {
   }),
   actions: {
     saveTask(task: Taskable) {
-      this.tasks.push({
-        ...task,
-        date: task.date.toISOString()
-      })
+      this.tasks.push(task)
     },
     reset() {
       this.tasks = []
@@ -29,9 +22,7 @@ export const useTaskStore = defineStore('task-store', {
   getters: {
     recentTasks(state) {
       return state.tasks
-        .map((task) =>
-          Task.fromTaskable({ ...task, date: new Date(task.date) })
-        )
+        .map((task) => Task.fromTaskable(task))
         .sort((a, b) => (a.date > b.date ? -1 : 1))
     },
     getTask() {

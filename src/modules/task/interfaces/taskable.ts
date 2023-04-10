@@ -1,9 +1,10 @@
 import type { Stepable } from '@/modules/task/interfaces/stepable'
+import type { ISODate } from '@/shared/types/date'
 
 export interface Taskable {
   id: string
   title: string
-  date: Date
+  date: ISODate
   link: string | null
   steps: Stepable[]
 }
