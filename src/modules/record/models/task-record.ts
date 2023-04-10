@@ -1,3 +1,4 @@
+import { formatDiffInMinutes } from '@/shared/format-date'
 import { toISODate, type ISODate } from '@/shared/types/date'
 import type { Recordable } from '../interfaces/recordable'
 import type { StepRecordable } from '../interfaces/step-recordable'
@@ -17,10 +18,7 @@ export class TaskRecord implements Recordable {
       return null
     }
 
-    const durationMilliseconds =
-      new Date(this.end).getTime() - new Date(this.start).getTime()
-
-    return Math.round(durationMilliseconds / (1000 * 60))
+    return formatDiffInMinutes(this.start, this.end)
   }
 
   public get hasStepRecords() {

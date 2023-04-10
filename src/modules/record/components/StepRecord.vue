@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
+import { formatDiffInMinutes } from '@/shared/format-date'
 import { toISODate } from '@/shared/types/date'
 import { computed, onUnmounted, ref } from 'vue'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
@@ -18,6 +19,7 @@ const step = computed(() => taskStore.getStep(props.taskId, props.stepId))
 const stepRecord = computed(() =>
   recordStore.getStepRecord(props.recordId, props.stepId)
 )
+const isCurrentStep = computed(() => recordStore.currentStepId === props.stepId)
 
 const now = ref(toISODate(new Date()))
 
@@ -32,12 +34,11 @@ const duration = computed(() => {
     return null
   }
 
-  const diffInMs =
-    new Date(stepRecord.value?.end ?? now.value).getTime() -
-    new Date(stepRecord.value.start).getTime()
-
   // TODO: diff in minutes not in seconds
-  return Math.round(diffInMs / 1000)
+  return formatDiffInMinutes(
+    stepRecord.value.start,
+    stepRecord.value?.end ?? now.value
+  )
 })
 
 const isSuperiorToEstimation = computed(() => {
@@ -50,11 +51,7 @@ const isSuperiorToEstimation = computed(() => {
 </script>
 
 <template>
-  <tr
-    v-if="step"
-    class="step-record"
-    :class="{ current: recordStore.currentStepId === stepId }"
-  >
+  <tr v-if="step" class="step-record" :class="{ current: isCurrentStep }">
     <td>{{ stepNumber }}</td>
     <td>{{ step.title }}</td>
     <td class="estimation">{{ step.estimation }} minutes</td>

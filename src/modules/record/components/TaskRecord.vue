@@ -26,7 +26,8 @@ const getNextStepId = () => {
   }
 
   if (!recordStore.currentStepId) {
-    return task.value.steps[0].id
+    const [firstStep] = task.value.steps
+    return firstStep.id
   }
 
   const currentStepIndex = task.value.steps.findIndex(
@@ -73,7 +74,12 @@ const nextStep = () => {
   <div class="task-record" v-if="task">
     <h1>Task: {{ task.title }}</h1>
     <h2>start time: {{ formatDate(record.start) }}</h2>
-    <button v-if="!record.hasStepRecords" @click="startRecording">start</button>
+    <button
+      v-if="!recordStore.currentStepId && !record.hasStepRecords"
+      @click="startRecording"
+    >
+      start
+    </button>
     <button v-else @click="nextStep">next</button>
     <button @click="recordStore.$reset">reset</button>
     <table>
