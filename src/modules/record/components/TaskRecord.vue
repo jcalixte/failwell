@@ -2,6 +2,7 @@
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { formatDate, formatDiffInMinutes } from '@/shared/format-date'
 import { toISODate } from '@/shared/types/date'
+import { useMagicKeys, whenever } from '@vueuse/core'
 import { computed } from 'vue'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
 import StepRecord from './StepRecord.vue'
@@ -68,6 +69,12 @@ const nextStep = () => {
     tick: toISODate(new Date())
   })
 }
+
+const { n } = useMagicKeys()
+
+whenever(n, () => {
+  nextStep()
+})
 
 const duration = computed(() => {
   if (!record.value?.end) {
