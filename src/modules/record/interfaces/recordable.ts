@@ -3,5 +3,5 @@ export interface Recordable {
   taskId: string
   start: Date
   end?: Date
-  stepRecords: Record<string, { minutes: number }>
+  stepRecords: Record<string, { start: Date; end?: Date }>
 }

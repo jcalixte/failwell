@@ -3,7 +3,7 @@ import type { Recordable } from '../interfaces/recordable'
 export class TaskRecord implements Recordable {
   public start: Date = new Date()
   public end: Date | undefined = undefined
-  public stepRecords: Record<string, { minutes: number }> = {}
+  public stepRecords: Record<string, { start: Date; end?: Date }> = {}
 
   public constructor(
     public readonly id: string,
