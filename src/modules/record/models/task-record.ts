@@ -1,9 +1,10 @@
+import { toISODate, type ISODate } from '@/shared/types/date'
 import type { Recordable } from '../interfaces/recordable'
 
 export class TaskRecord implements Recordable {
-  public start: Date = new Date()
-  public end: Date | undefined = undefined
-  public stepRecords: Record<string, { start: Date; end?: Date }> = {}
+  public start: ISODate = toISODate(new Date())
+  public end: ISODate | undefined = undefined
+  public stepRecords: Record<string, { start: ISODate; end?: ISODate }> = {}
 
   public constructor(
     public readonly id: string,
@@ -15,7 +16,8 @@ export class TaskRecord implements Recordable {
       return null
     }
 
-    const durationMilliseconds = this.end.getTime() - this.start.getTime()
+    const durationMilliseconds =
+      new Date(this.end).getTime() - new Date(this.start).getTime()
 
     return Math.round(durationMilliseconds / (1000 * 60))
   }

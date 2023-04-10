@@ -1,7 +1,9 @@
+import type { ISODate } from '@/shared/types/date'
+
 export interface Recordable {
   id: string
   taskId: string
-  start: Date
-  end?: Date
-  stepRecords: Record<string, { start: Date; end?: Date }>
+  start: ISODate
+  end?: ISODate
+  stepRecords: Record<string, { start: ISODate; end?: ISODate }>
 }

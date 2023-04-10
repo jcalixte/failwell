@@ -1,15 +1,8 @@
 import { defineStore } from 'pinia'
 import type { Recordable } from '../interfaces/recordable'
 
-interface StoredTaskRecordable
-  extends Omit<Recordable, 'start' | 'end' | 'stepRecords'> {
-  start: string
-  end?: string
-  stepRecords: Record<string, { start: string; end?: string }>
-}
-
 export interface TaskRecordStoreState {
-  records: { [taskId: string]: StoredTaskRecordable[] }
+  records: { [taskId: string]: Recordable[] }
 }
 
 export const useTaskRecordStore = defineStore('task-record-store', {
