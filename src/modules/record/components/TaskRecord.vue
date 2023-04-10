@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
-import { formatDate, formatDiffInMinutes } from '@/shared/format-date'
+import { formatDiffInMinutes, formatLongDate } from '@/shared/format-date'
 import { toISODate } from '@/shared/types/date'
 import { useMagicKeys, whenever } from '@vueuse/core'
 import { computed } from 'vue'
@@ -101,7 +101,7 @@ const isSuperiorToEstimation = computed(() => {
         {{ task.title }}
       </router-link>
     </h1>
-    <h2>start time: {{ formatDate(record.start) }}</h2>
+    <h2>{{ formatLongDate(record.start) }}</h2>
     <template v-if="!record.end">
       <button
         v-if="!recordStore.currentStepId && !record.hasStepRecords"
