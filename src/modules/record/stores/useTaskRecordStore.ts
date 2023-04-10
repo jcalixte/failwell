@@ -56,6 +56,23 @@ export const useTaskRecordStore = defineStore('task-record-store', {
 
       stepRecord.end = params.end
     },
+    nextStepRecord(params: {
+      recordId: string
+      currentStepId: string
+      nextStepId: string
+      tick: ISODate
+    }) {
+      this.endStepRecord({
+        recordId: params.recordId,
+        stepId: params.currentStepId,
+        end: params.tick
+      })
+      this.startStepRecord({
+        recordId: params.recordId,
+        stepId: params.nextStepId,
+        start: params.tick
+      })
+    },
     addProblemToStepRecord(recordId: string, stepId: string, problem: string) {
       const stepRecord = this.getStepRecord(recordId, stepId)
 
@@ -72,6 +89,23 @@ export const useTaskRecordStore = defineStore('task-record-store', {
         this.taskRecordMaps?.[taskId]?.map((recordId) =>
           TaskRecord.fromRecordable(this.records[recordId])
         ) ?? []
+    },
+    createAndRetriveTaskRecord() {
+      return (taskId: string, recordId: string): TaskRecord => {
+        const hasTaskRecord = this.taskRecordMaps[taskId]?.some(
+          (rId) => rId === recordId
+        )
+
+        if (hasTaskRecord) {
+          return TaskRecord.fromRecordable(this.records[recordId])
+        }
+
+        const newTaskRecord = new TaskRecord(recordId, taskId)
+        this.taskRecordMaps[taskId]?.push(recordId)
+        this.records[recordId] = newTaskRecord
+
+        return newTaskRecord
+      }
     },
     getStepRecord() {
       return (recordId: string, stepId: string): StepRecordable | null =>
