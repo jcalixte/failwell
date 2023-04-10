@@ -1,13 +1,71 @@
+import type { ISODate } from '@/shared/types/date'
 import { defineStore } from 'pinia'
 import type { Recordable } from '../interfaces/recordable'
+import type { StepRecordable } from '../interfaces/step-recordable'
+import type { TaskRecord } from '../models/task-record'
+
+type RecordId = string
 
 export interface TaskRecordStoreState {
-  records: { [taskId: string]: Recordable[] }
+  records: { [recordId: string]: Recordable }
+  taskRecordMaps: { [taskId: string]: RecordId[] }
 }
 
 export const useTaskRecordStore = defineStore('task-record-store', {
   persist: true,
   state: (): TaskRecordStoreState => ({
-    records: {}
-  })
+    records: {},
+    taskRecordMaps: {}
+  }),
+  actions: {
+    addRecord(taskRecord: TaskRecord) {
+      if (!this.taskRecordMaps[taskRecord.taskId]) {
+        this.taskRecordMaps[taskRecord.taskId] = []
+      }
+
+      this.taskRecordMaps[taskRecord.taskId].push(taskRecord.id)
+
+      this.records[taskRecord.id] = taskRecord
+    },
+    removeRecord(recordId: string) {
+      for (const taskId in this.taskRecordMaps) {
+        this.taskRecordMaps[taskId] = this.taskRecordMaps[taskId].filter(
+          (rId) => rId !== recordId
+        )
+      }
+
+      delete this.records[recordId]
+    },
+    startStepRecord(params: {
+      recordId: string
+      stepId: string
+      start: ISODate
+    }) {
+      this.records[params.recordId].stepRecords[params.stepId] = {
+        start: params.start
+      }
+    },
+    endStepRecord(params: { recordId: string; stepId: string; end: ISODate }) {
+      const stepRecord =
+        this.records[params.recordId].stepRecords[params.stepId]
+
+      if (!stepRecord) {
+        return
+      }
+
+      stepRecord.end = params.end
+    }
+  },
+  getters: {
+    getTaskRecords() {
+      return (taskId: string): Recordable[] =>
+        this.taskRecordMaps?.[taskId]?.map(
+          (recordId) => this.records[recordId]
+        ) ?? []
+    },
+    getStepRecord() {
+      return (recordId: string, stepId: string): StepRecordable | null =>
+        this.records?.[recordId]?.stepRecords[stepId] ?? null
+    }
+  }
 })
