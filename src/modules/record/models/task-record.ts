@@ -23,6 +23,10 @@ export class TaskRecord implements Recordable {
     return Math.round(durationMilliseconds / (1000 * 60))
   }
 
+  public get hasStepRecords() {
+    return Object.values(this.stepRecords).length > 0
+  }
+
   public static fromRecordable(recordable: Recordable) {
     const taskRecord = new TaskRecord(recordable.id, recordable.taskId)
 

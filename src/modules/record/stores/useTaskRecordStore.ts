@@ -1,41 +1,25 @@
-import type { ISODate } from '@/shared/types/date'
+import { toISODate, type ISODate } from '@/shared/types/date'
 import { defineStore } from 'pinia'
 import type { Recordable } from '../interfaces/recordable'
 import type { StepRecordable } from '../interfaces/step-recordable'
 import { TaskRecord } from '../models/task-record'
 
-type RecordId = string
-
 export interface TaskRecordStoreState {
   currentStepId: string | null
   records: { [recordId: string]: Recordable }
-  taskRecordMaps: { [taskId: string]: RecordId[] }
 }
 
 export const useTaskRecordStore = defineStore('task-record-store', {
   persist: true,
   state: (): TaskRecordStoreState => ({
     currentStepId: null,
-    records: {},
-    taskRecordMaps: {}
+    records: {}
   }),
   actions: {
     addRecord(taskRecord: TaskRecord) {
-      if (!this.taskRecordMaps[taskRecord.taskId]) {
-        this.taskRecordMaps[taskRecord.taskId] = []
-      }
-
-      this.taskRecordMaps[taskRecord.taskId].push(taskRecord.id)
-
       this.records[taskRecord.id] = taskRecord
     },
     removeRecord(recordId: string) {
-      for (const taskId in this.taskRecordMaps) {
-        this.taskRecordMaps[taskId] = this.taskRecordMaps[taskId].filter(
-          (rId) => rId !== recordId
-        )
-      }
-
       delete this.records[recordId]
     },
     startStepRecord(params: {
@@ -49,11 +33,22 @@ export const useTaskRecordStore = defineStore('task-record-store', {
         record.start = params.start
       }
 
-      this.records[params.recordId].stepRecords[params.stepId] = {
-        problems: [],
-        start: params.start
-      }
-      this.currentStepId = params.stepId
+      this.$patch({
+        records: {
+          ...this.records,
+          [params.recordId]: {
+            ...record,
+            stepRecords: {
+              ...record.stepRecords,
+              [params.stepId]: {
+                problems: [],
+                start: params.start
+              }
+            }
+          }
+        },
+        currentStepId: params.stepId
+      })
     },
     endStepRecord(params: { recordId: string; stepId: string; end: ISODate }) {
       const stepRecord =
@@ -68,7 +63,7 @@ export const useTaskRecordStore = defineStore('task-record-store', {
     nextStepRecord(params: {
       recordId: string
       currentStepId: string
-      nextStepId: string
+      nextStepId: string | null
       tick: ISODate
     }) {
       this.endStepRecord({
@@ -76,13 +71,20 @@ export const useTaskRecordStore = defineStore('task-record-store', {
         stepId: params.currentStepId,
         end: params.tick
       })
+
+      if (!params.nextStepId) {
+        this.endRecord(params.recordId)
+        return
+      }
+
       this.startStepRecord({
         recordId: params.recordId,
         stepId: params.nextStepId,
         start: params.tick
       })
     },
-    endRecord() {
+    endRecord(recordId: string) {
+      this.records[recordId].end = toISODate(new Date())
       this.currentStepId = null
     },
     addProblemToStepRecord(recordId: string, stepId: string, problem: string) {
@@ -98,22 +100,19 @@ export const useTaskRecordStore = defineStore('task-record-store', {
   getters: {
     getTaskRecords() {
       return (taskId: string): TaskRecord[] =>
-        this.taskRecordMaps?.[taskId]?.map((recordId) =>
-          TaskRecord.fromRecordable(this.records[recordId])
-        ) ?? []
+        Object.values(this.records)
+          .filter((record) => record.taskId === taskId)
+          .map((record) => TaskRecord.fromRecordable(record))
     },
-    createAndRetriveTaskRecord() {
+    createAndRetrieveTaskRecord() {
       return (taskId: string, recordId: string): TaskRecord => {
-        const hasTaskRecord = this.taskRecordMaps[taskId]?.some(
-          (rId) => rId === recordId
-        )
+        const hasTaskRecord = !!this.records[recordId]
 
         if (hasTaskRecord) {
           return TaskRecord.fromRecordable(this.records[recordId])
         }
 
         const newTaskRecord = new TaskRecord(recordId, taskId)
-        this.taskRecordMaps[taskId]?.push(recordId)
         this.records[recordId] = newTaskRecord
 
         return newTaskRecord
