@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
-import { formatDiffInMinutes, formatLongDate } from '@/shared/format-date'
+import { formatLongDate } from '@/shared/format-date'
 import { toISODate } from '@/shared/types/date'
 import { useMagicKeys, whenever } from '@vueuse/core'
 import { computed } from 'vue'
+import { useTaskRecordMetadata } from '../hooks/useTaskRecordMetadata'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
 import StepRecord from './StepRecord.vue'
 
@@ -20,6 +21,7 @@ const task = computed(() => taskStore.getTask(props.taskId))
 const record = computed(() =>
   recordStore.createAndRetrieveTaskRecord(props.taskId, props.recordId)
 )
+const { duration } = useTaskRecordMetadata(record)
 
 const getNextStepId = () => {
   if (!task.value) {
@@ -74,14 +76,6 @@ const { n } = useMagicKeys()
 
 whenever(n, () => {
   nextStep()
-})
-
-const duration = computed(() => {
-  if (!record.value?.end) {
-    return null
-  }
-
-  return formatDiffInMinutes(record.value.start, record.value?.end)
 })
 
 const isSuperiorToEstimation = computed(() => {
