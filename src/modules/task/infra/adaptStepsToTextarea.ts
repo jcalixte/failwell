@@ -1,7 +1,7 @@
 import { createUuid } from '@/shared/create-uuid'
-import { Step } from '../models/step'
+import type { Stepable } from '../interfaces/stepable'
 
-export const adaptStepsToTextarea = (steps: Step[]) =>
+export const adaptStepsToTextarea = (steps: Stepable[]) =>
   steps.map((step) => `- ${step.title} | ${step.estimation}`).join('\n')
 
 const extractTitleAndEstimationFromStep = (
@@ -23,7 +23,7 @@ const extractTitleAndEstimationFromStep = (
   return [title, estimation]
 }
 
-export const adaptTextareaToSteps = (textareaValue: string): Step[] =>
+export const adaptTextareaToSteps = (textareaValue: string): Stepable[] =>
   textareaValue
     .split('\n')
     .map((rawStep) => {
@@ -33,6 +33,6 @@ export const adaptTextareaToSteps = (textareaValue: string): Step[] =>
         return null
       }
 
-      return new Step(createUuid(), title, estimation)
+      return { id: createUuid(), title, estimation }
     })
-    .filter((step) => step !== null) as Step[]
+    .filter((step) => step !== null) as Stepable[]

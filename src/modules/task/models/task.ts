@@ -1,17 +1,16 @@
 import type { Stepable } from '@/modules/task/interfaces/stepable'
 import type { Taskable } from '@/modules/task/interfaces/taskable'
-import { Step } from '@/modules/task/models/step'
 import { toISODate } from '@/shared/types/date'
 
 export class Task implements Taskable {
   public date = toISODate(new Date())
-  public steps: Step[] = []
+  public steps: Stepable[] = []
   public link: string | null = null
 
   constructor(public readonly id: string, public readonly title: string) {}
 
   public addSteps(...steps: Stepable[]) {
-    this.steps.push(...Step.fromStepable(...steps))
+    this.steps.push(...steps)
     return this
   }
 

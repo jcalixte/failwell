@@ -1,14 +1,13 @@
 import type { Stepable } from '@/modules/task/interfaces/stepable'
-import { Step } from '@/modules/task/models/step'
 import { faker } from '@faker-js/faker'
 
-export const createStepFixture = (partialStep?: Partial<Stepable>) =>
-  new Step(
-    partialStep?.id ?? faker.datatype.uuid(),
-    partialStep?.title ?? faker.animal.bird(),
+export const createStepFixture = (partialStep?: Partial<Stepable>) => ({
+  id: partialStep?.id ?? faker.datatype.uuid(),
+  title: partialStep?.title ?? faker.animal.bird(),
+  estimation:
     partialStep?.estimation ??
-      faker.datatype.number({
-        min: 0,
-        max: 40
-      })
-  )
+    faker.datatype.number({
+      min: 0,
+      max: 40
+    })
+})

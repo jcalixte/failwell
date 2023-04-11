@@ -4,14 +4,14 @@ import {
   adaptStepsToTextarea,
   adaptTextareaToSteps
 } from '../infra/adaptStepsToTextarea'
-import type { Step } from '../models/step'
+import type { Stepable } from '../interfaces/stepable'
 
 const props = defineProps<{
-  modelValue: Step[]
+  modelValue: Stepable[]
 }>()
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: Step[]): void
+  (event: 'update:modelValue', payload: Stepable[]): void
 }>()
 
 const rawSteps = ref(adaptStepsToTextarea(props.modelValue))
