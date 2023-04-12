@@ -85,6 +85,21 @@ export const useTaskRecordStore = defineStore('task-record-store', {
     endRecord(recordId: string) {
       this.records[recordId].end = toISODate(new Date())
       this.currentStepId = null
+    },
+    updateRecordNotes(recordId: string, notes: string) {
+      const record = this.records[recordId]
+
+      if (record) {
+        this.$patch({
+          records: {
+            ...this.records,
+            [recordId]: {
+              ...record,
+              notes
+            }
+          }
+        })
+      }
     }
   },
   getters: {
@@ -109,11 +124,14 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       }
     },
     getRecord() {
-      return (recordId: string) => this.records?.[recordId] ?? null
+      return (recordId: string) => this.records[recordId] ?? null
     },
     getStepRecord() {
       return (recordId: string, stepId: string): StepRecordable | null =>
-        this.records?.[recordId]?.stepRecords[stepId] ?? null
+        this.records[recordId]?.stepRecords[stepId] ?? null
+    },
+    getRecordNotes() {
+      return (recordId: string): string => this.records[recordId]?.notes ?? ''
     }
   }
 })

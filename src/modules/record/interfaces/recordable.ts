@@ -11,4 +11,5 @@ export interface Recordable {
   start: ISODate
   end?: ISODate
   stepRecords: Record<string, StepRecordable>
+  notes: string
 }

@@ -6,6 +6,7 @@ export class TaskRecord implements Recordable {
   public start: ISODate = toISODate(new Date())
   public end: ISODate | undefined = undefined
   public stepRecords: Record<string, StepRecordable> = {}
+  public notes = ''
 
   public constructor(
     public readonly id: string,

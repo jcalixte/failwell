@@ -21,6 +21,7 @@ const task = computed(() => taskStore.getTask(props.taskId))
 const record = computed(() =>
   recordStore.createAndRetrieveTaskRecord(props.taskId, props.recordId)
 )
+const recordNotes = computed(() => recordStore.getRecordNotes(props.recordId))
 const { duration } = useTaskRecordMetadata(record)
 
 const getNextStepId = () => {
@@ -137,6 +138,18 @@ const isSuperiorToEstimation = computed(() => {
         than expected.
       </span>
     </div>
+    <textarea
+      name="record-notes"
+      id="record-notes"
+      cols="30"
+      rows="10"
+      :value="recordNotes"
+      @input="
+        //@ts-ignore
+        recordStore.updateRecordNotes(recordId, $event.target?.value)
+      "
+      placeholder="notes"
+    ></textarea>
   </main>
 </template>
 
