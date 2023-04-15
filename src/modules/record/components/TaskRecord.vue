@@ -6,6 +6,7 @@ import { useMagicKeys, whenever } from '@vueuse/core'
 import { computed } from 'vue'
 import { useTaskRecordMetadata } from '../hooks/useTaskRecordMetadata'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
+import RecordProgress from './RecordProgress.vue'
 import StepRecord from './StepRecord.vue'
 
 const props = defineProps<{
@@ -98,6 +99,7 @@ const isSuperiorToEstimation = computed(() => {
 
 <template>
   <main class="task-record" v-if="task">
+    <RecordProgress :task-id="taskId" :record-id="recordId" />
     <h1 class="title">
       <router-link
         :to="{ name: 'task-view', params: { id: task.id } }"

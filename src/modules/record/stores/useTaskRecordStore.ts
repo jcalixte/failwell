@@ -124,7 +124,8 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       }
     },
     getRecord() {
-      return (recordId: string) => this.records[recordId] ?? null
+      return (recordId: string): Recordable | null =>
+        this.records[recordId] ?? null
     },
     getStepRecord() {
       return (recordId: string, stepId: string): StepRecordable | null =>
