@@ -5,9 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <header>
     <nav>
-      <h1 class="title is-3">
-        <router-link to="/">Loopycode</router-link>
-      </h1>
+      <router-link class="title is-3" to="/">Loopycode</router-link>
     </nav>
   </header>
 
