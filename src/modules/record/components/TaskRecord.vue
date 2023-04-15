@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { formatLongDate } from '@/shared/format-date'
-import { toISODate } from '@/shared/types/date'
-import { useMagicKeys, whenever } from '@vueuse/core'
 import { computed } from 'vue'
 import { useTaskRecordMetadata } from '../hooks/useTaskRecordMetadata'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
+import RecordControls from './RecordControls.vue'
+import RecordProgress from './RecordProgress.vue'
 import StepRecord from './StepRecord.vue'
 
 const props = defineProps<{
@@ -16,68 +16,13 @@ const props = defineProps<{
 const taskStore = useTaskStore()
 const recordStore = useTaskRecordStore()
 
+recordStore.addRecord(props.taskId, props.recordId)
+
 const task = computed(() => taskStore.getTask(props.taskId))
 
-const record = computed(() =>
-  recordStore.createAndRetrieveTaskRecord(props.taskId, props.recordId)
-)
+const record = computed(() => recordStore.getTaskRecord(props.recordId))
 const recordNotes = computed(() => recordStore.getRecordNotes(props.recordId))
 const { duration } = useTaskRecordMetadata(record)
-
-const getNextStepId = () => {
-  if (!task.value) {
-    return null
-  }
-
-  if (!recordStore.currentStepId) {
-    const [firstStep] = task.value.steps
-    return firstStep.id
-  }
-
-  const currentStepIndex = task.value.steps.findIndex(
-    (step) => step.id === recordStore.currentStepId
-  )
-
-  const canHaveNextIndex =
-    currentStepIndex >= 0 && currentStepIndex < task.value.steps.length - 1
-
-  if (canHaveNextIndex) {
-    return task.value.steps[currentStepIndex + 1].id
-  }
-
-  return null
-}
-
-const startRecording = () => {
-  if (!task.value) {
-    return
-  }
-
-  recordStore.startStepRecord({
-    recordId: props.recordId,
-    stepId: task.value.steps[0].id,
-    start: toISODate(new Date())
-  })
-}
-
-const nextStep = () => {
-  if (!task.value || !recordStore.currentStepId) {
-    return
-  }
-
-  recordStore.nextStepRecord({
-    recordId: record.value.id,
-    currentStepId: recordStore.currentStepId,
-    nextStepId: getNextStepId(),
-    tick: toISODate(new Date())
-  })
-}
-
-const { n } = useMagicKeys()
-
-whenever(n, () => {
-  nextStep()
-})
 
 const isSuperiorToEstimation = computed(() => {
   if (!task.value || !record.value || !duration.value) {
@@ -90,25 +35,18 @@ const isSuperiorToEstimation = computed(() => {
 
 <template>
   <main class="task-record" v-if="task">
-    <h1>
-      Task:
-      <router-link :to="{ name: 'task-view', params: { id: task.id } }">
+    <record-progress :task-id="taskId" :record-id="recordId" />
+    <h1 class="title">
+      <router-link
+        :to="{ name: 'task-view', params: { id: task.id } }"
+        class="button is-link is-light"
+      >
         {{ task.title }}
       </router-link>
     </h1>
-    <h2>{{ formatLongDate(record.start) }}</h2>
-    <template v-if="!record.end">
-      <button
-        v-if="!recordStore.currentStepId && !record.hasStepRecords"
-        @click="startRecording"
-      >
-        start
-      </button>
-      <button v-else @click="nextStep">next</button>
-    </template>
-
-    <button @click="recordStore.$reset">reset</button>
-    <table>
+    <h2 class="subtitle" v-if="record">{{ formatLongDate(record.start) }}</h2>
+    <record-controls :task-id="taskId" :record-id="recordId" />
+    <table class="table is-striped is-narrow is-hoverable is-fullwidth">
       <thead>
         <tr>
           <th>#</th>
@@ -119,44 +57,42 @@ const isSuperiorToEstimation = computed(() => {
         </tr>
       </thead>
       <tbody>
-        <StepRecord
+        <step-record
           v-for="(step, key) in task.steps"
           :task-id="taskId"
           :record-id="recordId"
           :key="step.id"
           :step-id="step.id"
-          :step-number="key"
+          :step-number="key + 1"
         />
       </tbody>
     </table>
-    <div v-if="record.end">
-      <hr />
-      The task took {{ duration }} minutes instead of
-      {{ task.totalEstimation }} minutes.
-      <span>
-        <span v-if="isSuperiorToEstimation">More</span><span v-else>Less</span>
-        than expected.
-      </span>
+    <div v-show="record && record.end" class="content">
+      <p
+        :class="{
+          'has-text-primary-dark': !isSuperiorToEstimation,
+          'has-text-warning-dark': isSuperiorToEstimation
+        }"
+      >
+        The task took {{ duration }} minutes instead of
+        {{ task.totalEstimation }} minutes.
+      </p>
     </div>
-    <textarea
-      name="record-notes"
-      id="record-notes"
-      cols="30"
-      rows="10"
-      :value="recordNotes"
-      @input="
-        //@ts-ignore
-        recordStore.updateRecordNotes(recordId, $event.target?.value)
-      "
-      placeholder="Take notes while you're doing the task. It can be helpful at the end to retrieve your thought."
-    ></textarea>
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <textarea
+          name="record-notes"
+          id="record-notes"
+          rows="10"
+          :value="recordNotes"
+          @input="
+            //@ts-ignore
+            recordStore.updateRecordNotes(recordId, $event.target.value)
+          "
+          placeholder="Take notes while you're doing the task. It can be helpful at the end to retrieve your thought."
+          class="textarea"
+        ></textarea>
+      </div>
+    </div>
   </main>
 </template>
-
-<style scoped lang="scss">
-.task-record {
-  table {
-    width: 100%;
-  }
-}
-</style>

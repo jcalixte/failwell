@@ -11,20 +11,23 @@ const { duration } = useTaskRecordMetadata(props.record)
 </script>
 
 <template>
-  <span>
+  <div class="task-record-link-container content">
     <router-link
-      class="task-record-link"
+      class="task-record-link button is-outlined"
       :to="{
         name: 'record-view',
         params: { taskId: record.taskId, recordId: record.id }
       }"
       >{{ formatDate(record.start) }}</router-link
     >
-    {{ duration }} minutes
-  </span>
+    <span v-if="duration !== null"> {{ duration }} minutes </span>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.task-record-link {
+.task-record-link-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 </style>

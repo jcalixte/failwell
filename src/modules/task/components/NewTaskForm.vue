@@ -43,21 +43,29 @@ const saveTask = () => {
 </script>
 
 <template>
-  <div>
-    <h1>Create a task</h1>
-    <h2>Estimation: {{ totalEstimation }} minutes</h2>
-    <form @submit.prevent="saveTask">
-      <button type="submit">save task</button>
-      <div>
-        <label for="title">Title</label>
-        <input type="text" id="title" v-model="title" />
-      </div>
-      <div>
-        <label for="link">User story link</label>
-        <input type="text" id="link" v-model="link" />
-      </div>
-      <StepInput v-model="steps" />
-    </form>
+  <div class="columns is-centered">
+    <div class="column is-half">
+      <h1 class="title">Create a task</h1>
+      <h2 class="subtitle">Estimation: {{ totalEstimation }} minutes</h2>
+      <form @submit.prevent="saveTask">
+        <div class="field">
+          <label class="label" for="title">Title</label>
+          <div class="control">
+            <input class="input" type="text" id="title" v-model="title" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="link">User story link</label>
+          <div class="control">
+            <input class="input" type="text" id="link" v-model="link" />
+          </div>
+        </div>
+        <StepInput v-model="steps" />
+        <button class="button is-primary is-fullwidth" type="submit">
+          save
+        </button>
+      </form>
+    </div>
   </div>
 </template>
 

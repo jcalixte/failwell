@@ -1,0 +1,26 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Oxygen+Mono&display=swap');
+
+$family-monospace: 'Oxygen Mono',
+  monospace;
+
+$family-primary: $family-monospace;
+
+@import '../../node_modules/bulma/bulma.sass';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  transition: color 0.5s, background-color 0.5s;
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0 1rem;
+}

@@ -12,8 +12,3 @@ defineProps<{
     <TaskRecord :task-id="taskId" :record-id="recordId" />
   </div>
 </template>
-
-<style scoped lang="scss">
-.record-view {
-}
-</style>
