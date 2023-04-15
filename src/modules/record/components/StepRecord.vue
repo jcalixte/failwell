@@ -59,9 +59,11 @@ const isSuperiorToEstimation = computed(() => {
       <span v-else-if="isSuperiorToEstimation"> ⚠️ </span>
       <span v-else>⌛</span>
     </td>
-    <td class="step-title">
-      <div v-if="isCurrentStep" class="blob green"></div>
-      {{ step.title }}
+    <td>
+      <div class="step-title">
+        <div v-if="isCurrentStep" class="blob green"></div>
+        {{ step.title }}
+      </div>
     </td>
     <td class="estimation">{{ step.estimation }} minutes</td>
     <td v-if="stepRecord">{{ duration }} minutes</td>
