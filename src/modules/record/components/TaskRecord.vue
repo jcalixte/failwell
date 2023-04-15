@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { formatLongDate } from '@/shared/format-date'
+import { useLoopyTitle } from '@/shared/useLoopyTitle'
 import { computed } from 'vue'
 import { useTaskRecordMetadata } from '../hooks/useTaskRecordMetadata'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
@@ -19,6 +20,8 @@ const recordStore = useTaskRecordStore()
 recordStore.addRecord(props.taskId, props.recordId)
 
 const task = computed(() => taskStore.getTask(props.taskId))
+
+useLoopyTitle(task.value?.title ?? '')
 
 const record = computed(() => recordStore.getTaskRecord(props.recordId))
 const recordNotes = computed(() => recordStore.getRecordNotes(props.recordId))
