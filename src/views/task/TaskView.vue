@@ -31,13 +31,7 @@ const task = computed(() => taskStore.getTask(props.id))
         </li>
       </ol>
     </div>
-    <hr />
     <task-record-list :task-id="id" />
   </div>
   <div v-else>Task not found</div>
 </template>
-
-<style scoped>
-.task-view {
-}
-</style>

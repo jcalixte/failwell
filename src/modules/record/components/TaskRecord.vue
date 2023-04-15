@@ -48,8 +48,12 @@ const getNextStepId = () => {
   return null
 }
 
+const canStart = computed(
+  () => !recordStore.currentStepId && !record.value.hasStepRecords
+)
+
 const startRecording = () => {
-  if (!task.value) {
+  if (!canStart.value || !task.value) {
     return
   }
 
@@ -73,10 +77,14 @@ const nextStep = () => {
   })
 }
 
-const { n } = useMagicKeys()
+const { n, s } = useMagicKeys()
 
 whenever(n, () => {
   nextStep()
+})
+
+whenever(s, () => {
+  startRecording()
 })
 
 const isSuperiorToEstimation = computed(() => {
@@ -90,25 +98,32 @@ const isSuperiorToEstimation = computed(() => {
 
 <template>
   <main class="task-record" v-if="task">
-    <h1>
-      Task:
-      <router-link :to="{ name: 'task-view', params: { id: task.id } }">
+    <h1 class="title">
+      <router-link
+        :to="{ name: 'task-view', params: { id: task.id } }"
+        class="button is-link is-light"
+      >
         {{ task.title }}
       </router-link>
     </h1>
-    <h2>{{ formatLongDate(record.start) }}</h2>
-    <template v-if="!record.end">
-      <button
-        v-if="!recordStore.currentStepId && !record.hasStepRecords"
-        @click="startRecording"
-      >
-        start
-      </button>
-      <button v-else @click="nextStep">next</button>
-    </template>
+    <h2 class="subtitle">{{ formatLongDate(record.start) }}</h2>
+    <div class="buttons">
+      <template v-if="!record.end">
+        <button
+          v-if="canStart"
+          @click="startRecording"
+          class="button is-primary"
+        >
+          start
+        </button>
+        <button class="button" v-else @click="nextStep">next</button>
+      </template>
 
-    <button @click="recordStore.$reset">reset</button>
-    <table>
+      <button class="button is-warning" @click="recordStore.$reset">
+        reset
+      </button>
+    </div>
+    <table class="table is-striped is-narrow is-hoverable is-fullwidth">
       <thead>
         <tr>
           <th>#</th>
@@ -125,38 +140,36 @@ const isSuperiorToEstimation = computed(() => {
           :record-id="recordId"
           :key="step.id"
           :step-id="step.id"
-          :step-number="key"
+          :step-number="key + 1"
         />
       </tbody>
     </table>
-    <div v-if="record.end">
-      <hr />
-      The task took {{ duration }} minutes instead of
-      {{ task.totalEstimation }} minutes.
-      <span>
-        <span v-if="isSuperiorToEstimation">More</span><span v-else>Less</span>
-        than expected.
-      </span>
+    <div v-if="record.end" class="content">
+      <p
+        :class="{
+          'has-text-primary-dark': !isSuperiorToEstimation,
+          'has-text-warning-dark': isSuperiorToEstimation
+        }"
+      >
+        The task took {{ duration }} minutes instead of
+        {{ task.totalEstimation }} minutes.
+      </p>
     </div>
-    <textarea
-      name="record-notes"
-      id="record-notes"
-      cols="30"
-      rows="10"
-      :value="recordNotes"
-      @input="
-        //@ts-ignore
-        recordStore.updateRecordNotes(recordId, $event.target?.value)
-      "
-      placeholder="Take notes while you're doing the task. It can be helpful at the end to retrieve your thought."
-    ></textarea>
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <textarea
+          name="record-notes"
+          id="record-notes"
+          rows="10"
+          :value="recordNotes"
+          @input="
+            //@ts-ignore
+            recordStore.updateRecordNotes(recordId, $event.target.value)
+          "
+          placeholder="Take notes while you're doing the task. It can be helpful at the end to retrieve your thought."
+          class="textarea"
+        ></textarea>
+      </div>
+    </div>
   </main>
 </template>
-
-<style scoped lang="scss">
-.task-record {
-  table {
-    width: 100%;
-  }
-}
-</style>

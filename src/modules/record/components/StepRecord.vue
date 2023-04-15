@@ -59,7 +59,7 @@ const isSuperiorToEstimation = computed(() => {
       <span v-else-if="isSuperiorToEstimation"> ⚠️ </span>
       <span v-else>⌛</span>
     </td>
-    <td class="title">
+    <td class="step-title">
       <div v-if="isCurrentStep" class="blob green"></div>
       {{ step.title }}
     </td>
@@ -92,7 +92,7 @@ const isSuperiorToEstimation = computed(() => {
     animation: pulse 2s infinite;
   }
 
-  .title {
+  .step-title {
     display: flex;
     align-items: center;
     padding-right: 1rem;

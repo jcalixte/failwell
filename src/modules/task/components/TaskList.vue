@@ -16,8 +16,3 @@ const taskStore = useTaskStore()
     </li>
   </ul>
 </template>
-
-<style scoped>
-.task-list {
-}
-</style>
