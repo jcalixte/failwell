@@ -13,7 +13,7 @@ const { duration } = useTaskRecordMetadata(props.record)
 <template>
   <span>
     <router-link
-      class="task-record-link"
+      class="task-record-link button is-link"
       :to="{
         name: 'record-view',
         params: { taskId: record.taskId, recordId: record.id }

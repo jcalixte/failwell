@@ -25,6 +25,7 @@ const newRecordId = createUuid()
       name: 'record-view',
       params: { taskId, recordId: newRecordId }
     }"
+    class="button is-primary"
     >start a new record</router-link
   >
 </template>

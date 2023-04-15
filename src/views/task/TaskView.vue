@@ -14,20 +14,23 @@ const task = computed(() => taskStore.getTask(props.id))
 
 <template>
   <div class="task-view" v-if="task">
-    <h1>{{ task.title }}</h1>
-    <h2>{{ task.totalEstimation }} minutes</h2>
+    <h1 class="title">{{ task.title }}</h1>
+    <h2 class="subtitle">{{ task.totalEstimation }} minutes</h2>
     <a
       v-if="task.link"
       :href="task.link"
       target="_blank"
       rel="noopener noreferrer"
-      >User Story link</a
+      class="button is-link"
+      >user story link</a
     >
-    <ul>
-      <li v-for="step in task.steps" :key="step.id">
-        <div>{{ step.title }} | {{ step.estimation }}</div>
-      </li>
-    </ul>
+    <div class="content is-large">
+      <ol>
+        <li v-for="step in task.steps" :key="step.id">
+          <div>{{ step.title }} | {{ step.estimation }}</div>
+        </li>
+      </ol>
+    </div>
     <hr />
     <task-record-list :task-id="id" />
   </div>
