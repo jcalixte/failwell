@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { toISODate } from '@/shared/types/date'
-import { useMagicKeys, whenever } from '@vueuse/core'
+import { useActiveElement, useMagicKeys, whenever } from '@vueuse/core'
+import { logicAnd } from '@vueuse/math'
 import { computed } from 'vue'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
 
@@ -40,7 +41,11 @@ const getNextStepId = () => {
   return null
 }
 
-const canStart = computed(() => !recordStore.currentStepId)
+const canStart = computed(
+  () =>
+    !recordStore.currentStepId &&
+    Object.values(record.value?.stepRecords ?? {}).length === 0
+)
 
 const startRecording = () => {
   if (!canStart.value || !task.value) {
@@ -67,13 +72,19 @@ const nextStep = () => {
   })
 }
 
+const activeElement = useActiveElement()
+const INPUT_MATTERS = ['INPUT', 'TEXTAREA']
+const notUsingInput = computed(
+  () => !INPUT_MATTERS.includes(activeElement.value?.tagName)
+)
+
 const { n, s } = useMagicKeys()
 
-whenever(n, () => {
+whenever(logicAnd(notUsingInput, n), () => {
   nextStep()
 })
 
-whenever(s, () => {
+whenever(logicAnd(notUsingInput, s), () => {
   startRecording()
 })
 </script>
