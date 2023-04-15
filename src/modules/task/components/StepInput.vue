@@ -29,15 +29,18 @@ const stepsTextarea = computed({
 </script>
 
 <template>
-  <div class="step-input">
-    <label for="steps">steps</label>
-    <textarea
-      id="steps"
-      name="steps"
-      v-model="stepsTextarea"
-      cols="40"
-      rows="20"
-    ></textarea>
+  <div class="step-input field">
+    <label class="label" for="steps">steps</label>
+    <div class="control">
+      <textarea
+        id="steps"
+        name="steps"
+        v-model="stepsTextarea"
+        rows="15"
+        class="textarea"
+        placeholder="- [step] | <minutes you estimate it will take>"
+      ></textarea>
+    </div>
   </div>
 </template>
 
