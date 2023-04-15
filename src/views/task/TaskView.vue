@@ -15,7 +15,12 @@ const task = computed(() => taskStore.getTask(props.id))
 <template>
   <div class="task-view" v-if="task">
     <h1 class="title">{{ task.title }}</h1>
-    <h2 class="subtitle">{{ task.totalEstimation }} minutes</h2>
+    <h2 class="subtitle">
+      <div class="tags has-addons">
+        <div class="tag">ETA</div>
+        <div class="tag is-primary">{{ task.totalEstimation }} minutes</div>
+      </div>
+    </h2>
     <a
       v-if="task.link"
       :href="task.link"
@@ -24,20 +29,18 @@ const task = computed(() => taskStore.getTask(props.id))
       class="button is-link"
       >user story link</a
     >
-    <div class="columns">
-      <div class="column content is-large">
-        <h3 class="subtitle is-4">Tasks</h3>
-        <ol>
-          <li v-for="step in task.steps" :key="step.id">
-            <div class="step-item">
-              <span>{{ step.title }}</span>
-              <span class="tag">{{ step.estimation }} minutes</span>
-            </div>
-          </li>
-        </ol>
-      </div>
-      <task-record-list class="column" :task-id="id" />
+    <div class="content">
+      <h3 class="subtitle is-4">Tasks</h3>
+      <ol>
+        <li v-for="step in task.steps" :key="step.id">
+          <div class="step-item">
+            <span>{{ step.title }}</span>
+            <span class="tag">{{ step.estimation }} minutes</span>
+          </div>
+        </li>
+      </ol>
     </div>
+    <task-record-list :task-id="id" />
   </div>
   <div v-else>Task not found</div>
 </template>
@@ -48,6 +51,6 @@ const task = computed(() => taskStore.getTask(props.id))
   align-items: center;
   gap: 1rem;
   justify-content: space-between;
-  max-width: 400px;
+  max-width: 600px;
 }
 </style>

@@ -37,17 +37,19 @@ const isSuperiorToEstimation = computed(() => {
 
 <template>
   <main class="task-record" v-if="task">
-    <record-progress :task-id="taskId" />
     <h1 class="title">
-      <router-link
-        :to="{ name: 'task-view', params: { id: task.id } }"
-        class="button is-link is-light"
-      >
-        {{ task.title }}
-      </router-link>
+      <button @click="$router.go(-1)" class="button is-white">⬅️</button>
+      {{ task.title }}
     </h1>
-    <h2 class="subtitle" v-if="record">{{ formatLongDate(record.start) }}</h2>
+    <h2 class="subtitle" v-if="record">
+      {{ formatLongDate(record.start) }}
+      <div class="tags has-addons">
+        <div class="tag">ETA</div>
+        <div class="tag is-primary">{{ task.totalEstimation }} minutes</div>
+      </div>
+    </h2>
     <record-controls :task-id="taskId" />
+    <record-progress :task-id="taskId" />
     <table class="table is-striped is-hoverable is-fullwidth">
       <thead>
         <tr>
