@@ -14,9 +14,7 @@ const taskStore = useTaskStore()
 const recordStore = useTaskRecordStore()
 
 const task = computed(() => taskStore.getTask(props.taskId))
-const record = computed(() =>
-  recordStore.createAndRetrieveTaskRecord(props.taskId, props.recordId)
-)
+const record = computed(() => recordStore.getTaskRecord(props.recordId))
 
 const getNextStepId = () => {
   if (!task.value) {
@@ -42,9 +40,7 @@ const getNextStepId = () => {
   return null
 }
 
-const canStart = computed(
-  () => !recordStore.currentStepId && !record.value.hasStepRecords
-)
+const canStart = computed(() => !recordStore.currentStepId)
 
 const startRecording = () => {
   if (!canStart.value || !task.value) {
@@ -59,7 +55,7 @@ const startRecording = () => {
 }
 
 const nextStep = () => {
-  if (!task.value || !recordStore.currentStepId) {
+  if (!task.value || !recordStore.currentStepId || !record.value) {
     return
   }
 
@@ -84,13 +80,15 @@ whenever(s, () => {
 
 <template>
   <div class="record-controls buttons">
-    <template v-if="!record.end">
+    <template v-if="!record || !record.end">
       <button v-if="canStart" @click="startRecording" class="button is-primary">
         start
       </button>
       <button class="button" v-else @click="nextStep">next</button>
     </template>
 
-    <button class="button is-warning" @click="recordStore.$reset">reset</button>
+    <button class="button is-warning" @click="recordStore.reset(recordId)">
+      reset
+    </button>
   </div>
 </template>

@@ -16,11 +16,11 @@ const props = defineProps<{
 const taskStore = useTaskStore()
 const recordStore = useTaskRecordStore()
 
+recordStore.addRecord(props.taskId, props.recordId)
+
 const task = computed(() => taskStore.getTask(props.taskId))
 
-const record = computed(() =>
-  recordStore.createAndRetrieveTaskRecord(props.taskId, props.recordId)
-)
+const record = computed(() => recordStore.getTaskRecord(props.recordId))
 const recordNotes = computed(() => recordStore.getRecordNotes(props.recordId))
 const { duration } = useTaskRecordMetadata(record)
 
@@ -44,7 +44,7 @@ const isSuperiorToEstimation = computed(() => {
         {{ task.title }}
       </router-link>
     </h1>
-    <h2 class="subtitle">{{ formatLongDate(record.start) }}</h2>
+    <h2 class="subtitle" v-if="record">{{ formatLongDate(record.start) }}</h2>
     <record-controls :task-id="taskId" :record-id="recordId" />
     <table class="table is-striped is-narrow is-hoverable is-fullwidth">
       <thead>
@@ -67,7 +67,7 @@ const isSuperiorToEstimation = computed(() => {
         />
       </tbody>
     </table>
-    <div v-if="record.end" class="content">
+    <div v-show="record && record.end" class="content">
       <p
         :class="{
           'has-text-primary-dark': !isSuperiorToEstimation,
