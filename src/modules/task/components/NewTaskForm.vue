@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { createUuid } from '@/shared/create-uuid'
-import { faker } from '@faker-js/faker'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { createStepFixture } from '../models/step.fixture'
+import type { Stepable } from '../interfaces/stepable'
 import { Task } from '../models/task'
 import { useTaskStore } from '../stores/useTask.store'
 import StepInput from './StepInput.vue'
@@ -13,13 +12,11 @@ const router = useRouter()
 
 const id = createUuid()
 
-const title = ref(faker.animal.bird())
-const link = ref(faker.internet.url())
-const steps = ref(
-  Array.from({ length: Math.floor(Math.random() * 10) }, () =>
-    createStepFixture()
-  )
-)
+const title = ref('')
+const link = ref('')
+
+const steps = ref<Stepable[]>([])
+
 const totalEstimation = computed(() =>
   steps.value.map((step) => step.estimation).reduce((a, b) => a + b, 0)
 )
