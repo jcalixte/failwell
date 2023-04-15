@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^9.13.0",
+    "bulma": "^0.9.4",
     "nanoid": "^4.0.2",
     "pinia": "^2.0.34",
     "pinia-plugin-persistedstate": "^3.1.0",
