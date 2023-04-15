@@ -8,14 +8,13 @@ import { useTaskRecordStore } from '../stores/useTaskRecordStore'
 
 const props = defineProps<{
   taskId: string
-  recordId: string
 }>()
 
 const taskStore = useTaskStore()
 const recordStore = useTaskRecordStore()
 
 const task = computed(() => taskStore.getTask(props.taskId))
-const record = computed(() => recordStore.getTaskRecord(props.recordId))
+const record = computed(() => recordStore.getTaskRecord(props.taskId))
 
 const getNextStepId = () => {
   if (!task.value) {
@@ -53,7 +52,7 @@ const startRecording = () => {
   }
 
   recordStore.startStepRecord({
-    recordId: props.recordId,
+    taskId: props.taskId,
     stepId: task.value.steps[0].id,
     start: toISODate(new Date())
   })
@@ -65,7 +64,7 @@ const nextStep = () => {
   }
 
   recordStore.nextStepRecord({
-    recordId: record.value.id,
+    taskId: record.value.taskId,
     currentStepId: recordStore.currentStepId,
     nextStepId: getNextStepId(),
     tick: toISODate(new Date())
@@ -98,7 +97,7 @@ whenever(logicAnd(notUsingInput, s), () => {
       <button class="button" v-else @click="nextStep">next</button>
     </template>
 
-    <button class="button is-warning" @click="recordStore.reset(recordId)">
+    <button class="button is-warning" @click="recordStore.reset(taskId)">
       reset
     </button>
   </div>

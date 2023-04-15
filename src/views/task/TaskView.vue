@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TaskRecordList from '@/modules/record/components/TaskRecordList.vue'
+import TaskRecordList from '@/modules/record/components/TaskRecordPreview.vue'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { computed } from 'vue'
 

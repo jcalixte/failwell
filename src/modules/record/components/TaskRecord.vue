@@ -11,20 +11,19 @@ import StepRecord from './StepRecord.vue'
 
 const props = defineProps<{
   taskId: string
-  recordId: string
 }>()
 
 const taskStore = useTaskStore()
 const recordStore = useTaskRecordStore()
 
-recordStore.addRecord(props.taskId, props.recordId)
+recordStore.addRecord(props.taskId)
 
 const task = computed(() => taskStore.getTask(props.taskId))
 
 useLoopyTitle(task.value?.title ?? '')
 
-const record = computed(() => recordStore.getTaskRecord(props.recordId))
-const recordNotes = computed(() => recordStore.getRecordNotes(props.recordId))
+const record = computed(() => recordStore.getTaskRecord(props.taskId))
+const recordNotes = computed(() => recordStore.getRecordNotes(props.taskId))
 const { duration } = useTaskRecordMetadata(record)
 
 const isSuperiorToEstimation = computed(() => {
@@ -38,7 +37,7 @@ const isSuperiorToEstimation = computed(() => {
 
 <template>
   <main class="task-record" v-if="task">
-    <record-progress :task-id="taskId" :record-id="recordId" />
+    <record-progress :task-id="taskId" />
     <h1 class="title">
       <router-link
         :to="{ name: 'task-view', params: { id: task.id } }"
@@ -48,7 +47,7 @@ const isSuperiorToEstimation = computed(() => {
       </router-link>
     </h1>
     <h2 class="subtitle" v-if="record">{{ formatLongDate(record.start) }}</h2>
-    <record-controls :task-id="taskId" :record-id="recordId" />
+    <record-controls :task-id="taskId" />
     <table class="table is-striped is-hoverable is-fullwidth">
       <thead>
         <tr>
@@ -63,7 +62,6 @@ const isSuperiorToEstimation = computed(() => {
         <step-record
           v-for="(step, key) in task.steps"
           :task-id="taskId"
-          :record-id="recordId"
           :key="step.id"
           :step-id="step.id"
           :step-number="key + 1"

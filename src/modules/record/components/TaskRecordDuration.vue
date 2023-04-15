@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { formatDate } from '@/shared/format-date'
 import { useTaskRecordMetadata } from '../hooks/useTaskRecordMetadata'
 import type { TaskRecord } from '../models/task-record'
 
@@ -12,15 +11,7 @@ const { duration } = useTaskRecordMetadata(props.record)
 
 <template>
   <div class="task-record-link-container content">
-    <router-link
-      class="task-record-link button is-outlined"
-      :to="{
-        name: 'record-view',
-        params: { taskId: record.taskId, recordId: record.id }
-      }"
-      >{{ formatDate(record.start) }}</router-link
-    >
-    <span v-if="duration !== null"> {{ duration }} minutes </span>
+    <span v-if="duration !== null">last time: {{ duration }} minutes </span>
   </div>
 </template>
 

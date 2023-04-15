@@ -8,17 +8,14 @@ export class TaskRecord implements Recordable {
   public stepRecords: Record<string, StepRecordable> = {}
   public notes = ''
 
-  public constructor(
-    public readonly id: string,
-    public readonly taskId: string
-  ) {}
+  public constructor(public readonly taskId: string) {}
 
   public get hasStepRecords() {
     return Object.values(this.stepRecords).length > 0
   }
 
   public static fromRecordable(recordable: Recordable) {
-    const taskRecord = new TaskRecord(recordable.id, recordable.taskId)
+    const taskRecord = new TaskRecord(recordable.taskId)
 
     taskRecord.stepRecords = recordable.stepRecords
     taskRecord.start = recordable.start

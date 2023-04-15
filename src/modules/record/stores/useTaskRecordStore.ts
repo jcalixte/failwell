@@ -16,21 +16,22 @@ export const useTaskRecordStore = defineStore('task-record-store', {
     records: {}
   }),
   actions: {
-    addRecord(taskId: string, recordId: string) {
-      if (recordId in this.records) {
+    addRecord(taskId: string) {
+      if (taskId in this.records) {
         return
       }
-      this.records[recordId] = new TaskRecord(recordId, taskId)
+
+      this.records[taskId] = new TaskRecord(taskId)
     },
-    removeRecord(recordId: string) {
-      delete this.records[recordId]
+    removeRecord(taskId: string) {
+      delete this.records[taskId]
     },
     startStepRecord(params: {
-      recordId: string
+      taskId: string
       stepId: string
       start: ISODate
     }) {
-      const record = this.records[params.recordId]
+      const record = this.records[params.taskId]
 
       if (Object.values(record.stepRecords).length === 0) {
         record.start = params.start
@@ -39,7 +40,7 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       this.$patch({
         records: {
           ...this.records,
-          [params.recordId]: {
+          [params.taskId]: {
             ...record,
             stepRecords: {
               ...record.stepRecords,
@@ -52,9 +53,8 @@ export const useTaskRecordStore = defineStore('task-record-store', {
         currentStepId: params.stepId
       })
     },
-    endStepRecord(params: { recordId: string; stepId: string; end: ISODate }) {
-      const stepRecord =
-        this.records[params.recordId]?.stepRecords[params.stepId]
+    endStepRecord(params: { taskId: string; stepId: string; end: ISODate }) {
+      const stepRecord = this.records[params.taskId]?.stepRecords[params.stepId]
 
       if (!stepRecord) {
         return
@@ -63,44 +63,44 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       stepRecord.end = params.end
     },
     nextStepRecord(params: {
-      recordId: string
+      taskId: string
       currentStepId: string
       nextStepId: string | null
       tick: ISODate
     }) {
       this.endStepRecord({
-        recordId: params.recordId,
+        taskId: params.taskId,
         stepId: params.currentStepId,
         end: params.tick
       })
 
       if (!params.nextStepId) {
-        this.endRecord(params.recordId)
+        this.endRecord(params.taskId)
         return
       }
 
       this.startStepRecord({
-        recordId: params.recordId,
+        taskId: params.taskId,
         stepId: params.nextStepId,
         start: params.tick
       })
     },
-    endRecord(recordId: string) {
-      if (!this.records[recordId]) {
+    endRecord(taskId: string) {
+      if (!this.records[taskId]) {
         return
       }
 
-      this.records[recordId].end = toISODate(new Date())
+      this.records[taskId].end = toISODate(new Date())
       this.currentStepId = null
     },
-    updateRecordNotes(recordId: string, notes: string) {
-      const record = this.records[recordId]
+    updateRecordNotes(taskId: string, notes: string) {
+      const record = this.records[taskId]
 
       if (record) {
         this.$patch({
           records: {
             ...this.records,
-            [recordId]: {
+            [taskId]: {
               ...record,
               notes
             }
@@ -108,43 +108,36 @@ export const useTaskRecordStore = defineStore('task-record-store', {
         })
       }
     },
-    reset(recordId: string) {
+    reset(taskId: string) {
       this.currentStepId = null
-      if (!this.records[recordId]) {
+      if (!this.records[taskId]) {
         return
       }
-      this.records[recordId].stepRecords = {}
-      this.records[recordId].end = undefined
+      this.records[taskId].stepRecords = {}
+      this.records[taskId].end = undefined
     }
   },
   getters: {
-    getTaskRecords() {
-      return (taskId: string): TaskRecord[] =>
-        Object.values(this.records)
-          .filter((record) => record.taskId === taskId)
-          .map((record) => TaskRecord.fromRecordable(record))
-    },
     getTaskRecord() {
-      return (recordId: string): TaskRecord | null => {
-        const hasTaskRecord = !!this.records[recordId]
+      return (taskId: string): TaskRecord | null => {
+        const hasTaskRecord = !!this.records[taskId]
 
         if (hasTaskRecord) {
-          return TaskRecord.fromRecordable(this.records[recordId])
+          return TaskRecord.fromRecordable(this.records[taskId])
         }
 
         return null
       }
     },
     getRecord() {
-      return (recordId: string): Recordable | null =>
-        this.records[recordId] ?? null
+      return (taskId: string): Recordable | null => this.records[taskId] ?? null
     },
     getStepRecord() {
-      return (recordId: string, stepId: string): StepRecordable | null =>
-        this.records[recordId]?.stepRecords[stepId] ?? null
+      return (taskId: string, stepId: string): StepRecordable | null =>
+        this.records[taskId]?.stepRecords[stepId] ?? null
     },
     getRecordNotes() {
-      return (recordId: string): string => this.records[recordId]?.notes ?? ''
+      return (taskId: string): string => this.records[taskId]?.notes ?? ''
     }
   }
 })

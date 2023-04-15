@@ -7,7 +7,6 @@ import { useTaskRecordStore } from '../stores/useTaskRecordStore'
 
 const props = defineProps<{
   taskId: string
-  recordId: string
   stepId: string
   stepNumber: number
 }>()
@@ -17,7 +16,7 @@ const recordStore = useTaskRecordStore()
 
 const step = computed(() => taskStore.getStep(props.taskId, props.stepId))
 const stepRecord = computed(() =>
-  recordStore.getStepRecord(props.recordId, props.stepId)
+  recordStore.getStepRecord(props.taskId, props.stepId)
 )
 const isCurrentStep = computed(() => recordStore.currentStepId === props.stepId)
 

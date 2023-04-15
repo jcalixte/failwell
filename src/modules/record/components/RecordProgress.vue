@@ -5,14 +5,13 @@ import { useTaskRecordStore } from '../stores/useTaskRecordStore'
 
 const props = defineProps<{
   taskId: string
-  recordId: string
 }>()
 
 const taskStore = useTaskStore()
 const taskRecordStore = useTaskRecordStore()
 
 const task = computed(() => taskStore.getTask(props.taskId))
-const record = computed(() => taskRecordStore.getRecord(props.recordId))
+const record = computed(() => taskRecordStore.getRecord(props.taskId))
 
 const numberOfFinishedSteps = computed(
   () =>
