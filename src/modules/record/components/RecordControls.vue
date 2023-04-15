@@ -75,7 +75,7 @@ const nextStep = () => {
 const activeElement = useActiveElement()
 const INPUT_MATTERS = ['INPUT', 'TEXTAREA']
 const notUsingInput = computed(
-  () => !INPUT_MATTERS.includes(activeElement.value?.tagName)
+  () => !INPUT_MATTERS.includes(activeElement.value?.tagName ?? '')
 )
 
 const { n, s } = useMagicKeys()
