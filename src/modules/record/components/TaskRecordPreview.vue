@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useTaskRecordMetadata } from '../hooks/useTaskRecordMetadata'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
-import TaskRecordDuration from './TaskRecordDuration.vue'
 
 const props = defineProps<{
   taskId: string
@@ -10,15 +10,18 @@ const props = defineProps<{
 const recordStore = useTaskRecordStore()
 
 const taskRecord = computed(() => recordStore.getTaskRecord(props.taskId))
+const { duration } = useTaskRecordMetadata(taskRecord)
 </script>
 
 <template>
   <div>
     <div class="content">
-      <h3 class="subtitle is-4">Record</h3>
-      <task-record-duration v-if="taskRecord" :record="taskRecord" />
+      <div v-if="taskRecord" class="task-record-link-container content">
+        <span v-if="duration !== null">last time: {{ duration }} minutes </span>
+      </div>
       <div v-else>No record yet</div>
     </div>
+    <hr />
     <router-link
       :to="{
         name: 'record-view',
@@ -29,3 +32,11 @@ const taskRecord = computed(() => recordStore.getTaskRecord(props.taskId))
     >
   </div>
 </template>
+
+<style scoped lang="scss">
+.task-record-link-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+</style>

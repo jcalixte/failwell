@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TaskRecordList from '@/modules/record/components/TaskRecordPreview.vue'
+import TaskRecordPreview from '@/modules/record/components/TaskRecordPreview.vue'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { computed } from 'vue'
 
@@ -30,7 +30,6 @@ const task = computed(() => taskStore.getTask(props.id))
       >user story link</a
     >
     <div class="content">
-      <h3 class="subtitle is-4">Tasks</h3>
       <ol>
         <li v-for="step in task.steps" :key="step.id">
           <div class="step-item">
@@ -40,7 +39,7 @@ const task = computed(() => taskStore.getTask(props.id))
         </li>
       </ol>
     </div>
-    <task-record-list :task-id="id" />
+    <task-record-preview :task-id="id" />
   </div>
   <div v-else>Task not found</div>
 </template>
