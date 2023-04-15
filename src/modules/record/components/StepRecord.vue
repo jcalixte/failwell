@@ -73,7 +73,10 @@ const isSuperiorToEstimation = computed(() => {
 </template>
 
 <style scoped lang="scss">
+@import '@/assets/variables';
+
 $blob-size: 15px;
+$blob-color: $link;
 
 .step-record {
   .status {
@@ -96,8 +99,8 @@ $blob-size: 15px;
     border-radius: 50%;
     height: $blob-size;
     width: $blob-size;
-    background: rgba(51, 217, 178, 1);
-    box-shadow: 0 0 0 0 rgba(51, 217, 178, 1);
+    background: $blob-color;
+    box-shadow: 0 0 0 0 $blob-color;
     animation: pulse 2s infinite;
   }
 
@@ -113,7 +116,7 @@ $blob-size: 15px;
 @keyframes pulse {
   0% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(51, 217, 178, 0.7);
+    box-shadow: 0 0 0 0 $blob-color;
   }
 
   70% {

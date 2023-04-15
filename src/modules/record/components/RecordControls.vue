@@ -89,7 +89,7 @@ whenever(logicAnd(notUsingInput, s), () => {
 </script>
 
 <template>
-  <div class="record-controls buttons">
+  <div class="record-controls buttons has-addons">
     <template v-if="!record || !record.end">
       <button v-if="canStart" @click="startRecording" class="button is-primary">
         start
