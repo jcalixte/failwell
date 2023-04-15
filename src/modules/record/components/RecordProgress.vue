@@ -27,5 +27,7 @@ const numberOfFinishedSteps = computed(
     class="progress is-primary"
     :value="numberOfFinishedSteps"
     :max="task.steps.length ?? 0"
-  ></progress>
+  >
+    {{ numberOfFinishedSteps }}/{{ task.steps.length }}
+  </progress>
 </template>
