@@ -24,14 +24,30 @@ const task = computed(() => taskStore.getTask(props.id))
       class="button is-link"
       >user story link</a
     >
-    <div class="content is-large">
-      <ol>
-        <li v-for="step in task.steps" :key="step.id">
-          <div>{{ step.title }} | {{ step.estimation }}</div>
-        </li>
-      </ol>
+    <div class="columns">
+      <div class="column content is-large">
+        <h3 class="subtitle is-4">Tasks</h3>
+        <ol>
+          <li v-for="step in task.steps" :key="step.id">
+            <div class="step-item">
+              <span>{{ step.title }}</span>
+              <span class="tag">{{ step.estimation }} minutes</span>
+            </div>
+          </li>
+        </ol>
+      </div>
+      <task-record-list class="column" :task-id="id" />
     </div>
-    <task-record-list :task-id="id" />
   </div>
   <div v-else>Task not found</div>
 </template>
+
+<style scoped>
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+  max-width: 400px;
+}
+</style>

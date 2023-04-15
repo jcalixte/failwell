@@ -14,7 +14,7 @@ const taskStore = useTaskStore()
           class="button is-link is-outlined"
           >{{ task.title }}</router-link
         >
-        <span> {{ task.totalEstimation }} minutes </span>
+        <span class="tag">{{ task.totalEstimation }} minutes</span>
         <span>{{ formatDate(task.date) }}</span>
       </li>
     </ul>
