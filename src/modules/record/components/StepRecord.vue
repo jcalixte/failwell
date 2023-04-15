@@ -51,19 +51,21 @@ const isSuperiorToEstimation = computed(() => {
 
 <template>
   <tr v-if="step" class="step-record">
-    <td class="rank">
-      {{ stepNumber }}
+    <td class="td-rank">
+      <div class="rank">
+        <div v-if="isCurrentStep" class="blob green"></div>
+        <span v-else>
+          {{ stepNumber }}
+        </span>
+      </div>
     </td>
     <td class="status">
       <span v-if="stepRecord?.end && !isSuperiorToEstimation">✅</span>
       <span v-else-if="isSuperiorToEstimation"> ⚠️ </span>
       <span v-else>⌛</span>
     </td>
-    <td>
-      <div class="step-title">
-        <div v-if="isCurrentStep" class="blob green"></div>
-        {{ step.title }}
-      </div>
+    <td class="step-title">
+      {{ step.title }}
     </td>
     <td class="estimation minutes">{{ step.estimation }} min</td>
     <td class="minutes" v-if="stepRecord">{{ duration }} min</td>
@@ -85,22 +87,23 @@ $blob-size: 15px;
 
   .rank {
     text-align: right;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    min-height: 30px;
   }
 
   .blob {
     border-radius: 50%;
-    min-height: $blob-size;
-    min-width: $blob-size;
+    height: $blob-size;
+    width: $blob-size;
     background: rgba(51, 217, 178, 1);
     box-shadow: 0 0 0 0 rgba(51, 217, 178, 1);
     animation: pulse 2s infinite;
   }
 
   .step-title {
-    display: flex;
-    align-items: center;
     padding-right: 1rem;
-    gap: 1rem;
   }
 
   .minutes {

@@ -46,7 +46,7 @@ const isSuperiorToEstimation = computed(() => {
     </h1>
     <h2 class="subtitle" v-if="record">{{ formatLongDate(record.start) }}</h2>
     <record-controls :task-id="taskId" :record-id="recordId" />
-    <table class="table is-striped is-narrow is-hoverable is-fullwidth">
+    <table class="table is-striped is-hoverable is-fullwidth">
       <thead>
         <tr>
           <th>#</th>
