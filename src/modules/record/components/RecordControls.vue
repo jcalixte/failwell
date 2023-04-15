@@ -94,7 +94,9 @@ whenever(logicAnd(notUsingInput, s), () => {
       <button v-if="canStart" @click="startRecording" class="button is-primary">
         start
       </button>
-      <button class="button" v-else @click="nextStep">next</button>
+      <button class="button is-primary is-light" v-else @click="nextStep">
+        next
+      </button>
     </template>
 
     <button class="button is-warning" @click="recordStore.reset(taskId)">
