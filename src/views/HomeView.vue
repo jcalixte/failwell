@@ -7,9 +7,11 @@ const taskStore = useTaskStore()
 
 <template>
   <main>
-    <router-link :to="{ name: 'new-task' }">New task</router-link>
+    <router-link :to="{ name: 'new-task' }" class="button is-primary"
+      >New task</router-link
+    >
     <task-list />
-    <button class="button is-link" @click="() => taskStore.reset()">
+    <button class="button is-danger" @click="() => taskStore.reset()">
       reset list
     </button>
   </main>
