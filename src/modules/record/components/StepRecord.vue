@@ -65,13 +65,15 @@ const isSuperiorToEstimation = computed(() => {
         {{ step.title }}
       </div>
     </td>
-    <td class="estimation">{{ step.estimation }} minutes</td>
-    <td v-if="stepRecord">{{ duration }} minutes</td>
+    <td class="estimation minutes">{{ step.estimation }} min</td>
+    <td class="minutes" v-if="stepRecord">{{ duration }} min</td>
     <td v-else></td>
   </tr>
 </template>
 
 <style scoped lang="scss">
+$blob-size: 15px;
+
 .step-record {
   .status {
     text-align: center;
@@ -87,8 +89,8 @@ const isSuperiorToEstimation = computed(() => {
 
   .blob {
     border-radius: 50%;
-    height: 10px;
-    width: 10px;
+    min-height: $blob-size;
+    min-width: $blob-size;
     background: rgba(51, 217, 178, 1);
     box-shadow: 0 0 0 0 rgba(51, 217, 178, 1);
     animation: pulse 2s infinite;
@@ -99,6 +101,10 @@ const isSuperiorToEstimation = computed(() => {
     align-items: center;
     padding-right: 1rem;
     gap: 1rem;
+  }
+
+  .minutes {
+    text-align: right;
   }
 }
 
