@@ -7,13 +7,15 @@ import { TaskRecord } from '../models/task-record'
 export interface TaskRecordStoreState {
   currentStepId: string | null
   records: { [recordId: string]: Recordable }
+  breaktime: TimeRange | null
 }
 
 export const useTaskRecordStore = defineStore('task-record-store', {
   persist: true,
   state: (): TaskRecordStoreState => ({
     currentStepId: null,
-    records: {}
+    records: {},
+    breaktime: null
   }),
   actions: {
     addRecord(taskId: string) {
@@ -115,6 +117,25 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       }
       this.records[taskId].stepRecords = {}
       this.records[taskId].end = undefined
+    },
+    pause() {
+      if (this.breaktime) {
+        return
+      }
+
+      this.breaktime = {
+        start: toISODate(new Date())
+      }
+    },
+    resume(recordId: string) {
+      console.log(recordId)
+
+      if (!this.breaktime) {
+        return
+      }
+
+      // TODO: remove the time of the break for all steps of the record
+      this.breaktime = null
     }
   },
   getters: {
