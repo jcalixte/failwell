@@ -1,6 +1,6 @@
 import type { ISODate } from './types/date'
 
-const isDevelopment = () => process.env.NODE_ENV === 'development'
+// const isDevelopment = () => process.env.NODE_ENV === 'development'
 
 export const formatDate = (date: Date | string) =>
   new Date(date).toLocaleString()
@@ -17,5 +17,5 @@ export const formatLongDate = (date: Date | ISODate) =>
 
 export const formatDiffInMinutes = (date1: ISODate, date2: ISODate) => {
   const diffInMs = new Date(date2).getTime() - new Date(date1).getTime()
-  return Math.max(0, Math.round(diffInMs / (1000 * (isDevelopment() ? 1 : 60))))
+  return Math.max(0, Math.round(diffInMs / (1000 * 60)))
 }
