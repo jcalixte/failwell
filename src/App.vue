@@ -6,7 +6,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <header>
     <nav>
       <router-link class="title is-3" to="/">
-        <img class="logo" src="/public/loop.png" alt="Loopycode" />
+        <img class="logo" src="/loop.png" alt="Loopycode" />
       </router-link>
     </nav>
   </header>
