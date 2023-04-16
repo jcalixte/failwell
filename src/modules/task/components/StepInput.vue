@@ -43,8 +43,3 @@ const stepsTextarea = computed({
     </div>
   </div>
 </template>
-
-<style scoped>
-.step-input {
-}
-</style>

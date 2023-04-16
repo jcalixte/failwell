@@ -46,7 +46,12 @@ const saveTask = () => {
   <div class="columns is-centered">
     <div class="column is-half">
       <h1 class="title">Create a task</h1>
-      <h2 class="subtitle">Estimation: {{ totalEstimation }} minutes</h2>
+      <h2 class="subtitle">
+        <div class="tags has-addons">
+          <div class="tag">ETA</div>
+          <div class="tag is-primary">{{ totalEstimation }} minutes</div>
+        </div>
+      </h2>
       <form @submit.prevent="saveTask">
         <div class="field">
           <label class="label" for="title">Title</label>
