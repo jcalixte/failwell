@@ -30,7 +30,7 @@ const stepsTextarea = computed({
 
 <template>
   <div class="step-input field">
-    <label class="label" for="steps">steps</label>
+    <label class="label" for="steps">Steps</label>
     <div class="control">
       <textarea
         id="steps"
