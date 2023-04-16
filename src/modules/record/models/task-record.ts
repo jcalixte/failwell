@@ -1,11 +1,11 @@
 import { toISODate, type ISODate } from '@/shared/types/date'
 import type { Recordable } from '../interfaces/recordable'
-import type { StepRecordable } from '../interfaces/step-recordable'
+import type { TimeRange } from '../interfaces/time-range'
 
 export class TaskRecord implements Recordable {
   public start: ISODate = toISODate(new Date())
   public end: ISODate | undefined = undefined
-  public stepRecords: Record<string, StepRecordable> = {}
+  public stepRecords: Record<string, TimeRange> = {}
   public notes = ''
 
   public constructor(public readonly taskId: string) {}

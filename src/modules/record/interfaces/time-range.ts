@@ -1,6 +1,6 @@
 import type { ISODate } from '@/shared/types/date'
 
-export interface StepRecordable {
+export interface TimeRange {
   start: ISODate
   end?: ISODate
 }

@@ -1,7 +1,7 @@
 import { toISODate, type ISODate } from '@/shared/types/date'
 import { defineStore } from 'pinia'
 import type { Recordable } from '../interfaces/recordable'
-import type { StepRecordable } from '../interfaces/step-recordable'
+import type { TimeRange } from '../interfaces/time-range'
 import { TaskRecord } from '../models/task-record'
 
 export interface TaskRecordStoreState {
@@ -133,7 +133,7 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       return (taskId: string): Recordable | null => this.records[taskId] ?? null
     },
     getStepRecord() {
-      return (taskId: string, stepId: string): StepRecordable | null =>
+      return (taskId: string, stepId: string): TimeRange | null =>
         this.records[taskId]?.stepRecords[stepId] ?? null
     },
     getRecordNotes() {

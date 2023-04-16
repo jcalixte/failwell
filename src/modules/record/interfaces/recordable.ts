@@ -1,14 +1,10 @@
 import type { ISODate } from '@/shared/types/date'
-import type { StepRecordable } from './step-recordable'
+import type { TimeRange } from './time-range'
 
 export interface Recordable {
   taskId: string
-  /**
-   * @deprecated
-   * TODO: Compute this data from step records
-   */
   start: ISODate
   end?: ISODate
-  stepRecords: Record<string, StepRecordable>
+  stepRecords: Record<string, TimeRange>
   notes: string
 }
