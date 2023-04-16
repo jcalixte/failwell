@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import EstimationTimeArrival from '@/components/EstimationTimeArrival.vue'
 import TaskRecordPreview from '@/modules/record/components/TaskRecordPreview.vue'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { computed } from 'vue'
@@ -16,10 +17,7 @@ const task = computed(() => taskStore.getTask(props.id))
   <div class="task-view" v-if="task">
     <h1 class="title">{{ task.title }}</h1>
     <h2 class="subtitle">
-      <div class="tags has-addons">
-        <div class="tag">ETA</div>
-        <div class="tag is-primary">{{ task.totalEstimation }} minutes</div>
-      </div>
+      <estimation-time-arrival :estimation="task.totalEstimation" />
     </h2>
     <a
       v-if="task.link"

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import EstimationTimeArrival from '@/components/EstimationTimeArrival.vue'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { formatLongDate } from '@/shared/format-date'
 import { useLoopyTitle } from '@/shared/useLoopyTitle'
@@ -43,10 +44,7 @@ const isSuperiorToEstimation = computed(() => {
     </h1>
     <h2 class="subtitle" v-if="record">
       {{ formatLongDate(record.start) }}
-      <div class="tags has-addons">
-        <div class="tag">ETA</div>
-        <div class="tag is-primary">{{ task.totalEstimation }} minutes</div>
-      </div>
+      <estimation-time-arrival :estimation="task.totalEstimation" />
     </h2>
     <record-controls :task-id="taskId" />
     <record-progress :task-id="taskId" />

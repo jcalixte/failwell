@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import EstimationTimeArrival from '@/components/EstimationTimeArrival.vue'
 import { createUuid } from '@/shared/create-uuid'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -47,10 +48,7 @@ const saveTask = () => {
     <div class="column is-half">
       <h1 class="title">Create a task</h1>
       <h2 class="subtitle">
-        <div class="tags has-addons">
-          <div class="tag">ETA</div>
-          <div class="tag is-primary">{{ totalEstimation }} minutes</div>
-        </div>
+        <estimation-time-arrival :estimation="totalEstimation" />
       </h2>
       <form @submit.prevent="saveTask">
         <div class="field">
@@ -65,7 +63,7 @@ const saveTask = () => {
             <input class="input" type="text" id="link" v-model="link" />
           </div>
         </div>
-        <StepInput v-model="steps" />
+        <step-input v-model="steps" />
         <button class="button is-primary is-fullwidth" type="submit">
           save
         </button>
