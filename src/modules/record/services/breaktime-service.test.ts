@@ -27,7 +27,7 @@ describe('Break Time Service', () => {
     expect(addBreakTimeToStepRecords(record)).toEqual(record)
   })
 
-  it('adds the break time if the break time is over', () => {
+  it('adds break time if break time is over', () => {
     const record = createRecordableFixture({
       breakTime: {
         start: toISODate(new Date('2023-04-17T19:00:00.000Z')),
@@ -44,6 +44,37 @@ describe('Break Time Service', () => {
       ...record,
       stepRecords: {
         'step-id-1': {
+          start: toISODate(new Date('2023-04-17T19:00:00.000Z'))
+        }
+      }
+    })
+  })
+
+  it('adds break time only for unfinished step records', () => {
+    const record = createRecordableFixture({
+      breakTime: {
+        start: toISODate(new Date('2023-04-17T19:00:00.000Z')),
+        end: toISODate(new Date('2023-04-17T20:00:00.000Z'))
+      },
+      stepRecords: {
+        'step-id-1': {
+          start: toISODate(new Date('2023-04-17T17:00:00.000Z')),
+          end: toISODate(new Date('2023-04-17T18:00:00.000Z'))
+        },
+        'step-id-2': {
+          start: toISODate(new Date('2023-04-17T18:00:00.000Z'))
+        }
+      }
+    })
+
+    expect(addBreakTimeToStepRecords(record)).toEqual({
+      ...record,
+      stepRecords: {
+        'step-id-1': {
+          start: toISODate(new Date('2023-04-17T17:00:00.000Z')),
+          end: toISODate(new Date('2023-04-17T18:00:00.000Z'))
+        },
+        'step-id-2': {
           start: toISODate(new Date('2023-04-17T19:00:00.000Z'))
         }
       }
