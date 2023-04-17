@@ -96,32 +96,36 @@ whenever(logicAnd(notUsingInput, s), () => {
         v-if="record.breakTime"
         @click="recordStore.resume(taskId)"
       >
-        resume
+        <img src="/icons/start.svg" alt="resume" />
       </button>
       <button
         class="button is-primary is-light"
         v-else
         @click="recordStore.pause(taskId)"
       >
-        pause
+        <img src="/icons/pause.svg" alt="pause" />
       </button>
     </template>
 
     <template v-if="!record || !record.end">
-      <button v-if="canStart" @click="startRecording" class="button is-primary">
-        start
+      <button
+        v-if="canStart"
+        @click="startRecording"
+        class="button is-primary is-light"
+      >
+        <img src="/icons/start.svg" alt="start" />
       </button>
       <button
         class="button is-primary is-light"
         v-else-if="!record?.breakTime"
         @click="nextStep"
       >
-        next
+        <img src="/icons/next.svg" alt="next" />
       </button>
     </template>
 
     <button class="button is-warning" @click="recordStore.reset(taskId)">
-      reset
+      <img src="/icons/recycle.svg" alt="reset" />
     </button>
   </div>
 </template>
