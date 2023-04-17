@@ -7,6 +7,7 @@ export class TaskRecord implements Recordable {
   public end: ISODate | undefined = undefined
   public stepRecords: Record<string, TimeRange> = {}
   public notes = ''
+  public breakTime?: TimeRange
 
   public constructor(public readonly taskId: string) {}
 
@@ -20,6 +21,7 @@ export class TaskRecord implements Recordable {
     taskRecord.stepRecords = recordable.stepRecords
     taskRecord.start = recordable.start
     taskRecord.end = recordable.end
+    taskRecord.breakTime = recordable.breakTime
 
     return taskRecord
   }

@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import type { Recordable } from '../interfaces/recordable'
 import type { TimeRange } from '../interfaces/time-range'
 import { TaskRecord } from '../models/task-record'
+import { addBreakTimeToStepRecords } from '../services/breaktime-service'
 
 export interface TaskRecordStoreState {
   currentStepId: string | null
@@ -116,24 +117,47 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       this.records[taskId].stepRecords = {}
       this.records[taskId].end = undefined
     },
-    pause(recordId: string) {
-      if (this.records[recordId]?.breakTime) {
+    pause(taskId: string) {
+      if (this.records[taskId]?.breakTime) {
         return
       }
 
-      this.records[recordId].breakTime = {
-        start: toISODate(new Date())
-      }
+      const record = this.records[taskId]
+
+      this.$patch({
+        records: {
+          ...this.records,
+          [taskId]: {
+            ...record,
+            breakTime: {
+              start: toISODate(new Date())
+            }
+          }
+        }
+      })
     },
-    resume(recordId: string) {
-      console.log(recordId)
+    resume(taskId: string) {
+      const record = this.records[taskId]
 
-      if (!this.records[recordId].breakTime) {
+      if (!record?.breakTime) {
         return
       }
 
-      // TODO: remove the time of the break for all steps of the record
-      this.records[recordId].breakTime = undefined
+      record.breakTime.end = toISODate(new Date())
+
+      const newRecord: Recordable = {
+        ...addBreakTimeToStepRecords(record),
+        breakTime: undefined
+      }
+
+      this.$patch({
+        records: {
+          ...this.records,
+          [taskId]: {
+            ...newRecord
+          }
+        }
+      })
     }
   },
   getters: {

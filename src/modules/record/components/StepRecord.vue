@@ -14,16 +14,20 @@ const props = defineProps<{
 const taskStore = useTaskStore()
 const recordStore = useTaskRecordStore()
 
+const record = computed(() => recordStore.getTaskRecord(props.taskId))
 const step = computed(() => taskStore.getStep(props.taskId, props.stepId))
 const stepRecord = computed(() =>
   recordStore.getStepRecord(props.taskId, props.stepId)
 )
 const isCurrentStep = computed(() => recordStore.currentStepId === props.stepId)
+const isInBreakTime = computed(() => !!record.value?.breakTime)
 
 const now = ref(toISODate(new Date()))
 
 const id = setInterval(() => {
-  now.value = toISODate(new Date())
+  if (!isInBreakTime.value) {
+    now.value = toISODate(new Date())
+  }
 }, 1000)
 
 onUnmounted(() => clearInterval(id))

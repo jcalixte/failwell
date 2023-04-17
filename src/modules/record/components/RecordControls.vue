@@ -90,11 +90,32 @@ whenever(logicAnd(notUsingInput, s), () => {
 
 <template>
   <div class="record-controls buttons has-addons">
+    <template v-if="record && recordStore.currentStepId">
+      <button
+        class="button is-primary is-light"
+        v-if="record.breakTime"
+        @click="recordStore.resume(taskId)"
+      >
+        resume
+      </button>
+      <button
+        class="button is-primary is-light"
+        v-else
+        @click="recordStore.pause(taskId)"
+      >
+        pause
+      </button>
+    </template>
+
     <template v-if="!record || !record.end">
       <button v-if="canStart" @click="startRecording" class="button is-primary">
         start
       </button>
-      <button class="button is-primary is-light" v-else @click="nextStep">
+      <button
+        class="button is-primary is-light"
+        v-else-if="!record?.breakTime"
+        @click="nextStep"
+      >
         next
       </button>
     </template>
