@@ -7,4 +7,5 @@ export interface Recordable {
   end?: ISODate
   stepRecords: Record<string, TimeRange>
   notes: string
+  breakTime?: TimeRange
 }
