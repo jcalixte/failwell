@@ -56,7 +56,15 @@ const isSuperiorToEstimation = computed(() => {
   <tr v-if="step" class="step-record">
     <td class="td-rank">
       <div class="rank">
-        <div v-if="isCurrentStep" class="blob green"></div>
+        <template v-if="isCurrentStep">
+          <img
+            v-show="record?.breakTime"
+            src="/icons/pause.svg"
+            alt="in pause"
+            class="in-pause"
+          />
+          <div v-show="!record?.breakTime" class="blob green"></div>
+        </template>
         <span v-else>
           {{ stepNumber }}
         </span>
@@ -81,6 +89,11 @@ const isSuperiorToEstimation = computed(() => {
 
 $blob-size: 15px;
 $blob-color: $link;
+
+.in-pause {
+  height: $blob-size;
+  width: $blob-size;
+}
 
 .step-record {
   .status {
