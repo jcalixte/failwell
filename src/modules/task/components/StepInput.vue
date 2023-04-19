@@ -38,7 +38,7 @@ const stepsTextarea = computed({
         v-model="stepsTextarea"
         rows="15"
         class="textarea"
-        placeholder="- [step] | <minutes you estimate it will take>"
+        placeholder="- [step] | <estimation>"
       ></textarea>
     </div>
   </div>
