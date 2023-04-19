@@ -4,6 +4,7 @@ import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { formatLongDate } from '@/shared/format-date'
 import { useLoopyTitle } from '@/shared/useLoopyTitle'
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useTaskRecordMetadata } from '../hooks/useTaskRecordMetadata'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
 import RecordControls from './RecordControls.vue'
@@ -16,6 +17,7 @@ const props = defineProps<{
 
 const taskStore = useTaskStore()
 const recordStore = useTaskRecordStore()
+const router = useRouter()
 
 recordStore.addRecord(props.taskId)
 
@@ -39,7 +41,7 @@ const isSuperiorToEstimation = computed(() => {
 <template>
   <main class="task-record" v-if="task">
     <h1 class="title">
-      <button @click="$router.go(-1)" class="button is-white">
+      <button @click="router.go(-1)" class="button is-white">
         <img src="/icons/left.svg" alt="go back" />
       </button>
       {{ task.title }}
