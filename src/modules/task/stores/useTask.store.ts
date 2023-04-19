@@ -18,6 +18,9 @@ export const useTaskStore = defineStore('task-store', {
     },
     reset() {
       this.tasks = []
+    },
+    remove(taskId: string) {
+      this.tasks = this.tasks.filter((task) => task.id !== taskId)
     }
   },
   getters: {
