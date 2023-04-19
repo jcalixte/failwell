@@ -39,7 +39,9 @@ const isSuperiorToEstimation = computed(() => {
 <template>
   <main class="task-record" v-if="task">
     <h1 class="title">
-      <button @click="$router.go(-1)" class="button is-white">⬅️</button>
+      <button @click="$router.go(-1)" class="button is-white">
+        <img src="/icons/left.svg" alt="go back" />
+      </button>
       {{ task.title }}
     </h1>
     <h2 class="subtitle" v-if="record">
