@@ -3,7 +3,7 @@ import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { toISODate } from '@/shared/types/date'
 import { useActiveElement, useMagicKeys, whenever } from '@vueuse/core'
 import { logicAnd } from '@vueuse/math'
-import { computed } from 'vue'
+import { computed, onUnmounted } from 'vue'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
 
 const props = defineProps<{
@@ -85,6 +85,10 @@ whenever(logicAnd(notUsingInput, n), () => {
 
 whenever(logicAnd(notUsingInput, s), () => {
   startRecording()
+})
+
+onUnmounted(() => {
+  recordStore.pause(props.taskId)
 })
 </script>
 
