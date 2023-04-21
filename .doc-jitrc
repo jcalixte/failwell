@@ -1,8 +1,20 @@
 {
   "patterns": {
-    "**/*.vue": "https://vuejs.org/guide/introduction.html",
-    "**/*.test.ts": "https://v1.test-utils.vuejs.org/guides",
-    "**/*.store.ts": "https://pinia.vuejs.org/introduction.html",
-    "**/router/*.ts": "https://router.vuejs.org/"
+    "**/*.vue": {
+      "label": "VueJS documentation",
+      "uri": "https://vuejs.org/guide/introduction.html"
+    },
+    "**/*.test.ts": {
+      "label": "Vue Test Utils documentation",
+      "uri": "https://v1.test-utils.vuejs.org/guides"
+    },
+    "**/*.store.ts": {
+      "label": "Pinia store documentation",
+      "uri": "https://pinia.vuejs.org/introduction.html"
+    },
+    "**/router/*.ts": {
+      "label": "Vue router documentation",
+      "uri": "https://router.vuejs.org/"
+    }
   }
 }
