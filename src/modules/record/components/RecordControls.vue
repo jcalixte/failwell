@@ -77,10 +77,14 @@ const notUsingInput = computed(
   () => !INPUT_MATTERS.includes(activeElement.value?.tagName ?? '')
 )
 
-const { n, s } = useMagicKeys()
+const { n, p, s } = useMagicKeys()
 
 whenever(logicAnd(notUsingInput, n), () => {
   nextStep()
+})
+
+whenever(logicAnd(notUsingInput, p), () => {
+  recordStore.pause(props.tasKId)
 })
 
 whenever(logicAnd(notUsingInput, s), () => {
