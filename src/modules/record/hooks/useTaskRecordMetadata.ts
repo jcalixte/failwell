@@ -5,13 +5,21 @@ import type { TaskRecord } from '../models/task-record'
 export const useTaskRecordMetadata = (
   record: TaskRecord | Ref<TaskRecord | null>
 ) => {
-  const duration = computed(() => {
+  const taskDurations = computed(() => {
     const recordValue = isRef(record) ? record.value : record
     if (!recordValue?.end) {
-      return null
+      return []
     }
 
-    return formatDiffInMinutes(recordValue.start, recordValue?.end)
+    const finishedTaskDurations = Object.values(recordValue.stepRecords)
+      .filter((record) => !!record.end)
+      .map((record) => formatDiffInMinutes(record.start, record.end!))
+
+    return finishedTaskDurations
+  })
+
+  const duration = computed(() => {
+    return taskDurations.value.reduce((a, b) => a + b, 0)
   })
 
   return {
