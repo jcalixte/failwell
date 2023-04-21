@@ -84,7 +84,7 @@ whenever(logicAnd(notUsingInput, n), () => {
 })
 
 whenever(logicAnd(notUsingInput, p), () => {
-  recordStore.pause(props.tasKId)
+  recordStore.pause(props.taskId)
 })
 
 whenever(logicAnd(notUsingInput, s), () => {
@@ -135,5 +135,10 @@ onUnmounted(() => {
     <button class="button is-warning" @click="recordStore.reset(taskId)">
       <img src="/icons/recycle.svg" alt="reset" />
     </button>
+  </div>
+  <div class="message">
+    <p><kbd>s</kbd>: start record</p>
+    <p><kbd>n</kbd>: next step</p>
+    <p><kbd>p</kbd>: pause</p>
   </div>
 </template>
