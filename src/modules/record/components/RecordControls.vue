@@ -80,11 +80,19 @@ const notUsingInput = computed(
 const { n, p, s } = useMagicKeys()
 
 whenever(logicAnd(notUsingInput, n), () => {
+  if (record.value?.breakTime) {
+    return
+  }
+
   nextStep()
 })
 
 whenever(logicAnd(notUsingInput, p), () => {
-  recordStore.pause(props.taskId)
+  if (record.value?.breakTime) {
+    recordStore.resume(props.taskId)
+  } else {
+    recordStore.pause(props.taskId)
+  }
 })
 
 whenever(logicAnd(notUsingInput, s), () => {
