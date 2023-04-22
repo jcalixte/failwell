@@ -50,7 +50,7 @@ const isSuperiorToEstimation = computed(() => {
       {{ formatLongDate(record.start) }}
       <estimation-time-arrival :estimation="task.totalEstimation" />
     </h2>
-    <record-controls :task-id="taskId" />
+    <record-controls v-if="record" :task-id="taskId" :record="record" />
     <record-progress :task-id="taskId" />
     <table class="table is-striped is-hoverable is-fullwidth">
       <thead>

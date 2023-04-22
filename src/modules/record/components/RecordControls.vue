@@ -4,17 +4,19 @@ import { toISODate } from '@/shared/types/date'
 import { useActiveElement, useMagicKeys, whenever } from '@vueuse/core'
 import { logicAnd } from '@vueuse/math'
 import { computed, onUnmounted } from 'vue'
+import type { TaskRecord } from '../models/task-record'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
 
 const props = defineProps<{
   taskId: string
+  record: TaskRecord
 }>()
 
 const taskStore = useTaskStore()
 const recordStore = useTaskRecordStore()
 
 const task = computed(() => taskStore.getTask(props.taskId))
-const record = computed(() => recordStore.getTaskRecord(props.taskId))
+const record = computed(() => props.record)
 
 const getNextStepId = () => {
   if (!task.value) {
