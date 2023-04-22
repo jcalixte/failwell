@@ -4,7 +4,6 @@
 
 ## TODO
 
-- Delete one task,
-- add break time.
+- add task when recording,
 
 [Loop icons created by Dreamstale - Flaticon](https://www.flaticon.com/free-icons/loop)
