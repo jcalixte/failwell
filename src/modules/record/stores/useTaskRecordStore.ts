@@ -34,6 +34,14 @@ export const useTaskRecordStore = defineStore('task-record-store', {
     }) {
       const record = this.records[params.taskId]
 
+      if (!record) {
+        return
+      }
+
+      if (!record.stepRecords) {
+        record.stepRecords = {}
+      }
+
       if (Object.values(record.stepRecords).length === 0) {
         record.start = params.start
       }
@@ -43,6 +51,7 @@ export const useTaskRecordStore = defineStore('task-record-store', {
           ...this.records,
           [params.taskId]: {
             ...record,
+            breakTime: undefined,
             stepRecords: {
               ...record.stepRecords,
               [params.stepId]: {
@@ -177,7 +186,7 @@ export const useTaskRecordStore = defineStore('task-record-store', {
     },
     getStepRecord() {
       return (taskId: string, stepId: string): TimeRange | null =>
-        this.records[taskId]?.stepRecords[stepId] ?? null
+        this.records[taskId]?.stepRecords?.[stepId] ?? null
     },
     getRecordNotes() {
       return (taskId: string): string => this.records[taskId]?.notes ?? ''
