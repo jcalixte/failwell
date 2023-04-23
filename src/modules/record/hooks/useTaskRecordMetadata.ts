@@ -7,6 +7,7 @@ export const useTaskRecordMetadata = (
 ) => {
   const taskDurations = computed(() => {
     const recordValue = isRef(record) ? record.value : record
+
     if (!recordValue?.end) {
       return []
     }
