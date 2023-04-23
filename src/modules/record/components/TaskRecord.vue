@@ -92,7 +92,7 @@ const isSuperiorToEstimation = computed(() => {
           :value="recordNotes"
           @input="
             //@ts-ignore
-            recordStore.updateRecordNotes(recordId, $event.target.value)
+            recordStore.updateRecordNotes(taskId, $event.target.value)
           "
           placeholder="Take notes while you're doing the task. It can be helpful at the end to retrieve your thought."
           class="textarea"
