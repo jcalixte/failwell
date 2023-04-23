@@ -12,20 +12,21 @@ export interface InitialState {
 }
 
 const tasks = [createTaskFixture(), createTaskFixture()]
+const [firstTask, secondTask] = tasks
 
 const initialState: InitialState = {
   'task-store': { tasks },
   'task-record-store': {
     currentStepId: null,
     records: {
-      [tasks[0].id]: {
-        taskId: tasks[0].id,
+      [firstTask.id]: {
+        taskId: firstTask.id,
         stepRecords: {},
         start: toISODate(new Date()),
         notes: ''
       },
-      [tasks[1].id]: {
-        taskId: tasks[1].id,
+      [secondTask.id]: {
+        taskId: secondTask.id,
         stepRecords: {},
         start: toISODate(new Date()),
         notes: ''
