@@ -17,7 +17,7 @@ const { duration } = useTaskRecordMetadata(taskRecord)
   <div>
     <div class="content">
       <div v-if="taskRecord" class="task-record-link-container content">
-        <span v-if="duration !== null">last time: {{ duration }} minutes </span>
+        <span v-if="duration !== null">last time: {{ duration }} minutes</span>
       </div>
       <div v-else>No record yet</div>
     </div>
