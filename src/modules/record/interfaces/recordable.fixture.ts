@@ -13,5 +13,6 @@ export const createRecordableFixture = (
     [faker.datatype.uuid()]: {
       start: toISODate(faker.datatype.datetime())
     }
-  }
+  },
+  end: partialRecordable?.end
 })
