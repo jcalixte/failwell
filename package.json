@@ -15,11 +15,11 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@vueuse/core": "^9.13.0",
-    "@vueuse/math": "^10.0.2",
+    "@vueuse/core": "^10.1.0",
+    "@vueuse/math": "^10.1.0",
     "bulma": "^0.9.4",
     "nanoid": "^4.0.2",
-    "pinia": "^2.0.34",
+    "pinia": "^2.0.35",
     "pinia-plugin-persistedstate": "^3.1.0",
     "suretype": "^3.2.1",
     "vue": "^3.2.47",
