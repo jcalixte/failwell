@@ -1,6 +1,6 @@
 import type { ISODate } from './types/date'
 
-const isTimeSpeedUp = () => process.env.NODE_ENV === 'development'
+const isTimeSpeedUp = () => false // process.env.NODE_ENV === 'development'
 
 export const formatDate = (date: Date | string) =>
   new Date(date).toLocaleString()
