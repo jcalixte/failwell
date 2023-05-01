@@ -1,17 +1,17 @@
-import { createTaskFixture } from '@/modules/task/models/task.fixture'
+import { fixtureTask } from '@/modules/task/models/task.fixture'
 import { router } from '@/router'
 import { toISODate } from '@/shared/types/date'
 import { withPlugins } from '@/tests/utils'
 import { faker } from '@faker-js/faker'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import { createRecordableFixture } from '../interfaces/recordable.fixture'
+import { fixtureRecordable } from '../interfaces/recordable.fixture'
 import TaskRecordPreview from './TaskRecordPreview.vue'
 
 const mountTaskRecordPreview = (withRecord = false) => {
-  const task = createTaskFixture()
+  const task = fixtureTask()
   const end = toISODate(new Date('2023-04-17T20:00:00.000Z'))
-  const record = createRecordableFixture({
+  const record = fixtureRecordable({
     taskId: task.id,
     stepRecords: {
       [faker.datatype.uuid()]: {

@@ -2,7 +2,7 @@ import { toISODate } from '@/shared/types/date'
 import { faker } from '@faker-js/faker'
 import type { TimeRange } from './time-range'
 
-export const createTimeRangeFixture = (
+export const fixtureTimeRange = (
   partialTimeRange?: Partial<TimeRange>
 ): TimeRange => {
   const [start, end] = faker.date.betweens(

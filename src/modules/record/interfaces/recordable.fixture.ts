@@ -2,7 +2,7 @@ import { toISODate } from '@/shared/types/date'
 import { faker } from '@faker-js/faker'
 import type { Recordable } from './recordable'
 
-export const createRecordableFixture = (
+export const fixtureRecordable = (
   partialRecordable?: Partial<Recordable>
 ): Recordable => ({
   taskId: partialRecordable?.taskId ?? faker.datatype.uuid(),

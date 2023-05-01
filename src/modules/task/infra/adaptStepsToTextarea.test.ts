@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createStepFixture } from '../models/step.fixture'
+import { fixtureStep } from '../models/step.fixture'
 import {
   adaptStepsToTextarea,
   adaptTextareaToSteps
@@ -7,12 +7,7 @@ import {
 
 describe('adapt steps to textarea value', () => {
   it('returns a string with the listed steps', () => {
-    const steps = [
-      createStepFixture(),
-      createStepFixture(),
-      createStepFixture(),
-      createStepFixture()
-    ]
+    const steps = [fixtureStep(), fixtureStep(), fixtureStep(), fixtureStep()]
 
     const stepsInTextarea = steps
       .map((step) => `- ${step.title} | ${step.estimation}`)
@@ -27,17 +22,17 @@ describe('adapt steps to textarea value', () => {
 - step 3 | 5`
 
     const expectedSteps = [
-      createStepFixture({
+      fixtureStep({
         id: expect.any(String),
         title: 'step 1',
         estimation: 3
       }),
-      createStepFixture({
+      fixtureStep({
         id: expect.any(String),
         title: 'step 2',
         estimation: 4
       }),
-      createStepFixture({
+      fixtureStep({
         id: expect.any(String),
         title: 'step 3',
         estimation: 5
@@ -50,7 +45,7 @@ describe('adapt steps to textarea value', () => {
   it('fallbacks to 0 for the estimation if there is no estimation', () => {
     const stepInTextarea = '- step 1'
 
-    const expectedStep = createStepFixture({
+    const expectedStep = fixtureStep({
       id: expect.any(String),
       title: 'step 1',
       estimation: 0
@@ -62,7 +57,7 @@ describe('adapt steps to textarea value', () => {
   it('fallbacks to 0 for the estimation if it can not read the number', () => {
     const stepInTextarea = '- step 1 | not an estimation'
 
-    const expectedStep = createStepFixture({
+    const expectedStep = fixtureStep({
       id: expect.any(String),
       title: 'step 1',
       estimation: 0

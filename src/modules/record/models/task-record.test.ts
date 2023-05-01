@@ -2,7 +2,7 @@ import { toISODate } from '@/shared/types/date'
 import { faker } from '@faker-js/faker'
 import { describe, expect, it } from 'vitest'
 import type { Recordable } from '../interfaces/recordable'
-import { createTimeRangeFixture } from '../interfaces/time-range.fixture'
+import { fixtureTimeRange } from '../interfaces/time-range.fixture'
 import { TaskRecord } from './task-record'
 
 describe('Task Record', () => {
@@ -12,9 +12,9 @@ describe('Task Record', () => {
       notes: faker.lorem.paragraphs(),
       start: toISODate(faker.date.past(1)),
       end: toISODate(faker.date.past()),
-      breakTime: createTimeRangeFixture(),
+      breakTime: fixtureTimeRange(),
       stepRecords: {
-        [faker.datatype.uuid()]: createTimeRangeFixture()
+        [faker.datatype.uuid()]: fixtureTimeRange()
       }
     }
 
