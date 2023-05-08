@@ -42,11 +42,11 @@ const getNextStepId = () => {
   return null
 }
 
-const canStart = computed(
-  () =>
-    !recordStore.currentStepId &&
-    Object.values(record.value?.stepRecords ?? {}).length === 0
+const hasStarted = computed(
+  () => Object.values(record.value?.stepRecords ?? {}).length > 0
 )
+
+const canStart = computed(() => !recordStore.currentStepId && !hasStarted.value)
 
 const startRecording = () => {
   if (!canStart.value || !task.value) {
@@ -142,7 +142,11 @@ onUnmounted(() => {
       </button>
     </template>
 
-    <button class="button is-warning" @click="recordStore.reset(taskId)">
+    <button
+      v-if="hasStarted"
+      class="button is-warning"
+      @click="recordStore.reset(taskId)"
+    >
       <img src="/icons/recycle.svg" alt="reset" />
     </button>
   </div>
