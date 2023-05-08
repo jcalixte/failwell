@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import EstimationTimeArrival from '@/components/EstimationTimeArrival.vue'
 import TaskRecordPreview from '@/modules/record/components/TaskRecordPreview.vue'
+import TaskNotFound from '@/modules/task/components/TaskNotFound.vue'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -66,7 +67,7 @@ const deleteTask = () => {
     </div>
     <task-record-preview :task-id="id" />
   </div>
-  <div v-else>Task not found</div>
+  <task-not-found v-else />
 </template>
 
 <style scoped>
