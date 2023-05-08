@@ -14,6 +14,7 @@ export const useTaskStore = defineStore('task-store', {
   }),
   actions: {
     saveTask(task: Taskable) {
+      this.remove(task.id)
       this.tasks.push(task)
     },
     reset() {
