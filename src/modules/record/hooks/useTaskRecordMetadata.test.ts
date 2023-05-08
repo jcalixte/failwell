@@ -2,7 +2,7 @@ import { toISODate } from '@/shared/types/date'
 import { faker } from '@faker-js/faker'
 import { describe, expect, it } from 'vitest'
 import { ref } from 'vue'
-import { createRecordableFixture } from '../interfaces/recordable.fixture'
+import { fixtureRecordable } from '../interfaces/recordable.fixture'
 import { TaskRecord } from '../models/task-record'
 import { useTaskRecordMetadata } from './useTaskRecordMetadata'
 
@@ -15,7 +15,7 @@ describe('use task record metadata', () => {
 
   it('returns the right duration', () => {
     const end = toISODate(new Date('2023-04-17T20:00:00.000Z'))
-    const record = createRecordableFixture({
+    const record = fixtureRecordable({
       stepRecords: {
         [faker.datatype.uuid()]: {
           start: toISODate(new Date('2023-04-17T19:00:00.000Z')),

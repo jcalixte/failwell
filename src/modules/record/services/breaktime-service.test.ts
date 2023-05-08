@@ -1,11 +1,11 @@
 import { toISODate } from '@/shared/types/date'
 import { describe, expect, it } from 'vitest'
-import { createRecordableFixture } from '../interfaces/recordable.fixture'
+import { fixtureRecordable } from '../interfaces/recordable.fixture'
 import { addBreakTimeToStepRecords } from './breaktime-service'
 
 describe('Break Time Service', () => {
   it('adds no break time if there is no break time', () => {
-    const record = createRecordableFixture({
+    const record = fixtureRecordable({
       breakTime: undefined
     })
 
@@ -13,7 +13,7 @@ describe('Break Time Service', () => {
   })
 
   it('adds no break time if the break is not over yet', () => {
-    const record = createRecordableFixture({
+    const record = fixtureRecordable({
       breakTime: {
         start: toISODate(new Date('2023-04-17T19:00:00.000Z'))
       },
@@ -28,7 +28,7 @@ describe('Break Time Service', () => {
   })
 
   it('adds break time if break time is over', () => {
-    const record = createRecordableFixture({
+    const record = fixtureRecordable({
       breakTime: {
         start: toISODate(new Date('2023-04-17T19:00:00.000Z')),
         end: toISODate(new Date('2023-04-17T20:00:00.000Z'))
@@ -51,7 +51,7 @@ describe('Break Time Service', () => {
   })
 
   it('adds break time only for unfinished step records', () => {
-    const record = createRecordableFixture({
+    const record = fixtureRecordable({
       breakTime: {
         start: toISODate(new Date('2023-04-17T19:00:00.000Z')),
         end: toISODate(new Date('2023-04-17T20:00:00.000Z'))

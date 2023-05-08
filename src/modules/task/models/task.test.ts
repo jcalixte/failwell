@@ -1,5 +1,5 @@
 import type { Taskable } from '@/modules/task/interfaces/taskable'
-import { createStepFixture } from '@/modules/task/models/step.fixture'
+import { fixtureStep } from '@/modules/task/models/step.fixture'
 import { Task } from '@/modules/task/models/task'
 import { toISODate } from '@/shared/types/date'
 import { faker } from '@faker-js/faker'
@@ -20,7 +20,7 @@ describe('Task', () => {
       date: toISODate(faker.date.recent()),
       title: faker.animal.lion(),
       link: faker.internet.url(),
-      steps: [createStepFixture()]
+      steps: [fixtureStep()]
     }
     const task = Task.fromTaskable(taskable)
 
@@ -30,7 +30,7 @@ describe('Task', () => {
   it('adds steps and removes them', () => {
     const task = new Task(faker.datatype.uuid(), faker.color.human())
 
-    const [firstStep, secondStep] = [createStepFixture(), createStepFixture()]
+    const [firstStep, secondStep] = [fixtureStep(), fixtureStep()]
 
     task.addSteps(firstStep, secondStep)
 
@@ -47,7 +47,7 @@ describe('Task', () => {
     const task = new Task(faker.datatype.uuid(), faker.color.human())
     expect(Task.validate(task)).toEqual(false)
 
-    task.addSteps(createStepFixture())
+    task.addSteps(fixtureStep())
     expect(Task.validate(task)).toEqual(true)
   })
 
@@ -55,9 +55,9 @@ describe('Task', () => {
     const task = new Task(faker.datatype.uuid(), faker.color.human())
 
     task.addSteps(
-      createStepFixture({ estimation: 1 }),
-      createStepFixture({ estimation: 2 }),
-      createStepFixture({ estimation: 3 })
+      fixtureStep({ estimation: 1 }),
+      fixtureStep({ estimation: 2 }),
+      fixtureStep({ estimation: 3 })
     )
 
     expect(task.totalEstimation).toEqual(6)

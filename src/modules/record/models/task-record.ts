@@ -22,6 +22,7 @@ export class TaskRecord implements Recordable {
     taskRecord.start = recordable.start
     taskRecord.end = recordable.end
     taskRecord.breakTime = recordable.breakTime
+    taskRecord.notes = recordable.notes
 
     return taskRecord
   }

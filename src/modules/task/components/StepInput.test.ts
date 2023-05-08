@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { createStepFixture } from '../models/step.fixture'
+import { fixtureStep } from '../models/step.fixture'
 import StepInput from './StepInput.vue'
 
 describe('Step input textarea', () => {
@@ -15,11 +15,7 @@ describe('Step input textarea', () => {
   })
 
   it('displays the steps in the textarea', () => {
-    const steps = [
-      createStepFixture(),
-      createStepFixture(),
-      createStepFixture()
-    ]
+    const steps = [fixtureStep(), fixtureStep(), fixtureStep()]
 
     const stepsInTextarea = steps
       .map((s) => `- ${s.title} | ${s.estimation}`)

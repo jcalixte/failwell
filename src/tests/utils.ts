@@ -1,5 +1,5 @@
 import type { TaskRecordStoreState } from '@/modules/record/stores/useTaskRecordStore'
-import { createTaskFixture } from '@/modules/task/models/task.fixture'
+import { fixtureTask } from '@/modules/task/models/task.fixture'
 import type { TaskStoreState } from '@/modules/task/stores/useTask.store'
 import { router } from '@/router'
 import { toISODate } from '@/shared/types/date'
@@ -12,7 +12,7 @@ export interface InitialState {
   'task-record-store': TaskRecordStoreState
 }
 
-const tasks = [createTaskFixture(), createTaskFixture()]
+const tasks = [fixtureTask(), fixtureTask()]
 const [firstTask, secondTask] = tasks
 
 const initialState: InitialState = {
