@@ -26,9 +26,22 @@ const deleteTask = () => {
 
 <template>
   <div class="task-view" v-if="task">
-    <button class="delete-task button is-light is-danger" @click="deleteTask">
-      <img src="/icons/trash.svg" alt="delete task" />
-    </button>
+    <div class="buttons actions">
+      <router-link
+        :to="{
+          name: 'edit-task',
+          params: {
+            id
+          }
+        }"
+        class="button"
+      >
+        <img src="/icons/edit.svg" alt="edit task" />
+      </router-link>
+      <button class="delete-task button is-light is-danger" @click="deleteTask">
+        <img src="/icons/trash.svg" alt="delete task" />
+      </button>
+    </div>
     <h1 class="title">{{ task.title }}</h1>
     <h2 class="subtitle">
       <estimation-time-arrival :estimation="task.totalEstimation" />
@@ -65,7 +78,7 @@ const deleteTask = () => {
   max-width: 600px;
 }
 
-.delete-task {
+.actions {
   float: right;
 }
 </style>

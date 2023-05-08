@@ -3,19 +3,20 @@ import EstimationTimeArrival from '@/components/EstimationTimeArrival.vue'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { Stepable } from '../interfaces/stepable'
+import type { Taskable } from '../interfaces/taskable'
 import { Task } from '../models/task'
 import { useTaskStore } from '../stores/useTask.store'
 import StepInput from './StepInput.vue'
 
 const store = useTaskStore()
 const router = useRouter()
-const props = defineProps<{ id: string }>()
+const props = defineProps<{ id: string; initialTask?: Taskable }>()
 const id = computed(() => props.id)
 
-const steps = ref<Stepable[]>([])
+const steps = ref<Stepable[]>(props.initialTask?.steps ?? [])
 
-const title = ref('')
-const link = ref('')
+const title = ref(props.initialTask?.title ?? '')
+const link = ref(props.initialTask?.link ?? '')
 
 const totalEstimation = computed(() =>
   steps.value.map((step) => step.estimation).reduce((a, b) => a + b, 0)
