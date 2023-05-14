@@ -21,4 +21,22 @@ describe('Task Record', () => {
 
     expect(TaskRecord.fromRecordable(recordable)).toEqual(recordable)
   })
+
+  it('tells if there are steps in the record', () => {
+    const record = fixtureRecordable({
+      stepRecords: {
+        [faker.datatype.uuid()]: fixtureTimeRange()
+      }
+    })
+
+    expect(TaskRecord.fromRecordable(record).hasStepRecords).toBe(true)
+  })
+
+  it('tells if there are no steps in the record', () => {
+    const record = fixtureRecordable({
+      stepRecords: {}
+    })
+
+    expect(TaskRecord.fromRecordable(record).hasStepRecords).toBe(false)
+  })
 })
