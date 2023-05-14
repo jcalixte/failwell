@@ -6,14 +6,12 @@ import { TaskRecord } from '../models/task-record'
 import { addBreakTimeToStepRecords } from '../services/breaktime-service'
 
 export interface TaskRecordStoreState {
-  currentStepId: string | null
   records: { [recordId: string]: Recordable }
 }
 
 export const useTaskRecordStore = defineStore('task-record-store', {
   persist: true,
   state: (): TaskRecordStoreState => ({
-    currentStepId: null,
     records: {}
   }),
   actions: {
@@ -57,10 +55,10 @@ export const useTaskRecordStore = defineStore('task-record-store', {
               [params.stepId]: {
                 start: params.start
               }
-            }
+            },
+            currentStepId: params.stepId
           }
-        },
-        currentStepId: params.stepId
+        }
       })
     },
     endStepRecord(params: { taskId: string; stepId: string; end: ISODate }) {
@@ -101,7 +99,7 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       }
 
       this.records[taskId].end = toISODate(new Date())
-      this.currentStepId = null
+      this.records[taskId].currentStepId = null
     },
     updateRecordNotes(taskId: string, notes: string) {
       const record = this.records[taskId]
@@ -119,12 +117,12 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       }
     },
     reset(taskId: string) {
-      this.currentStepId = null
       if (!this.records[taskId]) {
         return
       }
       this.records[taskId].stepRecords = {}
       this.records[taskId].end = undefined
+      this.records[taskId].currentStepId = null
     },
     pause(taskId: string) {
       if (this.records[taskId]?.breakTime) {

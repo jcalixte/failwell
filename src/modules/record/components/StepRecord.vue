@@ -19,7 +19,9 @@ const step = computed(() => taskStore.getStep(props.taskId, props.stepId))
 const stepRecord = computed(() =>
   recordStore.getStepRecord(props.taskId, props.stepId)
 )
-const isCurrentStep = computed(() => recordStore.currentStepId === props.stepId)
+const isCurrentStep = computed(
+  () => record.value?.currentStepId === props.stepId
+)
 const isInBreakTime = computed(() => !!record.value?.breakTime)
 
 const now = ref(toISODate(new Date()))

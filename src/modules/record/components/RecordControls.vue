@@ -23,13 +23,13 @@ const getNextStepId = () => {
     return null
   }
 
-  if (!recordStore.currentStepId) {
+  if (!record.value.currentStepId) {
     const [firstStep] = task.value.steps
     return firstStep.id
   }
 
   const currentStepIndex = task.value.steps.findIndex(
-    (step) => step.id === recordStore.currentStepId
+    (step) => step.id === record.value.currentStepId
   )
 
   const canHaveNextIndex =
@@ -46,7 +46,9 @@ const hasStarted = computed(
   () => Object.values(record.value?.stepRecords ?? {}).length > 0
 )
 
-const canStart = computed(() => !recordStore.currentStepId && !hasStarted.value)
+const canStart = computed(
+  () => !record.value.currentStepId && !hasStarted.value
+)
 
 const startRecording = () => {
   if (!canStart.value || !task.value) {
@@ -61,13 +63,13 @@ const startRecording = () => {
 }
 
 const nextStep = () => {
-  if (!task.value || !recordStore.currentStepId || !record.value) {
+  if (!task.value || !record.value.currentStepId || !record.value) {
     return
   }
 
   recordStore.nextStepRecord({
     taskId: record.value.taskId,
-    currentStepId: recordStore.currentStepId,
+    currentStepId: record.value.currentStepId,
     nextStepId: getNextStepId(),
     tick: toISODate(new Date())
   })
@@ -108,7 +110,7 @@ onUnmounted(() => {
 
 <template>
   <div class="record-controls buttons has-addons">
-    <template v-if="record && recordStore.currentStepId">
+    <template v-if="record && record.currentStepId">
       <button
         class="button is-primary is-light"
         v-if="record.breakTime"

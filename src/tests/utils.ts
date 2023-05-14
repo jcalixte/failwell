@@ -1,3 +1,4 @@
+import { fixtureRecordable } from '@/modules/record/interfaces/recordable.fixture'
 import type { TaskRecordStoreState } from '@/modules/record/stores/useTaskRecordStore'
 import { fixtureTask } from '@/modules/task/models/task.fixture'
 import type { TaskStoreState } from '@/modules/task/stores/useTask.store'
@@ -18,20 +19,19 @@ const [firstTask, secondTask] = tasks
 const initialState: InitialState = {
   'task-store': { tasks },
   'task-record-store': {
-    currentStepId: null,
     records: {
-      [firstTask.id]: {
+      [firstTask.id]: fixtureRecordable({
         taskId: firstTask.id,
         stepRecords: {},
         start: toISODate(new Date()),
         notes: ''
-      },
-      [secondTask.id]: {
+      }),
+      [secondTask.id]: fixtureRecordable({
         taskId: secondTask.id,
         stepRecords: {},
         start: toISODate(new Date()),
         notes: ''
-      }
+      })
     }
   }
 }

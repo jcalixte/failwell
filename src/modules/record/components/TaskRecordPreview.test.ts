@@ -27,7 +27,6 @@ const mountTaskRecordPreview = (withRecord = false) => {
       'task-store': { tasks: [task] },
       'task-record-store': withRecord
         ? {
-            currentStepId: null,
             records: {
               [task.id]: record
             }

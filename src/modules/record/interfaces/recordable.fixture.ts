@@ -14,5 +14,6 @@ export const fixtureRecordable = (
       start: toISODate(faker.datatype.datetime())
     }
   },
+  currentStepId: null,
   end: partialRecordable?.end
 })

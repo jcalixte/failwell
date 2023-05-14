@@ -8,6 +8,7 @@ export class TaskRecord implements Recordable {
   public stepRecords: Record<string, TimeRange> = {}
   public notes = ''
   public breakTime?: TimeRange
+  public currentStepId: string | null = null
 
   public constructor(public readonly taskId: string) {}
 
@@ -19,6 +20,7 @@ export class TaskRecord implements Recordable {
     const taskRecord = new TaskRecord(recordable.taskId)
 
     taskRecord.stepRecords = recordable.stepRecords
+    taskRecord.currentStepId = recordable.currentStepId
     taskRecord.start = recordable.start
     taskRecord.end = recordable.end
     taskRecord.breakTime = recordable.breakTime
