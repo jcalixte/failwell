@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import EstimationTimeArrival from '@/components/EstimationTimeArrival.vue'
+import RecordResume from '@/modules/record/components/RecordResume.vue'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { formatLongDate } from '@/shared/format-date'
 import { useLoopyTitle } from '@/shared/useLoopyTitle'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { useTaskRecordMetadata } from '../hooks/useTaskRecordMetadata'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
 import RecordControls from './RecordControls.vue'
 import RecordProgress from './RecordProgress.vue'
@@ -30,15 +30,6 @@ useLoopyTitle(task.value?.title ?? '')
 
 const record = computed(() => recordStore.getTaskRecord(props.taskId))
 const recordNotes = computed(() => recordStore.getRecordNotes(props.taskId))
-const { duration } = useTaskRecordMetadata(record)
-
-const isSuperiorToEstimation = computed(() => {
-  if (!task.value || !record.value || !duration.value) {
-    return false
-  }
-
-  return duration.value > task.value.totalEstimation
-})
 </script>
 
 <template>
@@ -75,17 +66,11 @@ const isSuperiorToEstimation = computed(() => {
         />
       </tbody>
     </table>
-    <div v-show="record && record.end" class="content">
-      <p
-        :class="{
-          'has-text-primary-dark': !isSuperiorToEstimation,
-          'has-text-warning-dark': isSuperiorToEstimation
-        }"
-      >
-        The task took {{ duration }} minutes instead of
-        {{ task.totalEstimation }} minutes.
-      </p>
-    </div>
+    <record-resume
+      v-if="record"
+      :record="record"
+      :total-estimation="task.totalEstimation"
+    />
     <div class="columns is-centered">
       <div class="column is-half">
         <textarea
