@@ -12,10 +12,6 @@ export class TaskRecord implements Recordable {
 
   public constructor(public readonly taskId: string) {}
 
-  public get hasStepRecords() {
-    return Object.values(this.stepRecords).length > 0
-  }
-
   public static fromRecordable(recordable: Recordable) {
     const taskRecord = new TaskRecord(recordable.taskId)
 
