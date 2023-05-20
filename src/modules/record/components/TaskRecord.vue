@@ -19,9 +19,12 @@ const taskStore = useTaskStore()
 const recordStore = useTaskRecordStore()
 const router = useRouter()
 
-recordStore.addRecord(props.taskId)
-
 const task = computed(() => taskStore.getTask(props.taskId))
+
+if (task.value) {
+  recordStore.syncTaskRecord(task.value)
+}
+recordStore.addRecord(props.taskId)
 
 useLoopyTitle(task.value?.title ?? '')
 

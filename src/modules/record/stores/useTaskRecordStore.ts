@@ -1,3 +1,5 @@
+import TaskList from '@/modules/task/components/TaskList.vue'
+import type { Task } from '@/modules/task/models/task'
 import { toISODate, type ISODate } from '@/shared/types/date'
 import { defineStore } from 'pinia'
 import type { Recordable } from '../interfaces/recordable'
@@ -15,6 +17,26 @@ export const useTaskRecordStore = defineStore('task-record-store', {
     records: {}
   }),
   actions: {
+    syncTaskRecord(task: Task) {
+      if (!(task.id in this.records)) {
+        return
+      }
+
+      const record = this.records[task.id]
+
+      const taskRecordStepIds = Object.keys(record)
+      const taskStepIds = new Set(task.steps.map((step) => step.id))
+
+      const hasSameSteps =
+        taskRecordStepIds.length === taskStepIds.size &&
+        taskRecordStepIds.every((taskRecordStepId) =>
+          taskStepIds.has(taskRecordStepId)
+        )
+
+      if (!hasSameSteps) {
+        this.records[task.id] = new TaskRecord(task.id)
+      }
+    },
     addRecord(taskId: string) {
       if (taskId in this.records) {
         return
@@ -104,17 +126,19 @@ export const useTaskRecordStore = defineStore('task-record-store', {
     updateRecordNotes(taskId: string, notes: string) {
       const record = this.records[taskId]
 
-      if (record) {
-        this.$patch({
-          records: {
-            ...this.records,
-            [taskId]: {
-              ...record,
-              notes
-            }
-          }
-        })
+      if (!record) {
+        return
       }
+
+      this.$patch({
+        records: {
+          ...this.records,
+          [taskId]: {
+            ...record,
+            notes
+          }
+        }
+      })
     },
     reset(taskId: string) {
       if (!this.records[taskId]) {
