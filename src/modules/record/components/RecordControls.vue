@@ -109,52 +109,54 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="record-controls buttons has-addons">
-    <template v-if="record && record.currentStepId">
-      <button
-        class="button is-primary is-light"
-        v-if="record.breakTime"
-        @click="recordStore.resume(taskId)"
-      >
-        <img src="/icons/start.svg" alt="resume" />
-      </button>
-      <button
-        class="button is-primary is-light"
-        v-else
-        @click="recordStore.pause(taskId)"
-      >
-        <img src="/icons/pause.svg" alt="pause" />
-      </button>
-    </template>
+  <div class="columns record-controls">
+    <div class="column buttons has-addons">
+      <template v-if="record && record.currentStepId">
+        <button
+          class="button is-primary is-light"
+          v-if="record.breakTime"
+          @click="recordStore.resume(taskId)"
+        >
+          <img src="/icons/start.svg" alt="resume" />
+        </button>
+        <button
+          class="button is-primary is-light"
+          v-else
+          @click="recordStore.pause(taskId)"
+        >
+          <img src="/icons/pause.svg" alt="pause" />
+        </button>
+      </template>
 
-    <template v-if="!record || !record.end">
-      <button
-        v-if="canStart"
-        @click="startRecording"
-        class="button is-primary is-light"
-      >
-        <img src="/icons/start.svg" alt="start" />
-      </button>
-      <button
-        class="button is-primary is-light"
-        v-else-if="!record?.breakTime"
-        @click="nextStep"
-      >
-        <img src="/icons/next.svg" alt="next" />
-      </button>
-    </template>
+      <template v-if="!record || !record.end">
+        <button
+          v-if="canStart"
+          @click="startRecording"
+          class="button is-primary is-light"
+        >
+          <img src="/icons/start.svg" alt="start" />
+        </button>
+        <button
+          class="button is-primary is-light"
+          v-else-if="!record?.breakTime"
+          @click="nextStep"
+        >
+          <img src="/icons/next.svg" alt="next" />
+        </button>
+      </template>
 
-    <button
-      v-if="hasStarted"
-      class="button is-warning"
-      @click="recordStore.reset(taskId)"
-    >
-      <img src="/icons/recycle.svg" alt="reset" />
-    </button>
-  </div>
-  <div class="message">
-    <p><kbd>s</kbd>: start record</p>
-    <p><kbd>n</kbd>: next step</p>
-    <p><kbd>p</kbd>: pause</p>
+      <button
+        v-if="hasStarted"
+        class="button is-warning"
+        @click="recordStore.reset(taskId)"
+      >
+        <img src="/icons/recycle.svg" alt="reset" />
+      </button>
+    </div>
+    <div class="column message">
+      <p><kbd>s</kbd>: start record</p>
+      <p><kbd>n</kbd>: next step</p>
+      <p><kbd>p</kbd>: pause</p>
+    </div>
   </div>
 </template>
