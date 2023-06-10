@@ -64,9 +64,13 @@ const saveTask = () => {
           </div>
         </div>
         <step-input v-model="steps" />
-        <button class="button is-primary is-fullwidth" type="submit">
-          save
-        </button>
+        <div class="columns is-centered">
+          <div class="column is-one-third">
+            <button class="button is-primary is-fullwidth" type="submit">
+              save
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   </div>

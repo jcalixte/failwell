@@ -1,4 +1,3 @@
-import TaskList from '@/modules/task/components/TaskList.vue'
 import type { Task } from '@/modules/task/models/task'
 import { toISODate, type ISODate } from '@/shared/types/date'
 import { defineStore } from 'pinia'
