@@ -1,9 +1,9 @@
+import type { Recordable } from '@/modules/record/interfaces/recordable'
 import { formatDiffInMinutes } from '@/shared/format-date'
 import { computed, isRef, type Ref } from 'vue'
-import type { TaskRecord } from '../models/task-record'
 
 export const useTaskRecordMetadata = (
-  record: TaskRecord | Ref<TaskRecord | null>
+  record: Recordable | Ref<Recordable | null>
 ) => {
   const taskDurations = computed(() => {
     const recordValue = isRef(record) ? record.value : record

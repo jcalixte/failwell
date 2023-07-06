@@ -8,4 +8,5 @@ export interface Recordable {
   stepRecords: Record<string, TimeRange>
   notes: string
   breakTime?: TimeRange
+  currentStepId: string | null
 }

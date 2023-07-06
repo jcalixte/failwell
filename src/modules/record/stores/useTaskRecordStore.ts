@@ -1,3 +1,4 @@
+import type { Task } from '@/modules/task/models/task'
 import { toISODate, type ISODate } from '@/shared/types/date'
 import { defineStore } from 'pinia'
 import type { Recordable } from '../interfaces/recordable'
@@ -6,17 +7,35 @@ import { TaskRecord } from '../models/task-record'
 import { addBreakTimeToStepRecords } from '../services/breaktime-service'
 
 export interface TaskRecordStoreState {
-  currentStepId: string | null
   records: { [recordId: string]: Recordable }
 }
 
 export const useTaskRecordStore = defineStore('task-record-store', {
   persist: true,
   state: (): TaskRecordStoreState => ({
-    currentStepId: null,
     records: {}
   }),
   actions: {
+    syncTaskRecord(task: Task) {
+      if (!(task.id in this.records)) {
+        return
+      }
+
+      const record = this.records[task.id]
+
+      const taskRecordStepIds = Object.keys(record)
+      const taskStepIds = new Set(task.steps.map((step) => step.id))
+
+      const hasSameSteps =
+        taskRecordStepIds.length === taskStepIds.size &&
+        taskRecordStepIds.every((taskRecordStepId) =>
+          taskStepIds.has(taskRecordStepId)
+        )
+
+      if (!hasSameSteps) {
+        this.records[task.id] = new TaskRecord(task.id)
+      }
+    },
     addRecord(taskId: string) {
       if (taskId in this.records) {
         return
@@ -57,10 +76,10 @@ export const useTaskRecordStore = defineStore('task-record-store', {
               [params.stepId]: {
                 start: params.start
               }
-            }
+            },
+            currentStepId: params.stepId
           }
-        },
-        currentStepId: params.stepId
+        }
       })
     },
     endStepRecord(params: { taskId: string; stepId: string; end: ISODate }) {
@@ -101,30 +120,32 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       }
 
       this.records[taskId].end = toISODate(new Date())
-      this.currentStepId = null
+      this.records[taskId].currentStepId = null
     },
     updateRecordNotes(taskId: string, notes: string) {
       const record = this.records[taskId]
 
-      if (record) {
-        this.$patch({
-          records: {
-            ...this.records,
-            [taskId]: {
-              ...record,
-              notes
-            }
-          }
-        })
+      if (!record) {
+        return
       }
+
+      this.$patch({
+        records: {
+          ...this.records,
+          [taskId]: {
+            ...record,
+            notes
+          }
+        }
+      })
     },
     reset(taskId: string) {
-      this.currentStepId = null
       if (!this.records[taskId]) {
         return
       }
       this.records[taskId].stepRecords = {}
       this.records[taskId].end = undefined
+      this.records[taskId].currentStepId = null
     },
     pause(taskId: string) {
       if (this.records[taskId]?.breakTime) {
