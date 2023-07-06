@@ -6,7 +6,7 @@ const taskStore = useTaskStore()
 </script>
 
 <template>
-  <div class="content">
+  <div class="content" v-if="taskStore.recentTasks.length > 0">
     <ul class="task-list">
       <li v-for="task in taskStore.recentTasks" :key="task.id">
         <router-link

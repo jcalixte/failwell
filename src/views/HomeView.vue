@@ -16,9 +16,9 @@ const resetTasks = () => {
 
 <template>
   <main>
-    <div>
+    <div class="new-task-container">
       <router-link :to="{ name: 'new-task' }" class="button is-primary"
-        >New task</router-link
+        >Create a new task</router-link
       >
     </div>
     <task-list />
@@ -34,5 +34,11 @@ main {
   flex-direction: column;
   justify-content: space-between;
   height: 60vh;
+}
+.new-task-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 </style>
