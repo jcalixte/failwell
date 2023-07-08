@@ -6,7 +6,7 @@ const taskStore = useTaskStore()
 </script>
 
 <template>
-  <div class="content" v-if="taskStore.recentTasks.length > 0">
+  <div class="task-list-container" v-if="taskStore.recentTasks.length > 0">
     <ul class="task-list">
       <li v-for="task in taskStore.recentTasks" :key="task.id">
         <router-link
@@ -22,9 +22,20 @@ const taskStore = useTaskStore()
 </template>
 
 <style scoped>
+.task-list-container {
+  padding: 0.5rem;
+  background-color: #f1f2f6;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .task-list li {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 </style>

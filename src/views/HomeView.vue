@@ -16,7 +16,7 @@ const resetTasks = () => {
 
 <template>
   <main>
-    <div class="columns is-centered">
+    <div class="content-tasks columns is-centered is-vcentered">
       <div class="new-task-container column buttons">
         <router-link :to="{ name: 'new-task' }" class="button is-primary"
           >Create a new task</router-link
@@ -25,7 +25,7 @@ const resetTasks = () => {
           clear the list
         </button>
       </div>
-      <task-list class="column" />
+      <task-list class="column task-list" />
     </div>
     <footer>
       <p>
@@ -49,10 +49,26 @@ main {
   height: 100%;
 }
 
+.content-tasks {
+  flex: 1;
+}
+
 .new-task-container {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.task-list {
+  max-height: 60vh;
+  overflow-y: auto;
+  margin: 0 1rem;
+  border-radius: 1rem;
+}
+
+footer {
+  text-align: center;
+  padding-bottom: 0.5rem;
 }
 
 footer img {
