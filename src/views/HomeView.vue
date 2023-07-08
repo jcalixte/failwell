@@ -8,7 +8,7 @@ const taskStore = useTaskStore()
 const hasTask = computed(() => taskStore.tasks.length > 0)
 
 const resetTasks = () => {
-  if (window.confirm('are you sure to reset all your tasks?')) {
+  if (window.confirm('Are you sure you want to clear all your tasks?')) {
     taskStore.reset()
   }
 }
@@ -16,15 +16,28 @@ const resetTasks = () => {
 
 <template>
   <main>
-    <div class="new-task-container">
-      <router-link :to="{ name: 'new-task' }" class="button is-primary"
-        >Create a new task</router-link
-      >
+    <div class="columns is-centered">
+      <div class="new-task-container column buttons">
+        <router-link :to="{ name: 'new-task' }" class="button is-primary"
+          >Create a new task</router-link
+        >
+        <button v-if="hasTask" class="button is-danger" @click="resetTasks">
+          clear the list
+        </button>
+      </div>
+      <task-list class="column" />
     </div>
-    <task-list />
-    <div v-if="hasTask">
-      <button class="button is-danger" @click="resetTasks">reset list</button>
-    </div>
+    <footer>
+      <p>
+        Made with <img src="@/assets/icons/love.svg" alt="love" /> by
+        <a
+          href="http://github.com/jcalixte"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Julien</a
+        >
+      </p>
+    </footer>
   </main>
 </template>
 
@@ -33,12 +46,16 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 60vh;
+  height: 100%;
 }
+
 .new-task-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+}
+
+footer img {
+  vertical-align: middle;
 }
 </style>

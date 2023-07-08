@@ -3,18 +3,25 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
-    <nav>
-      <router-link class="title is-3" to="/">
-        <img class="logo" src="/loop.png" alt="Loopycode" />
-      </router-link>
-    </nav>
-  </header>
+  <div class="app">
+    <header>
+      <nav>
+        <router-link class="title is-3" to="/">
+          <img class="logo" src="/loop.png" alt="Loopycode" />
+        </router-link>
+      </nav>
+    </header>
 
-  <RouterView />
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
 nav {
   margin: 1rem 0;
   display: flex;
