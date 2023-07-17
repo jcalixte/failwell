@@ -5,6 +5,9 @@ const isTimeSpeedUp = () => process.env.NODE_ENV === 'development'
 export const formatDate = (date: Date | string) =>
   new Date(date).toLocaleString()
 
+export const formatToShortDate = (date: Date | string) =>
+  new Date(date).toLocaleDateString()
+
 export const formatLongDate = (date: Date | ISODate) =>
   new Date(date).toLocaleString(undefined, {
     weekday: 'long',

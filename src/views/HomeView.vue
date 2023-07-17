@@ -63,7 +63,7 @@ main {
   max-height: 60vh;
   overflow-y: auto;
   margin: 0 1rem;
-  border-radius: 1rem;
+  border-radius: 0.3rem;
 }
 
 footer {
