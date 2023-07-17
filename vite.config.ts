@@ -8,6 +8,7 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
+      registerType: 'autoUpdate',
       manifest: {
         name: 'Loopycode',
         short_name: 'Loopycode',
