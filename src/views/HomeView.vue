@@ -31,7 +31,7 @@ const resetTasks = () => {
       <p>
         Made with <img src="@/assets/icons/love.svg" alt="love" /> by
         <a
-          href="http://github.com/jcalixte"
+          href="http://github.com/jcalixte/loopycode"
           target="_blank"
           rel="noopener noreferrer"
           >Julien</a
