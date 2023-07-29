@@ -1,14 +1,14 @@
 import { toISODate } from '@/shared/types/date'
 import { faker } from '@faker-js/faker'
 import { describe, expect, it } from 'vitest'
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { fixtureRecordable } from '../interfaces/recordable.fixture'
 import { TaskRecord } from '../models/task-record'
 import { useTaskRecordMetadata } from './useTaskRecordMetadata'
 
 describe('use task record metadata', () => {
   it('has no duration if there is no task', () => {
-    const { duration } = useTaskRecordMetadata(ref(null))
+    const { duration } = useTaskRecordMetadata(computed(() => null))
 
     expect(duration.value).toEqual(0)
   })
@@ -25,7 +25,7 @@ describe('use task record metadata', () => {
       end
     })
     const { duration } = useTaskRecordMetadata(
-      TaskRecord.fromRecordable(record)
+      computed(() => TaskRecord.fromRecordable(record))
     )
 
     expect(duration.value).toEqual(60)
