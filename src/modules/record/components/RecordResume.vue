@@ -8,7 +8,8 @@ const props = defineProps<{
   totalEstimation: number
 }>()
 
-const { duration } = useTaskRecordMetadata(props.record)
+const record = computed(() => props.record)
+const { duration } = useTaskRecordMetadata(record)
 
 const isSuperiorToEstimation = computed(() => {
   if (!duration.value) {
@@ -32,8 +33,3 @@ const isSuperiorToEstimation = computed(() => {
     </p>
   </div>
 </template>
-
-<style scoped lang="scss">
-.record-resume {
-}
-</style>
