@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import NewTaskForm from '@/modules/task/components/NewTaskForm.vue'
+import NewTaskForm from '@/modules/task/components/NewTaskForm.vue';
 </script>
 
 <template>
@@ -7,8 +7,3 @@ import NewTaskForm from '@/modules/task/components/NewTaskForm.vue'
     <NewTaskForm />
   </div>
 </template>
-
-<style scoped>
-.new-task {
-}
-</style>

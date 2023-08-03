@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import {
-  adaptStepsToTextarea,
-  adaptTextareaToSteps
+adaptStepsToTextarea,
+adaptTextareaToSteps
 } from '../infra/adaptStepsToTextarea'
 import type { Stepable } from '../interfaces/stepable'
 
@@ -38,7 +38,7 @@ const stepsTextarea = computed({
         v-model="stepsTextarea"
         rows="15"
         class="textarea"
-        placeholder="- [step] | <estimation>"
+        placeholder="- step | estimation"
       ></textarea>
     </div>
   </div>

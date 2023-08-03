@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import EstimationTimeArrival from '@/components/EstimationTimeArrival.vue'
+import { createUuid } from '@/shared/create-uuid'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { Stepable } from '../interfaces/stepable'
@@ -13,7 +14,40 @@ const router = useRouter()
 const props = defineProps<{ id: string; initialTask?: Taskable }>()
 const id = computed(() => props.id)
 
-const steps = ref<Stepable[]>(props.initialTask?.steps ?? [])
+const exampleSteps: Stepable[] = [
+  {
+    id: createUuid(),
+    title: 'create math.test file, test add function for simple cases',
+    estimation: 3
+  },
+  {
+    id: createUuid(),
+    title: 'create the math file, implement add function',
+    estimation: 3
+  },
+  {
+    id: createUuid(),
+    title: 'commit',
+    estimation: 1
+  },
+  {
+    id: createUuid(),
+    title: 'TDD for the multiply function',
+    estimation: 8
+  },
+  {
+    id: createUuid(),
+    title: 'write documentation',
+    estimation: 10
+  },
+  {
+    id: createUuid(),
+    title: 'commit, push and create the PR',
+    estimation: 5
+  },
+]
+
+const steps = ref<Stepable[]>(props.initialTask?.steps ?? exampleSteps)
 
 const title = ref(props.initialTask?.title ?? '')
 const link = ref(props.initialTask?.link ?? '')
