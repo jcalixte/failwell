@@ -28,7 +28,7 @@ const { duration } = useTaskRecordMetadata(taskRecord)
         params: { taskId }
       }"
       class="button is-primary is-light"
-      >start recording</router-link
+      >recording page</router-link
     >
   </div>
 </template>
