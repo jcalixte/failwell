@@ -44,7 +44,7 @@ const exampleSteps: Stepable[] = [
     id: createUuid(),
     title: 'commit, push and create the PR',
     estimation: 5
-  },
+  }
 ]
 
 const steps = ref<Stepable[]>(props.initialTask?.steps ?? exampleSteps)
@@ -75,6 +75,8 @@ const saveTask = () => {
 
   return false
 }
+
+const isValid = computed(() => title.value && steps.value.length > 0)
 </script>
 
 <template>
@@ -100,7 +102,11 @@ const saveTask = () => {
         <step-input v-model="steps" />
         <div class="columns is-centered">
           <div class="column is-one-third">
-            <button class="button is-primary is-fullwidth" type="submit">
+            <button
+              class="button is-primary is-fullwidth"
+              type="submit"
+              :disabled="!isValid"
+            >
               save
             </button>
           </div>

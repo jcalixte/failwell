@@ -97,4 +97,9 @@ const recordNotes = computed(() => recordStore.getRecordNotes(props.taskId))
   display: flex;
   align-items: center;
 }
+
+table {
+  display: block;
+  overflow-x: auto;
+}
 </style>
