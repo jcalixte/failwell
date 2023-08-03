@@ -84,7 +84,7 @@ const recordNotes = computed(() => recordStore.getRecordNotes(props.taskId))
             //@ts-ignore
             recordStore.updateRecordNotes(taskId, $event.target.value)
           "
-          placeholder="Take notes while you're doing the task. It can be helpful at the end to retrieve your thought."
+          placeholder="Take notes while you're doing the task. It can be helpful at the end to retrieve your thought and see what you can improve."
           class="textarea"
         ></textarea>
       </div>
