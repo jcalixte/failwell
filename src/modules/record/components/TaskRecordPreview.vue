@@ -14,14 +14,7 @@ const { duration } = useTaskRecordMetadata(taskRecord)
 </script>
 
 <template>
-  <div>
-    <div class="content">
-      <div v-if="taskRecord" class="task-record-link-container content">
-        <span v-if="duration !== null">last time: {{ duration }} minutes</span>
-      </div>
-      <div v-else>No record yet</div>
-    </div>
-    <hr />
+  <div class="task-record-preview">
     <router-link
       :to="{
         name: 'record-view',
@@ -30,13 +23,28 @@ const { duration } = useTaskRecordMetadata(taskRecord)
       class="button is-primary is-light"
       >recording page</router-link
     >
+    <div v-if="taskRecord" class="task-record-link-container content">
+      <span v-if="duration !== null"
+        >Last record took {{ duration }} minutes</span
+      >
+    </div>
+    <div v-else>No record yet</div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.task-record-link-container {
+.task-record-preview {
+  margin: auto;
   display: flex;
+  justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
+
+  .task-record-link-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 }
 </style>
