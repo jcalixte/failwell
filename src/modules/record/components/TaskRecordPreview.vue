@@ -23,11 +23,7 @@ const { duration } = useTaskRecordMetadata(taskRecord)
       class="button is-primary is-light"
       >recording page</router-link
     >
-    <div v-if="taskRecord" class="task-record-link-container content">
-      <span v-if="duration !== null"
-        >Last record took {{ duration }} minutes</span
-      >
-    </div>
+    <div v-if="duration !== null">Last record took {{ duration }} minutes</div>
     <div v-else>No record yet</div>
   </div>
 </template>

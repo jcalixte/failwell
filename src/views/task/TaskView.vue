@@ -55,6 +55,8 @@ const deleteTask = () => {
       class="button is-link"
       >user story link</a
     >
+    <task-record-preview :task-id="id" />
+    <hr />
     <div class="content">
       <ol>
         <li v-for="step in task.steps" :key="step.id">
@@ -65,7 +67,6 @@ const deleteTask = () => {
         </li>
       </ol>
     </div>
-    <task-record-preview :task-id="id" />
   </div>
   <task-not-found v-else />
 </template>

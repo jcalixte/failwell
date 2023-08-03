@@ -91,3 +91,10 @@ const recordNotes = computed(() => recordStore.getRecordNotes(props.taskId))
     </div>
   </main>
 </template>
+
+<style lang="scss" scoped>
+.title {
+  display: flex;
+  align-items: center;
+}
+</style>
