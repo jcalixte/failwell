@@ -23,7 +23,7 @@ export const useTaskRecordStore = defineStore('task-record-store', {
 
       const record = this.records[task.id]
 
-      const taskRecordStepIds = Object.keys(record)
+      const taskRecordStepIds = Object.keys(record.stepRecords)
       const taskStepIds = new Set(task.steps.map((step) => step.id))
 
       const hasSameSteps =
@@ -36,7 +36,7 @@ export const useTaskRecordStore = defineStore('task-record-store', {
         this.records[task.id] = new TaskRecord(task.id)
       }
     },
-    addRecord(taskId: string) {
+    initRecord(taskId: string) {
       if (taskId in this.records) {
         return
       }

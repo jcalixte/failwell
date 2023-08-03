@@ -4,7 +4,7 @@ import RecordResume from '@/modules/record/components/RecordResume.vue'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { formatLongDate } from '@/shared/format-date'
 import { useLoopyTitle } from '@/shared/useLoopyTitle'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
 import RecordControls from './RecordControls.vue'
@@ -21,10 +21,12 @@ const router = useRouter()
 
 const task = computed(() => taskStore.getTask(props.taskId))
 
-if (task.value) {
-  recordStore.syncTaskRecord(task.value)
-}
-recordStore.addRecord(props.taskId)
+onMounted(() => {
+  if (task.value) {
+    recordStore.syncTaskRecord(task.value)
+  }
+  recordStore.initRecord(props.taskId)
+})
 
 useLoopyTitle(task.value?.title ?? '')
 
