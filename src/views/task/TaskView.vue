@@ -16,9 +16,9 @@ const taskStore = useTaskStore()
 const task = computed(() => taskStore.getTask(props.id))
 
 const deleteTask = () => {
-  if (window.confirm('Are you sure to delete this task?')) {
+  if (window.confirm('Are you sure you want to delete this task?')) {
     taskStore.remove(props.id)
-    router.push({
+    router.replace({
       name: 'home'
     })
   }
