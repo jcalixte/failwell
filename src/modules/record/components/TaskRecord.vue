@@ -2,13 +2,13 @@
 import EstimationTimeArrival from '@/components/EstimationTimeArrival.vue'
 import RecordResume from '@/modules/record/components/RecordResume.vue'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
-import { formatLongDate } from '@/shared/format-date'
 import { useLoopyTitle } from '@/shared/useLoopyTitle'
 import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
 import RecordControls from './RecordControls.vue'
 import RecordProgress from './RecordProgress.vue'
+import RecordWatch from './RecordWatch.vue'
 import StepRecord from './StepRecord.vue'
 
 const props = defineProps<{
@@ -42,10 +42,10 @@ const recordNotes = computed(() => recordStore.getRecordNotes(props.taskId))
       </button>
       {{ task.title }}
     </h1>
-    <h2 class="subtitle" v-if="record">
-      {{ formatLongDate(record.start) }}
+    <div class="timers" v-if="record">
       <estimation-time-arrival :estimation="task.totalEstimation" />
-    </h2>
+      <record-watch :record="record" />
+    </div>
     <record-controls v-if="record" :task-id="taskId" :record="record" />
     <record-progress :task-id="taskId" />
     <table class="table is-striped is-hoverable is-fullwidth">
@@ -96,6 +96,11 @@ const recordNotes = computed(() => recordStore.getRecordNotes(props.taskId))
 .title {
   display: flex;
   align-items: center;
+}
+
+.timers {
+  display: flex;
+  gap: 1rem;
 }
 
 table {

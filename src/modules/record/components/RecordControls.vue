@@ -160,3 +160,20 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.message {
+  display: none;
+}
+
+@media screen and (min-width: 769px) {
+  .message {
+    display: block;
+  }
+}
+</style>
