@@ -138,7 +138,7 @@ onUnmounted(() => {
         </button>
         <button
           class="button is-primary is-light"
-          v-else-if="!record?.breakTime"
+          v-else-if="!record.breakTime"
           @click="nextStep"
         >
           <img src="/icons/next.svg" alt="next" />
