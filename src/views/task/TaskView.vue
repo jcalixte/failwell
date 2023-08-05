@@ -39,6 +39,17 @@ const deleteTask = () => {
       >
         <img src="/icons/edit.svg" alt="edit task" />
       </router-link>
+      <router-link
+        :to="{
+          name: 'duplicate-task',
+          params: {
+            id
+          }
+        }"
+        class="button"
+      >
+        <img src="/icons/copy.svg" alt="duplicate task" />
+      </router-link>
       <button class="delete-task button is-light is-danger" @click="deleteTask">
         <img src="/icons/trash.svg" alt="delete task" />
       </button>

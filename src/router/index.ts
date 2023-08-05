@@ -32,6 +32,12 @@ export const router = createRouter({
       component: () => import('../views/task/EditTask.vue')
     },
     {
+      path: '/task/:id/duplicate',
+      name: 'duplicate-task',
+      props: true,
+      component: () => import('../views/task/DuplicateTask.vue')
+    },
+    {
       path: '/task/:taskId/record',
       name: 'record-view',
       props: true,

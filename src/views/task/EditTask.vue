@@ -14,18 +14,24 @@ const task = taskStore.getTask(props.id)
 
 <template>
   <div class="edit-task">
+    <div class="columns is-centered" v-if="isMessageDisplayed">
+      <div class="column is-one-third">
+        <section class="message is-info">
+          <div class="message-header">
+            <p>Info</p>
+            <button
+              class="delete"
+              aria-label="delete"
+              @click="isMessageDisplayed = false"
+            ></button>
+          </div>
+          <div class="message-body">
+            When editing a task, record will be reset.
+          </div>
+        </section>
+      </div>
+    </div>
     <TaskForm v-if="task" :id="task.id" :initial-task="task" />
     <task-not-found v-else />
-    <article v-if="isMessageDisplayed" class="message is-info">
-      <div class="message-header">
-        <p>Info</p>
-        <button
-          class="delete"
-          aria-label="delete"
-          @click="isMessageDisplayed = false"
-        ></button>
-      </div>
-      <div class="message-body">When editing a task, record will be reset.</div>
-    </article>
   </div>
 </template>
