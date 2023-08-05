@@ -39,8 +39,3 @@ const seconds = computed(() => (timer.value % 60).toString().padStart(2, '0'))
   </div>
   <div class="record-watch" v-else>00:00</div>
 </template>
-
-<style scoped lang="scss">
-.record-watch {
-}
-</style>
