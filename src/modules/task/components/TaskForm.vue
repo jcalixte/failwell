@@ -13,6 +13,7 @@ const store = useTaskStore()
 const router = useRouter()
 const props = defineProps<{ id: string; initialTask?: Taskable }>()
 const id = computed(() => props.id)
+const hasTasks = computed(() => store.tasks.length > 0)
 
 const exampleSteps: Stepable[] = [
   {
@@ -47,7 +48,9 @@ const exampleSteps: Stepable[] = [
   }
 ]
 
-const steps = ref<Stepable[]>(props.initialTask?.steps ?? exampleSteps)
+const steps = ref<Stepable[]>(
+  props.initialTask?.steps ?? hasTasks.value ? [] : exampleSteps
+)
 
 const title = ref(props.initialTask?.title ?? '')
 const link = ref(props.initialTask?.link ?? '')
