@@ -3,9 +3,11 @@ import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { toISODate } from '@/shared/types/date'
 import { useActiveElement, useMagicKeys, whenever } from '@vueuse/core'
 import { logicAnd } from '@vueuse/math'
-import { computed, onUnmounted } from 'vue'
+import { computed, onUnmounted, ref } from 'vue'
 import type { TaskRecord } from '../models/task-record'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
+import NewStepsFormVue from '@/modules/task/components/NewStepsForm.vue'
+import type { Stepable } from '@/modules/task/interfaces/stepable'
 
 const props = defineProps<{
   taskId: string
@@ -73,6 +75,16 @@ const nextStep = () => {
     nextStepId: getNextStepId(),
     tick: toISODate(new Date())
   })
+}
+
+const isAddingSteps = ref(false)
+const addStepsForm = () => {
+  isAddingSteps.value = true
+}
+
+const addSteps = (steps: Stepable[]) => {
+  console.log(steps)
+  isAddingSteps.value = false
 }
 
 const activeElement = useActiveElement()
@@ -145,6 +157,9 @@ onUnmounted(() => {
         </button>
       </template>
 
+      <button class="button is-primary is-light" @click="addStepsForm">
+        <img src="/icons/plus.svg" alt="plus" />
+      </button>
       <button
         v-if="hasStarted"
         class="button is-warning"
@@ -159,6 +174,11 @@ onUnmounted(() => {
       <p><kbd>p</kbd>: pause</p>
     </div>
   </div>
+  <NewStepsFormVue
+    :is-active="isAddingSteps"
+    @close="isAddingSteps = false"
+    @submit="addSteps"
+  />
 </template>
 
 <style scoped lang="scss">

@@ -1,19 +1,26 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, withDefaults } from 'vue'
 import {
-adaptStepsToTextarea,
-adaptTextareaToSteps
+  adaptStepsToTextarea,
+  adaptTextareaToSteps
 } from '../infra/adaptStepsToTextarea'
 import type { Stepable } from '../interfaces/stepable'
 
-const props = defineProps<{
-  modelValue: Stepable[]
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue: Stepable[]
+    size?: 'large' | 'small'
+  }>(),
+  {
+    size: 'large'
+  }
+)
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: Stepable[]): void
 }>()
 
+const rows = computed(() => (props.size === 'large' ? 15 : 5))
 const rawSteps = ref(adaptStepsToTextarea(props.modelValue))
 
 const stepsTextarea = computed({
@@ -36,7 +43,7 @@ const stepsTextarea = computed({
         id="steps"
         name="steps"
         v-model="stepsTextarea"
-        rows="15"
+        :rows="rows"
         class="textarea"
         placeholder="- step | estimation"
       ></textarea>
