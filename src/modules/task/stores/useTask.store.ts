@@ -32,7 +32,7 @@ export const useTaskStore = defineStore('task-store', {
 
       const newSteps = [
         ...task.steps.slice(0, fromStepIndex + 1),
-        ...steps,
+        ...steps.map((step) => ({ ...step, addedAfterward: true })),
         ...task.steps.slice(fromStepIndex + 1)
       ]
 
