@@ -49,7 +49,7 @@ const exampleSteps: Stepable[] = [
 ]
 
 const steps = ref<Stepable[]>(
-  props.initialTask?.steps ?? hasTasks.value ? [] : exampleSteps
+  props.initialTask?.steps ?? (hasTasks.value ? [] : exampleSteps)
 )
 
 const title = ref(props.initialTask?.title ?? '')
