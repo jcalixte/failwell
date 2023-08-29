@@ -12,16 +12,15 @@ const emits = defineEmits<{
 }>()
 const steps = ref<Stepable[]>([])
 
-const submit = () => {
+const save = () => {
   emits('submit', steps.value)
-  emits('close')
   steps.value = []
 }
 </script>
 
 <template>
   <div class="modal" :class="{ 'is-active': isActive }">
-    <div class="modal-background"></div>
+    <div class="modal-background" @click="$emit('close')"></div>
     <div class="new-step-form modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">New steps</p>
@@ -32,17 +31,12 @@ const submit = () => {
         ></button>
       </header>
       <section class="modal-card-body">
-        <step-input v-model="steps" size="small" />
+        <step-input v-if="isActive" v-model="steps" size="small" />
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-primary" @click="submit">Save changes</button>
-        <button class="button" @click="$emit('close')">Cancel</button>
+        <button class="button is-primary" @click="save">add</button>
+        <button class="button" @click="$emit('close')">cancel</button>
       </footer>
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.new-step-form {
-}
-</style>

@@ -17,6 +17,27 @@ export const useTaskStore = defineStore('task-store', {
       this.remove(task.id)
       this.tasks.push(task)
     },
+    addStepsToTask(taskId: string, steps: Stepable[], fromStepId: string) {
+      const task = this.tasks.find((t) => t.id === taskId)
+
+      if (!task) {
+        return
+      }
+
+      const fromStepIndex = task.steps.findIndex((s) => s.id === fromStepId)
+
+      if (fromStepIndex < 0) {
+        return
+      }
+
+      const newSteps = [
+        ...task.steps.slice(0, fromStepIndex + 1),
+        ...steps,
+        ...task.steps.slice(fromStepIndex + 1)
+      ]
+
+      task.steps = newSteps
+    },
     reset() {
       this.tasks = []
     },

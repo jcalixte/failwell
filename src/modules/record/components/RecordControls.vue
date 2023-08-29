@@ -83,8 +83,12 @@ const addStepsForm = () => {
 }
 
 const addSteps = (steps: Stepable[]) => {
-  console.log(steps)
+  if (!record.value.currentStepId) {
+    return
+  }
+
   isAddingSteps.value = false
+  taskStore.addStepsToTask(props.taskId, steps, record.value.currentStepId)
 }
 
 const activeElement = useActiveElement()
@@ -157,9 +161,14 @@ onUnmounted(() => {
         </button>
       </template>
 
-      <button class="button is-primary is-light" @click="addStepsForm">
+      <button
+        v-if="!record.end && record.currentStepId"
+        class="button is-primary is-light"
+        @click="addStepsForm"
+      >
         <img src="/icons/plus.svg" alt="plus" />
       </button>
+
       <button
         v-if="hasStarted"
         class="button is-warning"
@@ -168,6 +177,7 @@ onUnmounted(() => {
         <img src="/icons/recycle.svg" alt="reset" />
       </button>
     </div>
+
     <div class="column message">
       <p><kbd>s</kbd>: start record</p>
       <p><kbd>n</kbd>: next step</p>
