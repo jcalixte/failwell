@@ -39,15 +39,16 @@ const duration = computed(() => {
     return null
   }
 
-  // When in pause, it can happen to
-  // have a tick where now is behind new Date().
-  const mostRecentDate = new Date(
-    Math.max(new Date(now.value).getTime(), new Date().getTime())
+  const compareDate = new Date(
+    record.value?.breakTime?.start ??
+      // When in pause, it can happen to
+      // have a tick where now is behind new Date().
+      Math.max(new Date(now.value).getTime(), new Date().getTime())
   )
 
   return formatDiffInMinutes(
     stepRecord.value.start,
-    stepRecord.value?.end ?? toISODate(new Date(mostRecentDate))
+    stepRecord.value?.end ?? toISODate(new Date(compareDate))
   )
 })
 

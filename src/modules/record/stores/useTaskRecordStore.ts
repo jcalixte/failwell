@@ -17,7 +17,9 @@ export const useTaskRecordStore = defineStore('task-record-store', {
   }),
   actions: {
     syncTaskRecord(task: Task) {
-      if (!(task.id in this.records)) {
+      const isTaskRecorded = task.id in this.records
+
+      if (!isTaskRecorded) {
         return
       }
 
@@ -26,13 +28,11 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       const taskRecordStepIds = Object.keys(record.stepRecords)
       const taskStepIds = new Set(task.steps.map((step) => step.id))
 
-      const hasSameSteps =
-        taskRecordStepIds.length === taskStepIds.size &&
-        taskRecordStepIds.every((taskRecordStepId) =>
-          taskStepIds.has(taskRecordStepId)
-        )
+      const hasRecordedStepsStillInTask = taskRecordStepIds.every(
+        (taskRecordStepId) => taskStepIds.has(taskRecordStepId)
+      )
 
-      if (!hasSameSteps) {
+      if (!hasRecordedStepsStillInTask) {
         this.records[task.id] = new TaskRecord(task.id)
       }
     },
