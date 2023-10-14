@@ -18,7 +18,7 @@ export const formatLongDate = (date: Date | ISODate) =>
     minute: 'numeric'
   })
 
-export const formatDiffInMinutes = (date1: ISODate, date2: ISODate) => {
-  const diffInMs = new Date(date2).getTime() - new Date(date1).getTime()
+export const formatDiffInMinutes = (start: ISODate, end: ISODate) => {
+  const diffInMs = new Date(end).getTime() - new Date(start).getTime()
   return Math.max(0, Math.round(diffInMs / (1000 * (isTimeSpeedUp() ? 1 : 60))))
 }

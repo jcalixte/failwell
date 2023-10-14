@@ -2,6 +2,7 @@
 import EstimationTimeArrival from '@/components/EstimationTimeArrival.vue'
 import TaskRecordPreview from '@/modules/record/components/TaskRecordPreview.vue'
 import TaskNotFound from '@/modules/task/components/TaskNotFound.vue'
+import { useCopyRecord } from '@/modules/record/hooks/useCopyRecord.hook'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -23,6 +24,8 @@ const deleteTask = () => {
     })
   }
 }
+
+const { canShareTask, taskCopied, shareTask } = useCopyRecord(task)
 </script>
 
 <template>
@@ -39,6 +42,10 @@ const deleteTask = () => {
       >
         <img src="/icons/edit.svg" alt="edit task" />
       </router-link>
+      <button v-if="canShareTask" class="share-task button" @click="shareTask">
+        <img v-if="taskCopied" src="/icons/check.svg" alt="task copied!" />
+        <img v-else src="/icons/share.svg" alt="share task" />
+      </button>
       <router-link
         :to="{
           name: 'duplicate-task',
