@@ -10,8 +10,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Loopycode',
-        short_name: 'Loopycode',
+        name: 'Taskflow',
+        short_name: 'Taskflow',
         description: 'Feedback loop when coding',
         theme_color: '#192a56',
         icons: [

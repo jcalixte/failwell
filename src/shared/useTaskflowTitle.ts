@@ -1,16 +1,16 @@
 import { useTitle } from '@vueuse/core'
 import { onUnmounted } from 'vue'
 
-export const useLoopyTitle = (title: string) => {
+export const useTaskflowTitle = (title: string) => {
   if (title) {
     useTitle(title, {
-      titleTemplate: '%s | Loopycode'
+      titleTemplate: '%s | Taskflow'
     })
   } else {
-    useTitle('Loopycode')
+    useTitle('Taskflow')
   }
 
   onUnmounted(() => {
-    useTitle('Loopycode')
+    useTitle('Taskflow')
   })
 }
