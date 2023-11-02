@@ -9,6 +9,7 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'autoUpdate',
+      includeAssets: ['icons/*.svg', 'loop.png'],
       manifest: {
         name: 'Taskflow',
         short_name: 'Taskflow',
