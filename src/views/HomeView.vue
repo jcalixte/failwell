@@ -27,7 +27,7 @@ const resetTasks = () => {
       </div>
       <task-list class="column task-list" />
     </div>
-    <footer>
+    <!-- <footer>
       <p>
         Made with <img src="@/assets/icons/love.svg" alt="love" /> by
         <a
@@ -37,7 +37,7 @@ const resetTasks = () => {
           >Julien</a
         >
       </p>
-    </footer>
+    </footer> -->
   </main>
 </template>
 
