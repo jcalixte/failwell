@@ -15,3 +15,9 @@ const label = computed(() => `${props.estimation} minutes`)
     </div>
   </div>
 </template>
+
+<style scoped>
+.estimation-time-arrival {
+  flex-wrap: nowrap;
+}
+</style>
