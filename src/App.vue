@@ -22,6 +22,7 @@ import { RouterLink, RouterView } from 'vue-router'
   flex-direction: column;
   height: 100vh;
 }
+
 nav {
   margin: 1rem 0;
   display: flex;

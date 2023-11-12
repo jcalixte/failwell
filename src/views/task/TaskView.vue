@@ -31,30 +31,24 @@ const { canShareTask, taskCopied, shareTask } = useCopyRecord(task)
 <template>
   <div class="task-view" v-if="task">
     <div class="buttons actions">
-      <router-link
-        :to="{
-          name: 'edit-task',
-          params: {
-            id
-          }
-        }"
-        class="button"
-      >
+      <router-link :to="{
+        name: 'edit-task',
+        params: {
+          id
+        }
+      }" class="button">
         <img src="/icons/edit.svg" alt="edit task" />
       </router-link>
       <button v-if="canShareTask" class="share-task button" @click="shareTask">
         <img v-if="taskCopied" src="/icons/check.svg" alt="task copied!" />
         <img v-else src="/icons/share.svg" alt="share task" />
       </button>
-      <router-link
-        :to="{
-          name: 'duplicate-task',
-          params: {
-            id
-          }
-        }"
-        class="button"
-      >
+      <router-link :to="{
+        name: 'duplicate-task',
+        params: {
+          id
+        }
+      }" class="button">
         <img src="/icons/copy.svg" alt="duplicate task" />
       </router-link>
       <button class="delete-task button is-light is-danger" @click="deleteTask">
@@ -65,14 +59,8 @@ const { canShareTask, taskCopied, shareTask } = useCopyRecord(task)
     <h2 class="subtitle">
       <estimation-time-arrival :estimation="task.totalEstimation" />
     </h2>
-    <a
-      v-if="task.link"
-      :href="task.link"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="button is-link"
-      >user story link</a
-    >
+    <a v-if="task.link" :href="task.link" target="_blank" rel="noopener noreferrer" class="button is-link">user story
+      link</a>
     <task-record-preview :task-id="id" />
     <hr />
     <div class="content">

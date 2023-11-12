@@ -18,26 +18,28 @@ const resetTasks = () => {
   <main>
     <div class="content-tasks columns is-centered is-vcentered">
       <div class="new-task-container column buttons">
-        <router-link :to="{ name: 'new-task' }" class="button is-primary"
-          >Create a new task</router-link
-        >
+        <router-link :to="{ name: 'new-task' }" class="button is-primary">
+          new task
+        </router-link>
         <button v-if="hasTask" class="button is-danger" @click="resetTasks">
           clear the list
         </button>
       </div>
       <task-list class="column task-list" />
     </div>
-    <!-- <footer>
-      <p>
+    <!--
+    <footer>
+    <p>
         Made with <img src="@/assets/icons/love.svg" alt="love" /> by
         <a
-          href="http://github.com/jcalixte/loopycode"
-          target="_blank"
-          rel="noopener noreferrer"
-          >Julien</a
+        href="http://github.com/jcalixte/loopycode"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Julien</a
         >
-      </p>
-    </footer> -->
+    </p>
+    </footer>
+    -->
   </main>
 </template>
 
