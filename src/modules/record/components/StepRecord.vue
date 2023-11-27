@@ -52,7 +52,7 @@ const duration = computed(() => {
   )
 })
 
-const isSuperiorToEstimation = computed(() => {
+const isGreaterThanEstimation = computed(() => {
   if (!step.value || !stepRecord.value || !duration.value) {
     return false
   }
@@ -80,8 +80,8 @@ const isSuperiorToEstimation = computed(() => {
       </div>
     </td>
     <td class="status">
-      <span v-if="stepRecord?.end && !isSuperiorToEstimation">✅</span>
-      <span v-else-if="isSuperiorToEstimation"> ⚠️ </span>
+      <span v-if="stepRecord?.end && !isGreaterThanEstimation">✅</span>
+      <span v-else-if="isGreaterThanEstimation">❓</span>
       <span v-else>⌛</span>
     </td>
     <td class="step-title">
