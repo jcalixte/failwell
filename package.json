@@ -15,16 +15,16 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@vueuse/core": "^10.1.2",
-    "@vueuse/math": "^10.1.2",
+    "@vueuse/core": "^10.6.1",
+    "@vueuse/math": "^10.6.1",
     "bulma": "^0.9.4",
     "html-to-image": "^1.11.11",
-    "nanoid": "^4.0.2",
-    "pinia": "^2.0.35",
-    "pinia-plugin-persistedstate": "^3.1.0",
-    "suretype": "^3.2.1",
-    "vue": "^3.2.47",
-    "vue-router": "^4.1.6"
+    "nanoid": "^5.0.3",
+    "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.0",
+    "suretype": "^3.3.1",
+    "vue": "^3.3.9",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
