@@ -6,6 +6,7 @@ import { useCopyRecord } from '@/modules/record/hooks/useCopyRecord.hook'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import StepRecord from '@/modules/record/components/StepRecord.vue'
 
 const props = defineProps<{
   id: string
@@ -31,47 +32,78 @@ const { canShareTask, taskCopied, shareTask } = useCopyRecord(task)
 <template>
   <div class="task-view" v-if="task">
     <div class="buttons actions">
-      <router-link :to="{
-        name: 'edit-task',
-        params: {
-          id
-        }
-      }" class="button">
+      <router-link
+        :to="{
+          name: 'record-view',
+          params: { taskId: id }
+        }"
+        class="button is-primary is-light"
+        >start session</router-link
+      >
+      <router-link
+        :to="{
+          name: 'edit-task',
+          params: {
+            id
+          }
+        }"
+        class="button"
+      >
         <img src="/icons/edit.svg" alt="edit task" />
       </router-link>
       <button v-if="canShareTask" class="share-task button" @click="shareTask">
         <img v-if="taskCopied" src="/icons/check.svg" alt="task copied!" />
         <img v-else src="/icons/share.svg" alt="share task" />
       </button>
-      <router-link :to="{
-        name: 'duplicate-task',
-        params: {
-          id
-        }
-      }" class="button">
+      <router-link
+        :to="{
+          name: 'duplicate-task',
+          params: {
+            id
+          }
+        }"
+        class="button"
+      >
         <img src="/icons/copy.svg" alt="duplicate task" />
       </router-link>
       <button class="delete-task button is-light is-danger" @click="deleteTask">
         <img src="/icons/trash.svg" alt="delete task" />
       </button>
     </div>
-    <h1 class="title">{{ task.title }}</h1>
-    <h2 class="subtitle">
-      <estimation-time-arrival :estimation="task.totalEstimation" />
-    </h2>
-    <a v-if="task.link" :href="task.link" target="_blank" rel="noopener noreferrer" class="button is-link">user story
-      link</a>
-    <task-record-preview :task-id="id" />
-    <hr />
-    <div class="content">
-      <ol>
-        <li v-for="step in task.steps" :key="step.id">
-          <div class="step-item">
-            <span>{{ step.title }}</span>
-            <span class="tag">{{ step.estimation }} minutes</span>
-          </div>
-        </li>
-      </ol>
+    <a
+      v-if="task.link"
+      :href="task.link"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="button is-link"
+      >user story link</a
+    >
+    <div class="content" :id="`task-${id}`">
+      <h1 class="title">{{ task.title }}</h1>
+      <h2 class="subtitle">
+        <estimation-time-arrival :estimation="task.totalEstimation" />
+      </h2>
+      <task-record-preview :task-id="id" />
+      <table class="table is-striped is-hoverable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>status</th>
+            <th>task</th>
+            <th>estimation</th>
+            <th>actual</th>
+          </tr>
+        </thead>
+        <tbody>
+          <step-record
+            v-for="(step, key) in task.steps"
+            :task-id="id"
+            :key="step.id"
+            :step-id="step.id"
+            :step-number="key + 1"
+          />
+        </tbody>
+      </table>
     </div>
   </div>
   <task-not-found v-else />
@@ -88,5 +120,12 @@ const { canShareTask, taskCopied, shareTask } = useCopyRecord(task)
 
 .actions {
   float: right;
+}
+
+.content {
+  background-color: white;
+  max-width: 800px;
+  margin: auto;
+  padding: 0 1rem;
 }
 </style>

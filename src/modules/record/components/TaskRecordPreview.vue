@@ -15,16 +15,10 @@ const { duration } = useTaskRecordMetadata(taskRecord)
 
 <template>
   <div class="task-record-preview">
-    <router-link
-      :to="{
-        name: 'record-view',
-        params: { taskId }
-      }"
-      class="button is-primary is-light"
-      >start session</router-link
-    >
-    <div v-if="duration !== null">Last record took {{ duration }} minutes</div>
-    <div v-else>No record yet</div>
+    <div v-if="taskRecord !== null">
+      Last record took {{ duration }} minutes.
+    </div>
+    <div v-else>No record yet.</div>
   </div>
 </template>
 
