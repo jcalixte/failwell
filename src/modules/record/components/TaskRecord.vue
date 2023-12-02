@@ -2,7 +2,7 @@
 import EstimationTimeArrival from '@/components/EstimationTimeArrival.vue'
 import RecordResume from '@/modules/record/components/RecordResume.vue'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
-import { useTaskflowTitle } from '@/shared/useTaskflowTitle'
+import { useAppTitle } from '@/shared/useAppTitle'
 import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
@@ -28,7 +28,7 @@ onMounted(() => {
   recordStore.initRecord(props.taskId)
 })
 
-useTaskflowTitle(task.value?.title ?? '')
+useAppTitle(task.value?.title ?? '')
 
 const record = computed(() => recordStore.getTaskRecord(props.taskId))
 const recordNotes = computed(() => recordStore.getRecordNotes(props.taskId))
@@ -108,4 +108,3 @@ table {
   overflow-x: auto;
 }
 </style>
-@/shared/useTaskflowTitle

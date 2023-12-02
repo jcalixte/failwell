@@ -11,8 +11,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icons/*.svg', 'loop.png'],
       manifest: {
-        name: 'Taskflow',
-        short_name: 'Taskflow',
+        name: 'Fail Well',
+        short_name: 'Fail Well',
         description: 'Feedback loop when coding',
         theme_color: '#192a56',
         icons: [

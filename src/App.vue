@@ -7,7 +7,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <header>
       <nav>
         <router-link class="title is-3" to="/">
-          <img class="logo" src="/loop.png" alt="Taskflow" />
+          <img class="logo" src="/loop.png" alt="Fail Well" />
         </router-link>
       </nav>
     </header>
