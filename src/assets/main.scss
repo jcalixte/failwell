@@ -19,3 +19,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   margin: 0 1rem;
 }
+
+.columns:last-child {
+  margin-bottom: 0;
+}
