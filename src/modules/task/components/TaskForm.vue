@@ -85,7 +85,7 @@ const isValid = computed(() => title.value && steps.value.length > 0)
 <template>
   <div class="task-form columns is-centered">
     <div class="column is-half">
-      <h1 class="title">Create a task</h1>
+      <h1 class="title">New task</h1>
       <h2 class="subtitle">
         <estimation-time-arrival :estimation="totalEstimation" />
       </h2>
@@ -97,9 +97,9 @@ const isValid = computed(() => title.value && steps.value.length > 0)
           </div>
         </div>
         <div class="field">
-          <label class="label" for="link">User story link</label>
+          <label class="label" for="link">Task link</label>
           <div class="control">
-            <input class="input" type="text" id="link" v-model="link" />
+            <input class="input" type="url" id="link" v-model="link" />
           </div>
         </div>
         <step-input v-model="steps" />

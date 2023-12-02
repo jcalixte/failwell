@@ -7,6 +7,6 @@ describe('New Task Form', () => {
   it('displays New Task Form title', () => {
     const wrapper = mount(NewTaskVue, withPlugins())
 
-    expect(wrapper.text()).toContain('Create a task')
+    expect(wrapper.text()).toContain('New task')
   })
 })

@@ -76,7 +76,7 @@ const { canShareTask, taskCopied, shareTask } = useCopyRecord(task)
       target="_blank"
       rel="noopener noreferrer"
       class="button is-link"
-      >user story link</a
+      >Task link</a
     >
     <div class="content" :id="`task-${id}`">
       <h1 class="title">{{ task.title }}</h1>
