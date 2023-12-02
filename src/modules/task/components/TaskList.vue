@@ -35,6 +35,7 @@ const taskStore = useTaskStore()
 
   li {
     background-color: #f1f2f6;
+    border-radius: 0.5rem;
 
     a {
       display: block;
