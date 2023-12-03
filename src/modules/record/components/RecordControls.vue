@@ -91,6 +91,12 @@ const addSteps = (steps: Stepable[]) => {
   taskStore.addStepsToTask(props.taskId, steps, record.value.currentStepId)
 }
 
+const reset = () => {
+  if (window.confirm('Are you sure you want to reset the record?')) {
+    recordStore.reset(props.taskId)
+  }
+}
+
 const activeElement = useActiveElement()
 const INPUT_MATTERS = ['INPUT', 'TEXTAREA']
 const notUsingInput = computed(
@@ -169,11 +175,7 @@ onUnmounted(() => {
         <img src="/icons/plus.svg" alt="plus" />
       </button>
 
-      <button
-        v-if="hasStarted"
-        class="button is-warning"
-        @click="recordStore.reset(taskId)"
-      >
+      <button v-if="hasStarted" class="button is-warning" @click="reset">
         <img src="/icons/recycle.svg" alt="reset" />
       </button>
     </div>
