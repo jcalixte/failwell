@@ -1,20 +1,24 @@
 <script setup lang="ts">
 import type { Stepable } from '@/modules/task/interfaces/stepable'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import StepInput from './StepInput.vue'
 
-defineProps<{
+const props = defineProps<{
   isActive: boolean
+  initialSteps: Stepable[]
 }>()
 const emits = defineEmits<{
   (event: 'submit', steps: Stepable[]): void
   (event: 'close'): void
 }>()
-const steps = ref<Stepable[]>([])
+const steps = ref<Stepable[]>(props.initialSteps)
+
+watch(props.initialSteps, (initialSteps) => {
+  steps.value = initialSteps
+})
 
 const save = () => {
   emits('submit', steps.value)
-  steps.value = []
 }
 </script>
 
