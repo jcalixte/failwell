@@ -9,6 +9,6 @@ export const fixtureTask = (
   ...steps: Stepable[]
 ) =>
   new Task(
-    partialTask?.id ?? faker.datatype.uuid(),
+    partialTask?.id ?? faker.string.uuid(),
     partialTask?.title ?? faker.animal.bird()
   ).addSteps(...(steps ?? fixtureStep()))

@@ -5,13 +5,13 @@ import type { Recordable } from './recordable'
 export const fixtureRecordable = (
   partialRecordable?: Partial<Recordable>
 ): Recordable => ({
-  taskId: partialRecordable?.taskId ?? faker.datatype.uuid(),
+  taskId: partialRecordable?.taskId ?? faker.string.uuid(),
   notes: partialRecordable?.notes ?? faker.lorem.paragraph(),
-  start: partialRecordable?.start ?? toISODate(faker.datatype.datetime()),
+  start: partialRecordable?.start ?? toISODate(faker.date.anytime()),
   breakTime: partialRecordable?.breakTime ?? undefined,
   stepRecords: partialRecordable?.stepRecords ?? {
-    [faker.datatype.uuid()]: {
-      start: toISODate(faker.datatype.datetime())
+    [faker.string.uuid()]: {
+      start: toISODate(faker.date.anytime())
     }
   },
   currentStepId: null,

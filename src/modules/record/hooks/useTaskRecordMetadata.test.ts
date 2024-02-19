@@ -17,7 +17,7 @@ describe('use task record metadata', () => {
     const end = toISODate(new Date('2023-04-17T20:00:00.000Z'))
     const record = fixtureRecordable({
       stepRecords: {
-        [faker.datatype.uuid()]: {
+        [faker.string.uuid()]: {
           start: toISODate(new Date('2023-04-17T19:00:00.000Z')),
           end
         }

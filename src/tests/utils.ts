@@ -5,7 +5,7 @@ import type { TaskStoreState } from '@/modules/task/stores/useTask.store'
 import { router } from '@/router'
 import { toISODate } from '@/shared/types/date'
 import { createTestingPinia } from '@pinia/testing'
-import type { GlobalMountOptions } from '@vue/test-utils/dist/types'
+import type { GlobalMountOptions } from 'node_modules/@vue/test-utils/dist/types'
 import { vi } from 'vitest'
 
 export interface InitialState {

@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest'
 
 describe('Task', () => {
   it('has a simple id', () => {
-    const uuid = faker.datatype.uuid()
+    const uuid = faker.string.uuid()
 
     const task = new Task(uuid, faker.animal.bear())
 
@@ -16,7 +16,7 @@ describe('Task', () => {
 
   it('allows a new task from a taskable object', () => {
     const taskable: Taskable = {
-      id: faker.datatype.uuid(),
+      id: faker.string.uuid(),
       date: toISODate(faker.date.recent()),
       title: faker.animal.lion(),
       link: faker.internet.url(),
@@ -28,7 +28,7 @@ describe('Task', () => {
   })
 
   it('adds steps and removes them', () => {
-    const task = new Task(faker.datatype.uuid(), faker.color.human())
+    const task = new Task(faker.string.uuid(), faker.color.human())
 
     const [firstStep, secondStep] = [fixtureStep(), fixtureStep()]
 
@@ -44,7 +44,7 @@ describe('Task', () => {
   })
 
   it('must have an id, a title and steps to be valid', () => {
-    const task = new Task(faker.datatype.uuid(), faker.color.human())
+    const task = new Task(faker.string.uuid(), faker.color.human())
     expect(Task.validate(task)).toEqual(false)
 
     task.addSteps(fixtureStep())
@@ -52,7 +52,7 @@ describe('Task', () => {
   })
 
   it('calculates the total estimation of steps', () => {
-    const task = new Task(faker.datatype.uuid(), faker.color.human())
+    const task = new Task(faker.string.uuid(), faker.color.human())
 
     task.addSteps(
       fixtureStep({ estimation: 1 }),

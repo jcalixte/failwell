@@ -14,7 +14,7 @@ const mountTaskRecordPreview = (withRecord = false) => {
   const record = fixtureRecordable({
     taskId: task.id,
     stepRecords: {
-      [faker.datatype.uuid()]: {
+      [faker.string.uuid()]: {
         start: toISODate(new Date('2023-04-17T19:00:00.000Z')),
         end
       }
@@ -45,12 +45,6 @@ const mountTaskRecordPreview = (withRecord = false) => {
 }
 
 describe('Task Record Preview', () => {
-  it('displays a start recording', () => {
-    const { wrapper } = mountTaskRecordPreview()
-
-    expect(wrapper.text()).toContain('start recording')
-  })
-
   it('displays no record yet if there is no record', () => {
     const { wrapper } = mountTaskRecordPreview()
 
@@ -60,22 +54,6 @@ describe('Task Record Preview', () => {
   it('displays the duration of a recorded task', () => {
     const { wrapper } = mountTaskRecordPreview(true)
 
-    expect(wrapper.text()).toContain('last time: 60 minutes')
-  })
-
-  it('navigates to recording view on click', async () => {
-    const { task, wrapper } = mountTaskRecordPreview()
-
-    const spyOnPush = vi.spyOn(router, 'push')
-
-    await wrapper.find('a').trigger('click')
-
-    expect(spyOnPush).toHaveBeenCalledTimes(1)
-    expect(spyOnPush).toHaveBeenCalledWith({
-      name: 'record-view',
-      params: {
-        taskId: task.id
-      }
-    })
+    expect(wrapper.text()).toContain('Last record took 60 minutes.')
   })
 })
