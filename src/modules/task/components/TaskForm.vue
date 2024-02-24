@@ -14,13 +14,16 @@ const router = useRouter()
 const props = defineProps<{
   id: string
   initialTask?: Taskable
-  action: 'new' | 'edit'
 }>()
 const id = computed(() => props.id)
 const hasTasks = computed(() => store.tasks.length > 0)
 
 const steps = ref<Stepable[]>(
-  props.initialTask?.steps ?? (hasTasks.value ? [] : exampleSteps)
+  props.initialTask
+    ? Task.fromTaskable(props.initialTask).steps
+    : hasTasks.value
+      ? []
+      : exampleSteps
 )
 
 const title = ref(props.initialTask?.title ?? '')
@@ -31,15 +34,12 @@ const totalEstimation = computed(() =>
 )
 
 const saveTask = () => {
-  const task = new Task(id.value, title.value, steps.value)
+  const task = new Task(id.value, title.value, props.initialTask?.stepHistory)
 
   if (link.value) {
     task.link = link.value
   }
-
-  if (props.action === 'new') {
-    task.initInitialPlan(steps.value)
-  }
+  task.newSteps(steps.value)
 
   if (!Task.validate(task)) {
     return false

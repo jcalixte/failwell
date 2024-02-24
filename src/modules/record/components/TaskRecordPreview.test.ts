@@ -1,10 +1,9 @@
 import { fixtureTask } from '@/modules/task/models/task.fixture'
-import { router } from '@/router'
 import { toISODate } from '@/shared/types/date'
 import { withPlugins } from '@/tests/utils'
 import { faker } from '@faker-js/faker'
 import { mount } from '@vue/test-utils'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { fixtureRecordable } from '../interfaces/recordable.fixture'
 import TaskRecordPreview from './TaskRecordPreview.vue'
 

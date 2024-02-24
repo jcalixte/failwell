@@ -20,8 +20,7 @@ describe('Task', () => {
       date: toISODate(faker.date.recent()),
       title: faker.animal.lion(),
       link: faker.internet.url(),
-      initialPlan: [fixtureStep()],
-      steps: [fixtureStep()]
+      stepHistory: [[fixtureStep()]]
     }
     const task = Task.fromTaskable(taskable)
 
@@ -69,8 +68,7 @@ describe('Task', () => {
       fixtureStep({ estimation: 1 }),
       fixtureStep({ estimation: 2 })
     ]
-    const task = new Task(faker.string.uuid(), faker.color.human(), steps)
-    task.initInitialPlan(steps)
+    const task = new Task(faker.string.uuid(), faker.color.human(), [steps])
 
     task.updateSteps([
       fixtureStep({ estimation: 3 }),
