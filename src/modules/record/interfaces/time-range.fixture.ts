@@ -5,11 +5,11 @@ import type { TimeRange } from './time-range'
 export const fixtureTimeRange = (
   partialTimeRange?: Partial<TimeRange>
 ): TimeRange => {
-  const [start, end] = faker.date.betweens(
-    toISODate(faker.date.past(1)),
-    toISODate(new Date()),
-    2
-  )
+  const [start, end] = faker.date.betweens({
+    from: toISODate(faker.date.past({ years: 1 })),
+    to: toISODate(new Date()),
+    count: 2
+  })
 
   return {
     start: partialTimeRange?.start ?? toISODate(start),

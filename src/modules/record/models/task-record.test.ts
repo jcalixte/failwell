@@ -9,13 +9,13 @@ import { TaskRecord } from './task-record'
 describe('Task Record', () => {
   it('creates a Record from a Recordable', () => {
     const recordable: Recordable = fixtureRecordable({
-      taskId: faker.datatype.uuid(),
+      taskId: faker.string.uuid(),
       notes: faker.lorem.paragraphs(),
-      start: toISODate(faker.date.past(1)),
+      start: toISODate(faker.date.past({ years: 1 })),
       end: toISODate(faker.date.past()),
       breakTime: fixtureTimeRange(),
       stepRecords: {
-        [faker.datatype.uuid()]: fixtureTimeRange()
+        [faker.string.uuid()]: fixtureTimeRange()
       }
     })
 

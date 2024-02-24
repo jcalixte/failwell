@@ -6,5 +6,5 @@ const id = createUuid()
 </script>
 
 <template>
-  <task-form :id="id" />
+  <task-form :id="id" :action="'new'" />
 </template>

@@ -3,14 +3,37 @@ import type { Taskable } from '@/modules/task/interfaces/taskable'
 import { toISODate } from '@/shared/types/date'
 
 export class Task implements Taskable {
+  public readonly stepHistory: Stepable[][] = []
   public date = toISODate(new Date())
-  public steps: Stepable[] = []
   public link: string | null = null
 
-  constructor(public readonly id: string, public readonly title: string) {}
+  constructor(
+    public readonly id: string,
+    public readonly title: string,
+    history: Stepable[][] = []
+  ) {
+    this.stepHistory = history
+  }
+
+  public get initialPlan() {
+    return this.stepHistory[0] ?? []
+  }
+
+  public get steps(): Stepable[] {
+    return this.stepHistory[this.stepHistory.length - 1] ?? []
+  }
+
+  public get wasUpdated() {
+    return this.stepHistory.length > 0
+  }
 
   public addSteps(...steps: Stepable[]) {
-    this.steps.push(...steps)
+    this.stepHistory.push([...this.steps, ...steps])
+    return this
+  }
+
+  public newSteps(steps: Stepable[]) {
+    this.stepHistory.push(steps)
     return this
   }
 
@@ -23,7 +46,12 @@ export class Task implements Taskable {
       return this
     }
 
-    this.steps.splice(index, 1)
+    this.stepHistory.push(this.steps.filter((_, i) => i !== index))
+    return this
+  }
+
+  public updateSteps(steps: Stepable[]) {
+    this.stepHistory.push(steps)
     return this
   }
 
@@ -32,15 +60,14 @@ export class Task implements Taskable {
   }
 
   public static fromTaskable(taskable: Taskable) {
-    const task = new Task(taskable.id, taskable.title)
+    const task = new Task(taskable.id, taskable.title, taskable.stepHistory)
     task.link = taskable.link
     task.date = taskable.date
-    task.addSteps(...taskable.steps)
 
     return task
   }
 
   public static validate(task: Taskable) {
-    return !!task.id && !!task.title && task.steps.length > 0
+    return !!task.id && !!task.title && Task.fromTaskable(task).steps.length > 0
   }
 }

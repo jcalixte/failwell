@@ -27,7 +27,7 @@ const resetTasks = () => {
       </div>
       <task-list class="column task-list" />
     </div>
-    <!--
+    <!--
     <footer>
     <p>
         Made with <img src="@/assets/icons/love.svg" alt="love" /> by
