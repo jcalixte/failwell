@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check build-only",
+    "build": "run-p test:types build-only",
     "preview": "vite preview",
-    "test": "pnpm lint && pnpm type-check && pnpm test:unit",
+    "test:types": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "test:unit": "vitest",
     "test:ui": "vitest --ui",
+    "test": "pnpm lint && pnpm test:types && pnpm test:unit",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
