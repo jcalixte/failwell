@@ -6,7 +6,8 @@ import { useCopyRecord } from '@/modules/record/hooks/useCopyRecord.hook'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import StepRecord from '@/modules/record/components/StepRecord.vue'
+import RecordStepTable from '@/modules/record/components/RecordStepTable.vue'
+import StepTable from '@/modules/step/components/StepTable.vue'
 
 const props = defineProps<{
   id: string
@@ -84,40 +85,18 @@ const { canShareTask, taskCopied, shareTask } = useCopyRecord(task)
         <estimation-time-arrival :estimation="task.totalEstimation" />
       </h2>
       <task-record-preview :task-id="id" />
-      <table class="table is-striped is-hoverable">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>status</th>
-            <th>task</th>
-            <th>estimation</th>
-            <th>actual</th>
-          </tr>
-        </thead>
-        <tbody>
-          <step-record
-            v-for="(step, key) in task.steps"
-            :task-id="id"
-            :key="step.id"
-            :step-id="step.id"
-            :step-number="key + 1"
-          />
-        </tbody>
-      </table>
+      <record-step-table :id="id" :steps="task.steps" />
+      <template v-if="task.initialPlan">
+        <hr />
+        <h4>Initial plan</h4>
+        <step-table :id="id" :steps="task.initialPlan" />
+      </template>
     </div>
   </div>
   <task-not-found v-else />
 </template>
 
 <style scoped>
-.step-item {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  justify-content: space-between;
-  max-width: 600px;
-}
-
 .actions {
   float: right;
 }
