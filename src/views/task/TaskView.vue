@@ -86,11 +86,10 @@ const { canShareTask, taskCopied, shareTask } = useCopyRecord(task)
       </h2>
       <task-record-preview :task-id="id" />
       <record-step-table :id="id" :steps="task.steps" />
-      <template v-if="task.initialPlan">
-        <hr />
-        <h4>Initial plan</h4>
+      <details v-if="task.initialPlan">
+        <summary>Initial plan</summary>
         <step-table :id="id" :steps="task.initialPlan" />
-      </template>
+      </details>
     </div>
   </div>
   <task-not-found v-else />
