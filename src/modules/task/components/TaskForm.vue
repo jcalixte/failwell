@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import EstimationTimeArrival from '@/components/EstimationTimeArrival.vue'
-import { createUuid } from '@/shared/create-uuid'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { Stepable } from '../interfaces/stepable'
@@ -8,45 +7,17 @@ import type { Taskable } from '../interfaces/taskable'
 import { Task } from '../models/task'
 import { useTaskStore } from '../stores/useTask.store'
 import StepInput from './StepInput.vue'
+import { exampleSteps } from '@/modules/task/examples/steps'
 
 const store = useTaskStore()
 const router = useRouter()
-const props = defineProps<{ id: string; initialTask?: Taskable }>()
+const props = defineProps<{
+  id: string
+  initialTask?: Taskable
+  action: 'new' | 'edit'
+}>()
 const id = computed(() => props.id)
 const hasTasks = computed(() => store.tasks.length > 0)
-
-const exampleSteps: Stepable[] = [
-  {
-    id: createUuid(),
-    title: 'create math.test file, test add function for simple cases',
-    estimation: 3
-  },
-  {
-    id: createUuid(),
-    title: 'create the math file, implement add function',
-    estimation: 3
-  },
-  {
-    id: createUuid(),
-    title: 'commit',
-    estimation: 1
-  },
-  {
-    id: createUuid(),
-    title: 'TDD for the multiply function',
-    estimation: 8
-  },
-  {
-    id: createUuid(),
-    title: 'write documentation',
-    estimation: 10
-  },
-  {
-    id: createUuid(),
-    title: 'commit, push and create the PR',
-    estimation: 5
-  }
-]
 
 const steps = ref<Stepable[]>(
   props.initialTask?.steps ?? (hasTasks.value ? [] : exampleSteps)
@@ -60,23 +31,27 @@ const totalEstimation = computed(() =>
 )
 
 const saveTask = () => {
-  const task = new Task(id.value, title.value)
+  const task = new Task(id.value, title.value, steps.value)
+
   if (link.value) {
     task.link = link.value
   }
-  task.addSteps(...steps.value)
 
-  if (Task.validate(task)) {
-    store.saveTask(task)
-    router.push({
-      name: 'task-view',
-      params: {
-        id: id.value
-      }
-    })
+  if (props.action === 'new') {
+    task.initInitialPlan(steps.value)
   }
 
-  return false
+  if (!Task.validate(task)) {
+    return false
+  }
+
+  store.saveTask(task)
+  router.push({
+    name: 'task-view',
+    params: {
+      id: id.value
+    }
+  })
 }
 
 const isValid = computed(() => title.value && steps.value.length > 0)

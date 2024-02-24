@@ -6,5 +6,6 @@ export interface Taskable {
   title: string
   date: ISODate
   link: string | null
+  initialPlan: Stepable[]
   steps: Stepable[]
 }
