@@ -78,4 +78,13 @@ describe('Task', () => {
 
     expect(steps).toEqual(task.initialPlan)
   })
+
+  it('says if the task was updated', () => {
+    const task = new Task(faker.string.uuid(), faker.color.human())
+
+    expect(task.wasUpdated).toEqual(false)
+
+    task.addSteps(fixtureStep())
+    expect(task.wasUpdated).toEqual(true)
+  })
 })
