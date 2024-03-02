@@ -17,7 +17,7 @@ export const useTaskStore = defineStore('task-store', {
       this.remove(task.id)
       this.tasks.push(task)
     },
-    addStepsToTask(taskId: string, steps: Stepable[], fromStepId: string) {
+    editStepsToTask(taskId: string, steps: Stepable[], fromStepId: string) {
       this.tasks = this.tasks.map((task) => {
         if (task.id !== taskId) {
           return task

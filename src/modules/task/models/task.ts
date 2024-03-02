@@ -27,7 +27,7 @@ export class Task implements Taskable {
     return this.stepHistory.length > 0
   }
 
-  public addSteps(...steps: Stepable[]) {
+  public editSteps(...steps: Stepable[]) {
     this.stepHistory.push([...this.steps, ...steps])
     return this
   }

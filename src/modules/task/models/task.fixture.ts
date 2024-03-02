@@ -11,4 +11,4 @@ export const fixtureTask = (
   new Task(
     partialTask?.id ?? faker.string.uuid(),
     partialTask?.title ?? faker.animal.bird()
-  ).addSteps(...(steps ?? fixtureStep()))
+  ).editSteps(...(steps ?? fixtureStep()))

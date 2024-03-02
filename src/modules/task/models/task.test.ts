@@ -32,7 +32,7 @@ describe('Task', () => {
 
     const [firstStep, secondStep] = [fixtureStep(), fixtureStep()]
 
-    task.addSteps(firstStep, secondStep)
+    task.editSteps(firstStep, secondStep)
 
     expect(task.steps).toEqual([firstStep, secondStep])
 
@@ -47,14 +47,14 @@ describe('Task', () => {
     const task = new Task(faker.string.uuid(), faker.color.human())
     expect(Task.validate(task)).toEqual(false)
 
-    task.addSteps(fixtureStep())
+    task.editSteps(fixtureStep())
     expect(Task.validate(task)).toEqual(true)
   })
 
   it('calculates the total estimation of steps', () => {
     const task = new Task(faker.string.uuid(), faker.color.human())
 
-    task.addSteps(
+    task.editSteps(
       fixtureStep({ estimation: 1 }),
       fixtureStep({ estimation: 2 }),
       fixtureStep({ estimation: 3 })
@@ -84,7 +84,7 @@ describe('Task', () => {
 
     expect(task.wasUpdated).toEqual(false)
 
-    task.addSteps(fixtureStep())
+    task.editSteps(fixtureStep())
     expect(task.wasUpdated).toEqual(true)
   })
 })
