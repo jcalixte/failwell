@@ -15,10 +15,12 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@types/md5": "^2.3.5",
     "@vueuse/core": "^10.7.2",
     "@vueuse/math": "^10.7.2",
     "bulma": "^0.9.4",
     "html-to-image": "^1.11.11",
+    "md5": "^2.3.0",
     "nanoid": "^5.0.5",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
