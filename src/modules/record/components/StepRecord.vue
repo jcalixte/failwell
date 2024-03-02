@@ -4,6 +4,7 @@ import { formatDiffInMinutes } from '@/shared/format-date'
 import { toISODate } from '@/shared/types/date'
 import { computed, onUnmounted, ref } from 'vue'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
+import { is10PercentOffThanEstimation } from '@/modules/record/services/compare-with-estimation'
 
 const props = defineProps<{
   taskId: string
@@ -52,12 +53,15 @@ const duration = computed(() => {
   )
 })
 
-const isGreaterThanEstimation = computed(() => {
+const isOffEstimation = computed(() => {
   if (!step.value || !stepRecord.value || !duration.value) {
     return false
   }
 
-  return duration.value > step.value.estimation
+  return is10PercentOffThanEstimation({
+    estimation: step.value.estimation,
+    duration: duration.value
+  })
 })
 </script>
 
@@ -80,9 +84,9 @@ const isGreaterThanEstimation = computed(() => {
       </div>
     </td>
     <td class="status">
-      <span v-if="stepRecord?.end && !isGreaterThanEstimation">✅</span>
-      <span v-else-if="isGreaterThanEstimation">❓</span>
-      <span v-else>⌛</span>
+      <span v-if="!stepRecord?.end">⌛</span>
+      <span v-else-if="isOffEstimation">❓</span>
+      <span v-else>✅</span>
     </td>
     <td class="step-title">
       {{ step.title }}
