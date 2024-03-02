@@ -38,7 +38,7 @@ const save = () => {
         <step-input v-if="isActive" v-model="steps" size="small" />
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-primary" @click="save">add</button>
+        <button class="button is-primary" @click="save">edit</button>
         <button class="button" @click="$emit('close')">cancel</button>
       </footer>
     </div>

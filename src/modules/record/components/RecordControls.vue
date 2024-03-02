@@ -187,7 +187,9 @@ onUnmounted(() => {
     </div>
   </div>
   <NewStepsFormVue
+    v-if="task"
     :is-active="isAddingSteps"
+    :initial-steps="task.steps"
     @close="isAddingSteps = false"
     @submit="editSteps"
   />
