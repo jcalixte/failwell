@@ -37,7 +37,12 @@ const save = () => {
         ></button>
       </header>
       <section class="modal-card-body">
-        <step-input v-if="isActive" v-model="steps" size="small" />
+        <section class="message is-info">
+          <div class="message-body">
+            Current record will start from the first unfinished step.
+          </div>
+        </section>
+        <step-input v-if="isActive" v-model="steps" size="large" />
       </section>
       <footer class="modal-card-foot">
         <button class="button is-primary" @click="save">add</button>
