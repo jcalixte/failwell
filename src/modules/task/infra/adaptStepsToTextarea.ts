@@ -1,4 +1,4 @@
-import { createUuid } from '@/shared/create-uuid'
+import { generateId } from '@/shared/generate-id'
 import type { Stepable } from '../interfaces/stepable'
 
 export const adaptStepsToTextarea = (steps: Stepable[]) =>
@@ -33,6 +33,12 @@ export const adaptTextareaToSteps = (textareaValue: string): Stepable[] =>
         return null
       }
 
-      return { id: createUuid(), title, estimation }
+      return { id: generateId(`${title}-${estimation}`), title, estimation }
     })
-    .filter((step) => step !== null) as Stepable[]
+    .filter((step): step is Stepable => step !== null)
+    .map((step, index, steps) => {
+      const subSteps = steps.slice(0, index + 1)
+      const duplicates = subSteps.filter((s) => s.id === step.id).length
+
+      return { ...step, id: `${step.id}-${duplicates}` }
+    })
