@@ -54,7 +54,11 @@ const duration = computed(() => {
 })
 
 const isOffEstimation = computed(() => {
-  if (!step.value || !stepRecord.value || !duration.value) {
+  if (
+    step.value === null ||
+    stepRecord.value === null ||
+    duration.value === null
+  ) {
     return false
   }
 
