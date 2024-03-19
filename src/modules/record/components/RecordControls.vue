@@ -6,7 +6,7 @@ import { logicAnd } from '@vueuse/math'
 import { computed, onUnmounted, ref } from 'vue'
 import type { TaskRecord } from '../models/task-record'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
-import NewStepsFormVue from '@/modules/task/components/NewStepsForm.vue'
+import NewStepsForm from '@/modules/task/components/NewStepsForm.vue'
 import type { Stepable } from '@/modules/task/interfaces/stepable'
 
 const props = defineProps<{
@@ -88,7 +88,7 @@ const editSteps = (steps: Stepable[]) => {
   }
 
   isAddingSteps.value = false
-  taskStore.editStepsToTask(props.taskId, steps, record.value.currentStepId)
+  taskStore.editStepsToTask(props.taskId, steps)
 }
 
 const reset = () => {
@@ -186,7 +186,7 @@ onUnmounted(() => {
       <p><kbd>p</kbd>: pause</p>
     </div>
   </div>
-  <NewStepsFormVue
+  <NewStepsForm
     v-if="task"
     :is-active="isAddingSteps"
     :initial-steps="task.steps"
