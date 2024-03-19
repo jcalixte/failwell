@@ -76,7 +76,7 @@ const { canShareTask, taskCopied, shareTask } = useCopyRecord(task)
       :href="task.link"
       target="_blank"
       rel="noopener noreferrer"
-      class="button is-link"
+      class="button"
       >Task link</a
     >
     <div class="content" :id="`task-${id}`">
