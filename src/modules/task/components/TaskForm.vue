@@ -68,7 +68,13 @@ const isValid = computed(() => title.value && steps.value.length > 0)
         <div class="field">
           <label class="label" for="title">Title</label>
           <div class="control">
-            <input class="input" type="text" id="title" v-model="title" />
+            <input
+              class="input"
+              type="text"
+              id="title"
+              v-model="title"
+              autofocus
+            />
           </div>
         </div>
         <div class="field">
