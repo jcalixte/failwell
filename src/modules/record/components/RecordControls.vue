@@ -6,7 +6,7 @@ import { logicAnd } from '@vueuse/math'
 import { computed, onUnmounted, ref } from 'vue'
 import type { TaskRecord } from '../models/task-record'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
-import NewStepsFormVue from '@/modules/task/components/NewStepsForm.vue'
+import NewStepsForm from '@/modules/task/components/NewStepsForm.vue'
 import type { Stepable } from '@/modules/task/interfaces/stepable'
 
 const props = defineProps<{
@@ -78,17 +78,17 @@ const nextStep = () => {
 }
 
 const isAddingSteps = ref(false)
-const addStepsForm = () => {
+const editStepsForm = () => {
   isAddingSteps.value = true
 }
 
-const addSteps = (steps: Stepable[]) => {
+const editSteps = (steps: Stepable[]) => {
   if (!record.value.currentStepId) {
     return
   }
 
   isAddingSteps.value = false
-  taskStore.addStepsToTask(props.taskId, steps, record.value.currentStepId)
+  taskStore.editStepsToTask(props.taskId, steps)
 }
 
 const reset = () => {
@@ -170,7 +170,7 @@ onUnmounted(() => {
       <button
         v-if="!record.end && record.currentStepId"
         class="button is-primary is-light"
-        @click="addStepsForm"
+        @click="editStepsForm"
       >
         <img src="/icons/plus.svg" alt="plus" />
       </button>
@@ -186,10 +186,12 @@ onUnmounted(() => {
       <p><kbd>p</kbd>: pause</p>
     </div>
   </div>
-  <NewStepsFormVue
+  <NewStepsForm
+    v-if="task"
     :is-active="isAddingSteps"
+    :initial-steps="task.steps"
     @close="isAddingSteps = false"
-    @submit="addSteps"
+    @submit="editSteps"
   />
 </template>
 

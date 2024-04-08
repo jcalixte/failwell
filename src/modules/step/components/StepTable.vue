@@ -12,7 +12,6 @@ defineProps<{
     <thead>
       <tr>
         <th>#</th>
-        <th>status</th>
         <th>task</th>
         <th>estimation</th>
       </tr>

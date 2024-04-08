@@ -71,4 +71,26 @@ describe('adapt steps to textarea value', () => {
 
     expect(adaptTextareaToSteps(stepInTextArea)).toEqual([])
   })
+
+  it('creates generated ids based on title and estimation', () => {
+    const stepInTextarea = '- step 1 | 3'
+
+    const [step] = adaptTextareaToSteps(stepInTextarea)
+
+    expect(step.id).toMatchInlineSnapshot(`"66f312736335fce1df9a8b95c7be3fce-1"`)
+  })
+
+  it('creates generated ids based on title and estimation and indexes when duplicated', () => {
+    const stepInTextarea = `- step duplicated | 3
+- step duplicated | 3`
+
+    const [step1, step2] = adaptTextareaToSteps(stepInTextarea)
+
+    expect(step1.id).toMatchInlineSnapshot(
+      `"9b237c28d5254f2b819fa66c853a9a60-1"`
+    )
+    expect(step2.id).toMatchInlineSnapshot(
+      `"9b237c28d5254f2b819fa66c853a9a60-2"`
+    )
+  })
 })

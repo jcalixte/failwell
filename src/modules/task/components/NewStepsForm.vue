@@ -1,20 +1,26 @@
 <script setup lang="ts">
 import type { Stepable } from '@/modules/task/interfaces/stepable'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import StepInput from './StepInput.vue'
 
-defineProps<{
+const props = defineProps<{
   isActive: boolean
+  initialSteps: Stepable[]
 }>()
+
 const emits = defineEmits<{
   (event: 'submit', steps: Stepable[]): void
   (event: 'close'): void
 }>()
-const steps = ref<Stepable[]>([])
+
+const steps = ref<Stepable[]>(props.initialSteps)
+
+watch(props.initialSteps, (initialSteps) => {
+  steps.value = initialSteps
+})
 
 const save = () => {
   emits('submit', steps.value)
-  steps.value = []
 }
 </script>
 
@@ -23,7 +29,7 @@ const save = () => {
     <div class="modal-background" @click="$emit('close')"></div>
     <div class="new-step-form modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">New steps</p>
+        <p class="modal-card-title">Edit steps</p>
         <button
           class="delete"
           aria-label="close"
@@ -31,7 +37,12 @@ const save = () => {
         ></button>
       </header>
       <section class="modal-card-body">
-        <step-input v-if="isActive" v-model="steps" size="small" />
+        <section class="message is-info">
+          <div class="message-body">
+            Current record will start from the first unfinished step.
+          </div>
+        </section>
+        <step-input v-if="isActive" v-model="steps" size="large" />
       </section>
       <footer class="modal-card-foot">
         <button class="button is-primary" @click="save">add</button>

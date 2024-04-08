@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type { Stepable } from '../interfaces/stepable'
 import type { Taskable } from '../interfaces/taskable'
 import { Task } from '../models/task'
+import { useTaskRecordStore } from '@/modules/record/stores/useTaskRecordStore'
 
 export interface TaskStoreState {
   tasks: Taskable[]
@@ -17,27 +18,16 @@ export const useTaskStore = defineStore('task-store', {
       this.remove(task.id)
       this.tasks.push(task)
     },
-    addStepsToTask(taskId: string, steps: Stepable[], fromStepId: string) {
+    editStepsToTask(taskId: string, steps: Stepable[]) {
       this.tasks = this.tasks.map((task) => {
         if (task.id !== taskId) {
           return task
         }
 
-        const fromStepIndex = Task.fromTaskable(task).steps.findIndex(
-          (s) => s.id === fromStepId
-        )
-
-        if (fromStepIndex < 0) {
-          return task
-        }
-
         const newTask = Task.fromTaskable(task)
 
-        newTask.newSteps([
-          ...newTask.steps.slice(0, fromStepIndex + 1),
-          ...steps.map((step) => ({ ...step, addedAfterward: true })),
-          ...newTask.steps.slice(fromStepIndex + 1)
-        ])
+        newTask.newSteps(steps)
+        useTaskRecordStore().cleanCurrentStepId(newTask)
 
         return newTask
       })

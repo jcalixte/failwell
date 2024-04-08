@@ -188,6 +188,33 @@ export const useTaskRecordStore = defineStore('task-record-store', {
           }
         }
       })
+    },
+    cleanCurrentStepId(task: Task) {
+      const record = this.records[task.id]
+
+      if (!record) {
+        return
+      }
+
+      const nextStepIndex = task.steps.findIndex(
+        (step) =>
+          !Object.keys(record.stepRecords).find((stepId) => stepId === step.id)
+      )
+
+      if (nextStepIndex >= 0) {
+        task.steps
+          .filter((_, index) => index > nextStepIndex)
+          .map((step) => step.id)
+          .forEach((stepId) => {
+            delete record.stepRecords[stepId]
+          })
+
+        this.startStepRecord({
+          taskId: task.id,
+          stepId: task.steps[nextStepIndex].id,
+          start: toISODate(new Date())
+        })
+      }
     }
   },
   getters: {
