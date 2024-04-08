@@ -5,5 +5,4 @@ export interface Stepable {
    * estimation in minutes
    */
   estimation: number
-  addedAfterward?: boolean
 }

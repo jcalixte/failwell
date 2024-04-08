@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type { Stepable } from '../interfaces/stepable'
 import type { Taskable } from '../interfaces/taskable'
 import { Task } from '../models/task'
+import { useTaskRecordStore } from '@/modules/record/stores/useTaskRecordStore'
 
 export interface TaskStoreState {
   tasks: Taskable[]
@@ -25,20 +26,8 @@ export const useTaskStore = defineStore('task-store', {
 
         const newTask = Task.fromTaskable(task)
 
-        newTask.newSteps(
-          steps.map((step) => {
-            const stepExisted = newTask.steps.find((s) => s.id === step.id)
-
-            const addedAfterward = stepExisted
-              ? stepExisted.addedAfterward
-              : true
-
-            return {
-              ...step,
-              addedAfterward
-            }
-          })
-        )
+        newTask.newSteps(steps)
+        useTaskRecordStore().cleanCurrentStepId(newTask)
 
         return newTask
       })

@@ -63,7 +63,7 @@ const isGreaterThanEstimation = computed(() => {
 
 <template>
   <tr v-if="step" class="step-record">
-    <td class="td-rank" :class="{ 'added-afterward': step.addedAfterward }">
+    <td class="td-rank">
       <div class="rank">
         <template v-if="isCurrentStep">
           <img
@@ -110,12 +110,6 @@ $blob-color: $link;
 
     div {
       margin: auto;
-    }
-  }
-
-  .td-rank {
-    &.added-afterward {
-      background: #fbc124;
     }
   }
 
