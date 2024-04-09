@@ -56,10 +56,5 @@
     "vitest": "^1.3.0",
     "vue-tsc": "^1.8.27",
     "webdriverio": "^8.32.2"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }
