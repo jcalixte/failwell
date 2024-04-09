@@ -197,8 +197,8 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       }
 
       const nextStepIndex = task.steps.findIndex(
-        (step) =>
-          !Object.keys(record.stepRecords).find((stepId) => stepId === step.id)
+        // the first step that has not ended
+        (step) => record.stepRecords[step.id]?.end === undefined
       )
 
       if (nextStepIndex >= 0) {
