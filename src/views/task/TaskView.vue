@@ -42,6 +42,16 @@ const { canShareTask, taskCopied, shareTask } = useCopyRecord(task)
       >
       <router-link
         :to="{
+          name: 'history-task',
+          params: {
+            id
+          }
+        }"
+        class="button"
+        >View history</router-link
+      >
+      <router-link
+        :to="{
           name: 'edit-task',
           params: {
             id
@@ -85,16 +95,6 @@ const { canShareTask, taskCopied, shareTask } = useCopyRecord(task)
       </h2>
       <task-record-preview :task-id="id" />
       <record-step-table :id="id" :steps="task.steps" />
-      <router-link
-        :to="{
-          name: 'history-task',
-          params: {
-            id
-          }
-        }"
-        class="button"
-        >View history</router-link
-      >
     </div>
   </div>
   <task-not-found v-else />
