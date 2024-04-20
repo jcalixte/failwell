@@ -7,7 +7,6 @@ import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import RecordStepTable from '@/modules/record/components/RecordStepTable.vue'
-import StepTable from '@/modules/step/components/StepTable.vue'
 
 const props = defineProps<{
   id: string
@@ -86,10 +85,16 @@ const { canShareTask, taskCopied, shareTask } = useCopyRecord(task)
       </h2>
       <task-record-preview :task-id="id" />
       <record-step-table :id="id" :steps="task.steps" />
-      <details v-if="task.initialPlan && task.wasUpdated">
-        <summary>Initial plan</summary>
-        <step-table :id="id" :steps="task.initialPlan" />
-      </details>
+      <router-link
+        :to="{
+          name: 'history-task',
+          params: {
+            id
+          }
+        }"
+        class="button"
+        >View history</router-link
+      >
     </div>
   </div>
   <task-not-found v-else />
