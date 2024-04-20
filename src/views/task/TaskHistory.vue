@@ -65,7 +65,7 @@ whenever(n, () => {
     <h2 class="subtitle">
       <estimation-time-arrival :estimation="task.totalEstimation" />
     </h2>
-    <div class="buttons" v-if="!isPrevDisabled || !isNextDisabled">
+    <div class="buttons is-centered" v-if="!isPrevDisabled || !isNextDisabled">
       <button class="button" :disabled="isPrevDisabled" @click="goToPrev">
         <img src="/icons/arrow-left.svg" alt="go back" /></button
       ><button class="button" :disabled="isNextDisabled" @click="goToNext">
