@@ -34,6 +34,8 @@ defineProps<{
 <style scoped lang="scss">
 .record-step-table {
   .step-item {
+    display: block;
+    overflow-x: auto;
     display: flex;
     align-items: center;
     gap: 1rem;
