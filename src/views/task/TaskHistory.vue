@@ -2,6 +2,7 @@
 import EstimationTimeArrival from '@/components/EstimationTimeArrival.vue'
 import { adaptStepsToTextarea } from '@/modules/task/infra/adaptStepsToTextarea'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
+import { logicOr } from '@vueuse/math'
 import { useMagicKeys, whenever } from '@vueuse/core'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -43,13 +44,13 @@ const isNextDisabled = computed(
     currentIndex.value === task.value?.stepHistory.length - 2
 )
 
-const { n, p } = useMagicKeys()
+const { n, p, right, left } = useMagicKeys()
 
-whenever(p, () => {
+whenever(logicOr(p, left), () => {
   goToPrev()
 })
 
-whenever(n, () => {
+whenever(logicOr(n, right), () => {
   goToNext()
 })
 </script>
