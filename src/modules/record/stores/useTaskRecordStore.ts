@@ -202,6 +202,12 @@ export const useTaskRecordStore = defineStore('task-record-store', {
       )
 
       if (nextStepIndex >= 0) {
+        const latestStartDate = Math.max(
+          ...Object.values(record.stepRecords).map((stepRecord) =>
+            new Date(stepRecord.start).getTime()
+          )
+        )
+
         task.steps
           .filter((_, index) => index > nextStepIndex)
           .map((step) => step.id)
@@ -212,7 +218,7 @@ export const useTaskRecordStore = defineStore('task-record-store', {
         this.startStepRecord({
           taskId: task.id,
           stepId: task.steps[nextStepIndex].id,
-          start: toISODate(new Date())
+          start: toISODate(new Date(latestStartDate))
         })
       }
     }
