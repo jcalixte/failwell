@@ -12,7 +12,18 @@ import { RouterLink, RouterView } from 'vue-router'
       </nav>
     </header>
 
-    <RouterView />
+    <main>
+      <RouterView />
+    </main>
+
+    <footer>
+      <a
+        href="https://github.com/jcalixte/failwell/issues"
+        target="_blank"
+        rel="noopener noreferrer"
+        >report an issue</a
+      >
+    </footer>
   </div>
 </template>
 
@@ -31,5 +42,14 @@ nav {
 
 img.logo {
   max-width: 40px;
+}
+
+main {
+  flex: 1;
+}
+
+footer {
+  text-align: right;
+  font-size: 0.8rem;
 }
 </style>
