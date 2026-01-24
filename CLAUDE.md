@@ -6,6 +6,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Fail Well is a Progressive Web App (PWA) for tracking developer feedback loops during coding tasks. It helps compare planned steps/time vs actual execution, promoting iterative improvement.
 
+A task is a set of items and it looks like this:
+
+```md
+- First task | 5
+- Second task | 4
+```
+
+The last part after the last `|` is the estimated time of the task item in minutes.
+
 ## Commands
 
 ```bash
