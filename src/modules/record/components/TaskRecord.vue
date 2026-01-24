@@ -32,6 +32,16 @@ useAppTitle(task.value?.title ?? '')
 
 const record = computed(() => recordStore.getTaskRecord(props.taskId))
 const recordNotes = computed(() => recordStore.getRecordNotes(props.taskId))
+
+const lastCompletedStepId = computed(() => {
+  if (!record.value || !task.value || !record.value.currentStepId) return null
+
+  const currentIndex = task.value.steps.findIndex(
+    (s) => s.id === record.value?.currentStepId
+  )
+
+  return currentIndex > 0 ? task.value.steps[currentIndex - 1].id : null
+})
 </script>
 
 <template>
@@ -65,6 +75,7 @@ const recordNotes = computed(() => recordStore.getRecordNotes(props.taskId))
           :key="step.id"
           :step-id="step.id"
           :step-number="key + 1"
+          :is-last-completed-step="step.id === lastCompletedStepId"
         />
       </tbody>
     </table>

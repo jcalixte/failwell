@@ -2,7 +2,7 @@
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
 import { formatDiffInMinutes } from '@/shared/format-date'
 import { toISODate } from '@/shared/types/date'
-import { computed, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onUnmounted, ref } from 'vue'
 import { useTaskRecordStore } from '../stores/useTaskRecordStore'
 import { is10PercentOffThanEstimation } from '@/modules/record/services/compare-with-estimation'
 
@@ -10,6 +10,7 @@ const props = defineProps<{
   taskId: string
   stepId: string
   stepNumber: number
+  isLastCompletedStep?: boolean
 }>()
 
 const taskStore = useTaskStore()
@@ -67,6 +68,39 @@ const isOffEstimation = computed(() => {
     duration: duration.value
   })
 })
+
+// Duration editing
+const isEditing = ref(false)
+const editedDuration = ref(0)
+const durationInputRef = ref<HTMLInputElement | null>(null)
+
+const isEditable = computed(
+  () => props.isLastCompletedStep && record.value && !record.value.end
+)
+
+function startEditing() {
+  editedDuration.value = duration.value ?? 0
+  isEditing.value = true
+  nextTick(() => {
+    durationInputRef.value?.focus()
+    durationInputRef.value?.select()
+  })
+}
+
+function confirmEdit() {
+  if (editedDuration.value >= 1) {
+    recordStore.updateStepDuration({
+      taskId: props.taskId,
+      stepId: props.stepId,
+      newDurationMinutes: editedDuration.value
+    })
+  }
+  isEditing.value = false
+}
+
+function cancelEdit() {
+  isEditing.value = false
+}
 </script>
 
 <template>
@@ -96,7 +130,28 @@ const isOffEstimation = computed(() => {
       {{ step.title }}
     </td>
     <td class="estimation minutes">{{ step.estimation }} min</td>
-    <td class="minutes" v-if="stepRecord">{{ duration }} min</td>
+    <td class="minutes" v-if="stepRecord">
+      <template v-if="isEditing">
+        <input
+          ref="durationInputRef"
+          type="number"
+          min="1"
+          v-model.number="editedDuration"
+          @blur="confirmEdit"
+          @keydown.enter="confirmEdit"
+          @keydown.escape="cancelEdit"
+          class="input is-small duration-input"
+        />
+        min
+      </template>
+      <span
+        v-else
+        :class="{ 'is-editable': isEditable }"
+        @click="isEditable && startEditing()"
+      >
+        {{ duration }} min
+      </span>
+    </td>
     <td v-else></td>
   </tr>
 </template>
@@ -144,6 +199,19 @@ $blob-color: $link;
 
   .minutes {
     text-align: right;
+  }
+
+  .is-editable {
+    cursor: pointer;
+    text-decoration: underline dotted;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  .duration-input {
+    width: 60px;
+    display: inline-block;
   }
 }
 
