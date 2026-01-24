@@ -241,13 +241,32 @@ export const useTaskRecordStore = defineStore('task-record-store', {
         startMs + params.newDurationMinutes * unitMultiplier * 1000
       const newEnd = toISODate(new Date(newEndMs))
 
-      // Adjust current step's start time for continuity
-      const currentStepId = record.currentStepId
-      if (currentStepId && record.stepRecords[currentStepId]) {
-        record.stepRecords[currentStepId].start = newEnd
+      // Build updated step records
+      const updatedStepRecords = { ...record.stepRecords }
+      updatedStepRecords[params.stepId] = {
+        ...stepRecord,
+        end: newEnd
       }
 
-      stepRecord.end = newEnd
+      // Adjust current step's start time for continuity, but only if new end is in the past
+      const currentStepId = record.currentStepId
+      const isNewEndInPast = newEndMs <= Date.now()
+      if (currentStepId && updatedStepRecords[currentStepId] && isNewEndInPast) {
+        updatedStepRecords[currentStepId] = {
+          ...updatedStepRecords[currentStepId],
+          start: newEnd
+        }
+      }
+
+      this.$patch({
+        records: {
+          ...this.records,
+          [params.taskId]: {
+            ...record,
+            stepRecords: updatedStepRecords
+          }
+        }
+      })
     }
   },
   getters: {
