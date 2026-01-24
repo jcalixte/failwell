@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import TaskList from '@/modules/task/components/TaskList.vue'
+import { adaptTextareaToSteps } from '@/modules/task/infra/adaptStepsToTextarea'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
-import { computed } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 const taskStore = useTaskStore()
+const router = useRouter()
 
 const hasTask = computed(() => taskStore.tasks.length > 0)
 
@@ -12,6 +15,28 @@ const resetTasks = () => {
     taskStore.reset()
   }
 }
+
+const handlePaste = (event: ClipboardEvent) => {
+  const clipboardText = event.clipboardData?.getData('text')
+  if (!clipboardText) {
+    return
+  }
+
+  const steps = adaptTextareaToSteps(clipboardText)
+  if (steps.length === 0) {
+    return
+  }
+
+  router.push({ name: 'new-task', state: { initialSteps: JSON.stringify(steps) } })
+}
+
+onMounted(() => {
+  document.addEventListener('paste', handlePaste)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('paste', handlePaste)
+})
 </script>
 
 <template>

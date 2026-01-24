@@ -9,7 +9,7 @@ const extractTitleAndEstimationFromStep = (
 ): [string, number] => {
   const [rawTitle, rawEstimation] = rawStep
     .trim()
-    .replace(/^-\s*/, '')
+    .replace(/^-\s*(\[[ x]\]\s*)?/, '')
     .split('|')
   const title = rawTitle.trim()
 

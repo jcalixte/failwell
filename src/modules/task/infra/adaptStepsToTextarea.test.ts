@@ -93,4 +93,40 @@ describe('adapt steps to textarea value', () => {
       `"9b237c28d5254f2b819fa66c853a9a60-2"`
     )
   })
+
+  it('parses steps with unchecked checkbox format', () => {
+    const stepInTextarea = '- [ ] step with checkbox | 20'
+
+    const expectedStep = fixtureStep({
+      id: expect.any(String),
+      title: 'step with checkbox',
+      estimation: 20
+    })
+
+    expect(adaptTextareaToSteps(stepInTextarea)).toEqual([expectedStep])
+  })
+
+  it('parses steps with checked checkbox format', () => {
+    const stepInTextarea = '- [x] completed step | 15'
+
+    const expectedStep = fixtureStep({
+      id: expect.any(String),
+      title: 'completed step',
+      estimation: 15
+    })
+
+    expect(adaptTextareaToSteps(stepInTextarea)).toEqual([expectedStep])
+  })
+
+  it('parses checkbox steps without estimation', () => {
+    const stepInTextarea = '- [ ] step without estimation'
+
+    const expectedStep = fixtureStep({
+      id: expect.any(String),
+      title: 'step without estimation',
+      estimation: 0
+    })
+
+    expect(adaptTextareaToSteps(stepInTextarea)).toEqual([expectedStep])
+  })
 })
