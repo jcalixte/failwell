@@ -27,7 +27,10 @@ const handlePaste = (event: ClipboardEvent) => {
     return
   }
 
-  router.push({ name: 'new-task', state: { initialSteps: JSON.stringify(steps) } })
+  router.push({
+    name: 'new-task',
+    state: { initialSteps: JSON.stringify(steps) }
+  })
 }
 
 onMounted(() => {
@@ -42,13 +45,20 @@ onUnmounted(() => {
 <template>
   <main>
     <div class="content-tasks columns is-centered is-vcentered">
-      <div class="new-task-container column buttons">
-        <router-link :to="{ name: 'new-task' }" class="button is-primary">
-          new task
-        </router-link>
-        <button v-if="hasTask" class="button is-danger" @click="resetTasks">
-          clear the list
-        </button>
+      <div class="new-task-container column">
+        <div class="buttons">
+          <router-link :to="{ name: 'new-task' }" class="button is-primary">
+            new task
+          </router-link>
+          <button v-if="hasTask" class="button is-danger" @click="resetTasks">
+            clear the list
+          </button>
+        </div>
+        <section class="message is-info paste-hint">
+          <div class="message-body">
+            Paste a list of items to directly create a new task
+          </div>
+        </section>
       </div>
       <task-list class="column task-list" />
     </div>
@@ -85,6 +95,11 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.paste-hint {
+  margin: 1rem;
+  text-align: center;
 }
 
 .task-list {
