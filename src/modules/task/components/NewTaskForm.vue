@@ -5,11 +5,12 @@ import TaskForm from './TaskForm.vue'
 
 const props = defineProps<{
   initialSteps?: Stepable[]
+  initialTitle?: string
 }>()
 
 const id = createUuid()
 </script>
 
 <template>
-  <task-form :id="id" :initial-steps="props.initialSteps" />
+  <task-form :id="id" :initial-steps="props.initialSteps" :initial-title="props.initialTitle" />
 </template>

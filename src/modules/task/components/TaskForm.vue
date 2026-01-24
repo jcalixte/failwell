@@ -15,6 +15,7 @@ const props = defineProps<{
   id: string
   initialTask?: Taskable
   initialSteps?: Stepable[]
+  initialTitle?: string
 }>()
 const id = computed(() => props.id)
 const hasTasks = computed(() => store.tasks.length > 0)
@@ -29,7 +30,7 @@ const steps = ref<Stepable[]>(
         : exampleSteps
 )
 
-const title = ref(props.initialTask?.title ?? '')
+const title = ref(props.initialTitle ?? props.initialTask?.title ?? '')
 const link = ref(props.initialTask?.link ?? '')
 
 const totalEstimation = computed(() =>

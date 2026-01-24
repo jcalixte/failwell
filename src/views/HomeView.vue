@@ -16,20 +16,34 @@ const resetTasks = () => {
   }
 }
 
+const extractTitleFromPaste = (
+  text: string
+): { title: string | null; content: string } => {
+  const match = text.match(/^(#{1,6})\s+(.+?)\n+([\s\S]*)$/)
+  if (match) {
+    return { title: match[2].trim(), content: match[3] }
+  }
+  return { title: null, content: text }
+}
+
 const handlePaste = (event: ClipboardEvent) => {
   const clipboardText = event.clipboardData?.getData('text')
   if (!clipboardText) {
     return
   }
 
-  const steps = adaptTextareaToSteps(clipboardText)
+  const { title, content } = extractTitleFromPaste(clipboardText)
+  const steps = adaptTextareaToSteps(content)
   if (steps.length === 0) {
     return
   }
 
   router.push({
     name: 'new-task',
-    state: { initialSteps: JSON.stringify(steps) }
+    state: {
+      initialTitle: title,
+      initialSteps: JSON.stringify(steps)
+    }
   })
 }
 
