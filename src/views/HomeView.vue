@@ -60,6 +60,17 @@ onUnmounted(() => {
   <main>
     <div class="content-tasks columns is-centered is-vcentered">
       <div class="new-task-container column">
+        <section v-if="!hasTask" class="description-hint">
+          <h1 class="title is-3">Welcome to Fail Well</h1>
+          <p class="subtitle is-6">Track your feedback loops during tasks.</p>
+          <div class="content">
+            <p>
+              Plan your steps with time estimates, then record how long they
+              actually take. Compare planned vs actual to better understand what
+              went wrong and what can be improved.
+            </p>
+          </div>
+        </section>
         <div class="buttons">
           <router-link :to="{ name: 'new-task' }" class="button is-primary">
             new task
@@ -74,7 +85,7 @@ onUnmounted(() => {
           </div>
         </section>
       </div>
-      <task-list class="column task-list" />
+      <task-list v-if="hasTask" class="column task-list" />
     </div>
     <!--
     <footer>
@@ -114,6 +125,15 @@ main {
 .paste-hint {
   margin: 1rem;
   text-align: center;
+}
+
+.description-hint {
+  margin: 2rem 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  background-color: #f5f5f5;
+  border-radius: 0.5rem;
+  max-width: 400px;
 }
 
 .task-list {
