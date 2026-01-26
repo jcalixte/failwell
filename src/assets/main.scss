@@ -1,7 +1,8 @@
 @charset "utf-8";
+@use "variables";
+@use '../../node_modules/bulma/bulma.sass';
+
 @import url('https://fonts.googleapis.com/css2?family=Oxygen+Mono&display=swap');
-@import "variables";
-@import '../../node_modules/bulma/bulma.sass';
 
 *,
 *::before,

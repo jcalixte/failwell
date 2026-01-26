@@ -157,8 +157,14 @@ function cancelEdit() {
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/variables';
+$family-monospace: 'Oxygen Mono', monospace;
 
+$family-primary: $family-monospace;
+$primary: #192a56;
+$info: #40739e;
+$link: #2f3640;
+$danger: #c23616;
+$warning: #fbc531;
 $blob-size: 15px;
 $blob-color: $link;
 
