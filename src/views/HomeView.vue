@@ -26,8 +26,11 @@ const extractTitleFromPaste = (
   return { title: null, content: text }
 }
 
-const handlePaste = (event: ClipboardEvent) => {
-  const clipboardText = event.clipboardData?.getData('text')
+const handlePaste = async (event?: ClipboardEvent) => {
+  const clipboardText = event
+    ? event.clipboardData?.getData('text')
+    : await navigator.clipboard.readText()
+
   if (!clipboardText) {
     return
   }
@@ -82,6 +85,7 @@ onUnmounted(() => {
         <section class="message is-info paste-hint">
           <div class="message-body">
             Paste a list of items to directly create a new task
+            <button @click="handlePaste" class="button is-info">Paste</button>
           </div>
         </section>
       </div>
