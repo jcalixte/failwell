@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import TaskList from '@/modules/task/components/TaskList.vue'
+import { adaptTextareaToSteps } from '@/modules/task/infra/adaptStepsToTextarea'
 import { useTaskStore } from '@/modules/task/stores/useTask.store'
-import { computed } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 const taskStore = useTaskStore()
+const router = useRouter()
 
 const hasTask = computed(() => taskStore.tasks.length > 0)
 
@@ -12,20 +15,77 @@ const resetTasks = () => {
     taskStore.reset()
   }
 }
+
+const extractTitleFromPaste = (
+  text: string
+): { title: string | null; content: string } => {
+  const match = text.match(/^(#{1,6})\s+(.+?)\n+([\s\S]*)$/)
+  if (match) {
+    return { title: match[2].trim(), content: match[3] }
+  }
+  return { title: null, content: text }
+}
+
+const handlePaste = (event: ClipboardEvent) => {
+  const clipboardText = event.clipboardData?.getData('text')
+  if (!clipboardText) {
+    return
+  }
+
+  const { title, content } = extractTitleFromPaste(clipboardText)
+  const steps = adaptTextareaToSteps(content)
+  if (steps.length === 0) {
+    return
+  }
+
+  router.push({
+    name: 'new-task',
+    state: {
+      initialTitle: title,
+      initialSteps: JSON.stringify(steps)
+    }
+  })
+}
+
+onMounted(() => {
+  document.addEventListener('paste', handlePaste)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('paste', handlePaste)
+})
 </script>
 
 <template>
   <main>
     <div class="content-tasks columns is-centered is-vcentered">
-      <div class="new-task-container column buttons">
-        <router-link :to="{ name: 'new-task' }" class="button is-primary">
-          new task
-        </router-link>
-        <button v-if="hasTask" class="button is-danger" @click="resetTasks">
-          clear the list
-        </button>
+      <div class="new-task-container column">
+        <section v-if="!hasTask" class="description-hint">
+          <h1 class="title is-3">Welcome to Fail Well</h1>
+          <p class="subtitle is-6">Track your feedback loops during tasks.</p>
+          <div class="content">
+            <p>
+              Plan your steps with time estimates, then record how long they
+              actually take. Compare planned vs actual to better understand what
+              went wrong and what can be improved.
+            </p>
+          </div>
+        </section>
+        <div class="buttons">
+          <router-link :to="{ name: 'new-task' }" class="button is-primary">
+            new task
+          </router-link>
+          <button v-if="hasTask" class="button is-danger" @click="resetTasks">
+            clear the list
+          </button>
+        </div>
+        <section class="message is-info paste-hint">
+          <div class="message-body">
+            Paste a list of items to directly create a new task
+          </div>
+        </section>
       </div>
-      <task-list class="column task-list" />
+      <task-list v-if="hasTask" class="column task-list" />
     </div>
     <!--
     <footer>
@@ -60,6 +120,20 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.paste-hint {
+  margin: 1rem;
+  text-align: center;
+}
+
+.description-hint {
+  margin: 2rem 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  background-color: #f5f5f5;
+  border-radius: 0.5rem;
+  max-width: 400px;
 }
 
 .task-list {

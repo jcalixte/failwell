@@ -183,7 +183,7 @@ onUnmounted(() => {
     <div class="column message">
       <p><kbd>s</kbd>: start record</p>
       <p><kbd>n</kbd>: next step</p>
-      <p><kbd>p</kbd>: pause</p>
+      <p><kbd>p</kbd>: pause/resume</p>
     </div>
   </div>
   <NewStepsForm

@@ -5,6 +5,7 @@ import type { Recordable } from '../interfaces/recordable'
 import type { TimeRange } from '../interfaces/time-range'
 import { TaskRecord } from '../models/task-record'
 import { addBreakTimeToStepRecords } from '../services/breaktime-service'
+import { isTimeSpeedUp } from '@/shared/format-date'
 
 export interface TaskRecordStoreState {
   records: { [recordId: string]: Recordable }
@@ -221,6 +222,51 @@ export const useTaskRecordStore = defineStore('task-record-store', {
           start: toISODate(new Date(latestStartDate))
         })
       }
+    },
+    updateStepDuration(params: {
+      taskId: string
+      stepId: string
+      newDurationMinutes: number
+    }) {
+      const record = this.records[params.taskId]
+      if (!record) return
+
+      const stepRecord = record.stepRecords[params.stepId]
+      if (!stepRecord?.end) return // Only completed steps
+
+      // Calculate new end time (in dev mode, units are seconds for faster testing)
+      const unitMultiplier = isTimeSpeedUp() ? 1 : 60
+      const startMs = new Date(stepRecord.start).getTime()
+      const newEndMs =
+        startMs + params.newDurationMinutes * unitMultiplier * 1000
+      const newEnd = toISODate(new Date(newEndMs))
+
+      // Build updated step records
+      const updatedStepRecords = { ...record.stepRecords }
+      updatedStepRecords[params.stepId] = {
+        ...stepRecord,
+        end: newEnd
+      }
+
+      // Adjust current step's start time for continuity, but only if new end is in the past
+      const currentStepId = record.currentStepId
+      const isNewEndInPast = newEndMs <= Date.now()
+      if (currentStepId && updatedStepRecords[currentStepId] && isNewEndInPast) {
+        updatedStepRecords[currentStepId] = {
+          ...updatedStepRecords[currentStepId],
+          start: newEnd
+        }
+      }
+
+      this.$patch({
+        records: {
+          ...this.records,
+          [params.taskId]: {
+            ...record,
+            stepRecords: updatedStepRecords
+          }
+        }
+      })
     }
   },
   getters: {

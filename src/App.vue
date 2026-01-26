@@ -17,6 +17,8 @@ import { RouterLink, RouterView } from 'vue-router'
     </main>
 
     <footer>
+      <router-link to="/about">about</router-link>
+      <span class="separator">|</span>
       <a
         href="https://github.com/jcalixte/failwell/issues"
         target="_blank"
@@ -51,5 +53,10 @@ main {
 footer {
   text-align: right;
   font-size: 0.8rem;
+}
+
+footer .separator {
+  margin: 0 0.5rem;
+  color: #ccc;
 }
 </style>
