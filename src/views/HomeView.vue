@@ -84,7 +84,7 @@ onUnmounted(() => {
         </div>
         <section class="message is-info paste-hint">
           <div class="message-body">
-            Paste a list of items to directly create a new task
+            <p>Paste a list of items to directly create a new task</p>
             <button @click="handlePaste()" class="button is-info">Paste</button>
           </div>
         </section>
