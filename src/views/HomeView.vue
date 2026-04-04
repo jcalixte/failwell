@@ -84,7 +84,7 @@ onUnmounted(() => {
         </div>
         <section class="message is-info paste-hint">
           <div class="message-body">
-            Paste a list of items to directly create a new task
+            <span>Paste a list of items to directly create a new task</span>
             <button @click="handlePaste()" class="button is-info">Paste</button>
           </div>
         </section>
@@ -128,7 +128,12 @@ main {
 
 .paste-hint {
   margin: 1rem;
-  text-align: center;
+}
+
+.paste-hint .message-body {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .description-hint {
