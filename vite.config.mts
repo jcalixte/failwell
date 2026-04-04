@@ -92,6 +92,18 @@ export default defineConfig({
       }
     })
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern',
+        silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'if-function']
+      },
+      sass: {
+        api: 'modern',
+        silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'if-function']
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
