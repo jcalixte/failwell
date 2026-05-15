@@ -6,6 +6,7 @@ import Observation
 @Observable
 final class NotchOverlayState {
     var isExpanded = false
+    var geometry: NotchGeometry?
 }
 
 struct NotchGeometry: Equatable {
@@ -66,9 +67,15 @@ final class NotchOverlayController {
     }
 
     private func sync() {
-        let shouldShow = store.activeRecord != nil && notchGeometry() != nil
-        if shouldShow {
+        let geometry = notchGeometry()
+        let shouldShow = store.activeRecord != nil && geometry != nil
+        if shouldShow, let geometry {
+            let geometryChanged = state.geometry != geometry
+            state.geometry = geometry
             ensurePanel()
+            if geometryChanged {
+                updateFrame(animated: false)
+            }
         } else {
             tearDown()
         }
@@ -99,7 +106,7 @@ final class NotchOverlayController {
     }
 
     private func ensurePanel() {
-        guard let geometry = notchGeometry() else { return }
+        guard let geometry = state.geometry else { return }
         if panel != nil { return }
 
         let panel = NSPanel(
@@ -116,12 +123,14 @@ final class NotchOverlayController {
         panel.ignoresMouseEvents = false
         panel.isMovable = false
 
-        let content = NotchOverlayContent(state: state, geometry: geometry)
+        let content = NotchOverlayContent(state: state)
             .environment(store)
             .environment(clock)
         let hosting = NSHostingController(rootView: content)
         hosting.view.wantsLayer = true
         hosting.view.layer?.backgroundColor = .clear
+        hosting.view.layerContentsPlacement = .topLeft
+        hosting.view.layerContentsRedrawPolicy = .duringViewResize
         panel.contentViewController = hosting
         panel.orderFront(nil)
 
@@ -129,22 +138,15 @@ final class NotchOverlayController {
     }
 
     private func updateFrame(animated: Bool) {
-        guard let panel, let geometry = notchGeometry() else { return }
+        guard let panel, let geometry = state.geometry else { return }
         let newFrame = panelFrame(geometry: geometry, expanded: state.isExpanded)
-        if animated {
-            NSAnimationContext.runAnimationGroup { ctx in
-                ctx.duration = 0.32
-                ctx.timingFunction = CAMediaTimingFunction(name: .easeOut)
-                ctx.allowsImplicitAnimation = true
-                panel.animator().setFrame(newFrame, display: true)
-            }
-        } else {
-            panel.setFrame(newFrame, display: true)
-        }
+        if panel.frame == newFrame { return }
+        panel.setFrame(newFrame, display: true, animate: animated)
     }
 
     private func tearDown() {
         state.isExpanded = false
+        state.geometry = nil
         panel?.orderOut(nil)
         panel?.close()
         panel = nil

@@ -5,15 +5,15 @@ struct NotchOverlayContent: View {
     @Environment(Clock.self) private var clock
 
     let state: NotchOverlayState
-    let geometry: NotchGeometry
 
     var body: some View {
-        if let active = store.activeRecord,
+        if let geometry = state.geometry,
+           let active = store.activeRecord,
            let stepId = active.record.currentStepId,
            let step = active.task.step(id: stepId),
            let range = active.record.stepRecords[stepId]
         {
-            island(active: active, step: step, range: range)
+            island(active: active, step: step, range: range, geometry: geometry)
         } else {
             Color.clear
         }
@@ -22,7 +22,8 @@ struct NotchOverlayContent: View {
     private func island(
         active: (task: TaskPlan, record: TaskRecord),
         step: Step,
-        range: TimeRange
+        range: TimeRange,
+        geometry: NotchGeometry
     ) -> some View {
         let elapsed = clock.now.timeIntervalSince(range.start)
         let estimationSec = Double(step.estimation) * 60
@@ -38,30 +39,30 @@ struct NotchOverlayContent: View {
                 .fill(Color.black, style: FillStyle(eoFill: true))
                 .shadow(color: .black.opacity(isExpanded ? 0.35 : 0), radius: 12, x: 0, y: 6)
 
-            VStack(spacing: 0) {
-                wings(
+            wings(
+                step: step,
+                elapsed: elapsed,
+                remaining: remaining,
+                overshoot: overshoot,
+                isPaused: isPaused,
+                menuBarH: menuBarH,
+                notchW: notchW
+            )
+
+            if isExpanded {
+                expandedBody(
+                    active: active,
                     step: step,
                     elapsed: elapsed,
                     remaining: remaining,
                     overshoot: overshoot,
-                    isPaused: isPaused,
-                    menuBarH: menuBarH,
-                    notchW: notchW
+                    isPaused: isPaused
                 )
-                if isExpanded {
-                    expandedBody(
-                        active: active,
-                        step: step,
-                        elapsed: elapsed,
-                        remaining: remaining,
-                        overshoot: overshoot,
-                        isPaused: isPaused
-                    )
-                    .transition(.opacity.combined(with: .move(edge: .top)))
-                }
+                .padding(.top, menuBarH)
+                .transition(.opacity)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .animation(.spring(response: 0.32, dampingFraction: 0.82), value: isExpanded)
         .onHover { hover in
             state.isExpanded = hover
