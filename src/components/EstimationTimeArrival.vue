@@ -9,7 +9,7 @@ const label = computed(() => `${props.estimation} minutes`)
 
 <template>
   <div class="estimation-time-arrival tags has-addons">
-    <div class="tag">ETA</div>
+    <div class="tag">est</div>
     <div class="tag is-primary" data-test="tag-label">
       {{ label }}
     </div>
