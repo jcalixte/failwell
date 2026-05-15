@@ -104,8 +104,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let elapsed = clock.now.timeIntervalSince(range.start)
             let icon = active.record.isPaused ? "pause.circle.fill" : "record.circle"
             button.image = NSImage(systemSymbolName: icon, accessibilityDescription: nil)
-            let title = "\(TimeFormat.clock(elapsed)) \(step.title)"
-            button.title = title.count > 32 ? "\(title.prefix(30))…" : title
+            if notchOverlay?.isShowing == true {
+                button.title = ""
+            } else {
+                let title = "\(TimeFormat.clock(elapsed)) \(step.title)"
+                button.title = title.count > 32 ? "\(title.prefix(30))…" : title
+            }
         } else {
             button.image = NSImage(systemSymbolName: "checklist", accessibilityDescription: nil)
             button.title = ""

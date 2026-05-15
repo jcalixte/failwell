@@ -29,6 +29,8 @@ final class NotchOverlayController {
     private var screenObserver: NSObjectProtocol?
     private var syncTask: Task<Void, Never>?
 
+    var isShowing: Bool { panel != nil }
+
     init(store: AppStore, clock: Clock) {
         self.store = store
         self.clock = clock
