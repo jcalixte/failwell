@@ -1,3 +1,6 @@
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - vue-demi
+allowBuilds:
+  '@parcel/watcher': true
+  vue-demi: true
+  esbuild: true
+  edgedriver: false
+  geckodriver: false
