@@ -2,30 +2,40 @@
 status: accepted
 ---
 
-# Per-Task Feedback Loop — Initial Plan baseline, three failure modes, and a Closing Ceremony
+# Per-Assignment Feedback Loop — Initial Plan baseline, three failure modes, and a Closing Ceremony
 
 ## Context
 
-Fail Well exists to support a per-task feedback loop: a developer plans, executes, and learns from the variance — within a single execution of a single Task. The product's name commits to the framing that variance is data, not failure-to-avoid. For that framing to be honest, the loop needs a baseline that cannot be edited away mid-flight, and a moment where the loop visibly closes.
+Fail Well exists to support a per-Assignment feedback loop: a Team Member plans, executes, and learns from the variance — within their single Execution of a single Assignment. The product's name commits to the framing that variance is data, not failure-to-avoid. For that framing to be honest, the loop needs a baseline that cannot be edited away mid-flight, and a moment where the loop visibly closes.
 
 When this ADR was written, the code did *not* match that intent: per-Step variance was computed against the *current* Plan (so re-estimation mid-flight silenced the signal), `stepHistory[0]` (the first save, possibly a brainstorming draft) was treated as the baseline, mid-flight Plan edits could silently destroy Step Records, and the post-Execution UI was a single colored sentence with no dedicated reflection surface.
 
 ## Decision
 
-The per-task feedback loop is defined by four coupled commitments:
+The per-Assignment feedback loop is defined by four coupled commitments:
 
 1. **Initial Plan is anchored at Start-of-Execution**, not at first save. The Initial Plan is the Plan version active at the moment the first Step Record begins. Pre-Execution drafting does not pollute the baseline.
 
 2. **The Failure Signal compares against the Initial Plan**, with three named modes:
    - **Estimation Variance** — for Steps present in both Initial and Final Plan: actual duration minus Initial Plan estimation.
    - **Discovered Scope** — Steps added to the Final Plan that were not in the Initial Plan ("work I didn't foresee").
-   - **Abandoned Scope** — Steps in the Initial Plan that were never executed ("work I over-planned").
+   - **Abandoned Scope** — Steps in the Initial Plan that were never executed, deleted or left undone at a reassignment ("work I over-planned").
 
    Variance against the *latest* re-estimate is preserved as a separate, softer **Step-Back Signal** — a real-time prompt to reconsider, not framed as failure.
 
 3. **Re-estimation and Re-planning are distinct operations.** Re-estimation (changing a Step's `estimation` number, Plan structure unchanged) is cheap, frequent, and non-destructive. Re-planning (add / delete / reorder / rename Steps) is deliberate and rare — it is itself a strong failure-mode signal. Re-planning must preserve every Step Record whose Step still exists by id; orphan-or-destroy behaviour is incompatible with the loop.
 
-4. **The loop closes in a dedicated Closing Ceremony** — a real end-of-Task surface that names the three failure modes, surfaces the Initial-vs-Final Plan shape if Re-planning happened, and hosts the Notes textarea as the reflection input. The existing plan-version archaeology view is replaced by this ceremony; intermediate `stepHistory` entries remain in the data model but are not the primary artifact rendered.
+4. **The loop closes in a dedicated Closing Ceremony** — a real end-of-Execution surface that names the three failure modes, surfaces the Initial-vs-Final Plan shape if Re-planning happened, and is where the Team Member writes the Execution's **Learning**. Notes stay raw input written during the Execution. The existing plan-version archaeology view is replaced by this ceremony; intermediate `stepHistory` entries remain in the data model but are not the primary artifact rendered.
+
+## Amendments
+
+Fail Well joined the [Jitoka](https://git.apoena.dev/julien/jitoka/src/branch/main/CONTEXT.md) platform, which changed three words of this decision without changing its four commitments:
+
+- **Task is now Assignment**, the Bluebin term for one item of work in the hands of one Team Member.
+- **One Execution per Team Member**, not per Assignment: an Assignment can move to another Team Member, who writes their own Plan; the first Execution closes and its Steps not done count as Abandoned Scope.
+- **The reflection is a Learning**, apart from Notes: the earlier choice of one textarea for both lost the lesson among the raw notes. A Learning leaves Fail Well only when the Team Member shares it, with no times ([Jitoka ADR-0005](https://git.apoena.dev/julien/jitoka/src/branch/main/docs/adr/0005-fail-well-shares-only-the-learnings-a-team-member-chooses.md)).
+
+Code names below (`TaskRecord`, `TaskHistory.vue`) are those of the code when this ADR was written.
 
 ## Consequences
 
