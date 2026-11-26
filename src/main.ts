@@ -5,7 +5,6 @@ import App from './App.vue'
 import { router } from './router'
 import VueDiff from 'vue-diff'
 
-import './openpanel'
 import './assets/main.scss'
 import 'vue-diff/dist/index.css'
 
